@@ -20,8 +20,6 @@
 
 ## 发布
 ```bash
-  # 构建开发环境
-	npm run build:dev
 
 	# 构建测试环境
 	npm run build:sit

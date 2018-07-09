@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:26
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-04-12 10:35:31
+ * @Last Modified by: chenxing
+ * @Last Modified time: 2018-07-09 11:14:47
  */
 
 export function parseTime(time, cFormat) {

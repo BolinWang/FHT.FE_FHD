@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:24:18
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-03 11:05:38
+ * @Last Modified time: 2018-07-09 11:11:11
  */
 
 import Vue from 'vue'
@@ -53,6 +53,10 @@ router.beforeEach((to, from, next) => {
           store.dispatch('GenerateRoutes', { roles }).then(() => {
             router.addRoutes(store.getters.addRouters)
             next({ ...to })
+          })
+        }).catch(() => {
+          store.dispatch('FedLogOut').then(() => {
+            next({ path: '/login' })
           })
         })
       } else {

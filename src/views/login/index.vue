@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:22:52 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-03 10:35:48
+ * @Last Modified time: 2018-07-09 14:05:30
  */
 
 <template>
@@ -51,8 +51,8 @@ export default {
     }
     return {
       loginForm: {
-        mobile: '13111111111',
-        password: '7c4a8d09ca3762af61e59520943dc26494f8941b'
+        mobile: '',
+        password: ''
       },
       loginRules: {
         mobile: [
@@ -69,7 +69,7 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          // this.loading = true
+          this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: '/' })

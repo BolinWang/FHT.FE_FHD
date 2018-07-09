@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:22:27 
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-04-11 19:06:19
+ * @Last Modified by: chenxing
+ * @Last Modified time: 2018-07-04 16:22:29
  */
 
 <template>
@@ -86,7 +86,7 @@ export default {
       this.$store.dispatch('ToggleSideBar')
     },
     logout() {
-      this.$store.dispatch('LogOut').then(() => {
+      this.$store.dispatch('FedLogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     },

@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-04 14:14:42
+ * @Last Modified time: 2018-07-09 15:35:54
  */
 <template>
   <div class="layout-container">
@@ -63,8 +63,8 @@
             {{scope.row.role | roleStr}}
           </template>
           <template slot="accountType" slot-scope="scope">
-            <el-tag v-if="scope.row.type == 1" @click.native="changeAccountType(scope.row)">正式</el-tag>
-            <div class="underline colorRed" v-else-if="scope.row.activityStatus == 0" @click="changeAccountType(scope.row)">试用中</div>
+            <el-tag v-if="scope.row.type == 1">正式</el-tag>
+            <div class="underline colorRed" v-else-if="scope.row.type == 0" @click="changeAccountType(scope.row)">试用中</div>
             <div class="underline colorInfo" @click="changeAccountType(scope.row)" v-else>已失效</div>
           </template>
         </GridUnit>
@@ -275,9 +275,9 @@
           </el-form-item>
         </el-form>
         <el-form size="small" :model="typeForm2" ref="typeForm2" :rules="rules" label-position="right" label-width="80px" v-show="accoutTypeStatus == 0">
-          <el-form-item label="失效时间" prop="date">
+          <el-form-item label="失效时间" prop="gmtExpire">
             <el-date-picker
-              v-model="typeForm2.date"
+              v-model="typeForm2.gmtExpire"
               type="date"
               style="width: 100%"
               value-format="yyyy-MM-dd"
@@ -300,8 +300,7 @@ import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile } from '@/utils/validate'
 import { deepClone } from '@/utils'
-import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager,
-updateManager, resetPassword, updateType, deleteManager } from '@/api/organization'
+import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager } from '@/api/organization'
 const roleList = [
   {
     value: 1,
@@ -387,7 +386,7 @@ export default {
         imei: [
           { required: true, message: '请输入手机编码', trigger: 'blur' }
         ],
-        date: [
+        gmtExpire: [
           { required: true, message: '请选择失效时间', trigger: 'change' }
         ],
         gmtHire: [
@@ -411,6 +410,7 @@ export default {
           label: '女'
         }
       ],
+      rowData: {},
       roleOpts: roleList,
       formData: {
         nameOrMobile: '',
@@ -451,7 +451,7 @@ export default {
         gmtHire: ''
       },
       typeForm2: {
-        date: ''
+        gmtExpire: ''
       },
       defaultAccount: {},
       isEditOrg: false,
@@ -530,7 +530,7 @@ export default {
         this.$refs.trees.setCurrentKey(id)
         const obj = this.$refs.trees.getNode(id)
         this.nowOrgObj = deepClone(obj.data)
-        this.parentOrg = obj.data.id == 1 ? deepClone(obj.data) : deepClone(obj.parents.data)
+        this.parentOrg = obj.parent.data instanceof Array ? deepClone(obj.parent.data[0]) : deepClone(obj.parent.data)
         this.formData.depId = this.nowOrgObj.id
         this.$nextTick(() => {
           this.searchParam()
@@ -539,7 +539,11 @@ export default {
     },
     handleNodeClick(node, data) { // 点击tree节点函数
       this.nowOrgObj = deepClone(data.data)
-      this.parentOrg = obj.data.id == 1 ? deepClone(obj.data) : deepClone(obj.parents.data)
+      this.parentOrg = data.parent.data instanceof Array ? deepClone(data.parent.data[0]) : deepClone(data.parent.data)
+      this.formData.depId = this.nowOrgObj.id
+      this.$nextTick(() => {
+        this.searchParam()
+      })
     },
     assignHouse() { // 房源分配
       const param = {
@@ -701,7 +705,7 @@ export default {
     },
     changeAccountType(row) { // 账号类型变更
       this.layer_accountType = true
-      this.accoutTypeStatus = row.type
+      this.rowData = row
     },
     close_accountType() {
       this.clearTypeValidate()
@@ -726,8 +730,11 @@ export default {
       }
     },
     postType(param) {
+      param.id = this.rowData.id
       updateType(param).then(res => {
-
+        this.layer_accountType = false
+        this.$message.success('编辑账号类型成功')
+        this.searchParam()
       }).catch(rej => {})
     },
     clearTypeValidate() { // 清楚账号类型验证结果

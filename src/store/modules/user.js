@@ -2,10 +2,11 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-04 14:07:26
+ * @Last Modified time: 2018-07-04 16:20:19
  */
 
 import { login, logout, getInfo } from '@/api/login'
+import SHA1 from 'js-sha1'
 import { getSessionId, setSessionId, removeSessionId } from '@/utils/auth'
 import defaultAvatar from '@/assets/defaultAvatar.png'
 
@@ -41,8 +42,9 @@ const user = {
     // 登录
     Login({ commit }, userInfo) {
       const mobile = userInfo.mobile.trim()
+      const password = SHA1(userInfo.password)
       return new Promise((resolve, reject) => {
-        login(mobile, userInfo.password).then(response => {
+        login(mobile, password).then(response => {
           const data = response.data
           setSessionId(data.sessionId)
           commit('SET_SESSIONID', data.sessionId)

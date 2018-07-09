@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-04 14:07:54
+ * @Last Modified time: 2018-07-09 15:39:16
  */
 <template>
   <div class="layout-container">
@@ -129,11 +129,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="失效时间" prop="gmtHire">
+              <el-form-item label="失效时间" prop="gmtExpire">
                 <el-date-picker
-                  v-model="accountForm.gmtHire"
-                  type="date"
-                  value-format="yyyy-MM-DD"
+                  v-model="accountForm.gmtExpire"
+                  type="datetime"
+                  default-time="23:59:59"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   style="width: 100%"
                   :picker-options="pickerOptions"
                   placeholder="失效时间">
@@ -156,8 +157,7 @@ import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile } from '@/utils/validate'
 import { deepClone } from '@/utils'
-import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager,
-updateManager, resetPassword, updateType, managerList, deleteManager } from '@/api/organization'
+import { queryDepartmentByLogin, createManager, updateManager, deleteManager } from '@/api/organization'
 const roleList = [
   {
     value: 2,
@@ -228,7 +228,7 @@ export default {
         imei: [
           { required: true, message: '请输入手机编码', trigger: 'blur' }
         ],
-        date: [
+        gmtExpire: [
           { required: true, message: '请选择失效时间', trigger: 'change' }
         ],
         gmtHire: [
@@ -268,8 +268,8 @@ export default {
         depName: '',
         role: '',
         imei: '',
-        type: 1,
-        gmtHire: ''
+        type: 0,
+        gmtExpire: ''
       },
       defaultAccount: {},
       isEditAccount: false,
@@ -279,11 +279,11 @@ export default {
         {prop: 'depName', label: '部门'},
         {prop: 'role', label: '权限角色', slotName: 'roleTmp'},
         {prop: 'mobile', label: '手机号码'},
-        {prop: 'imei', label: '手机编码', width: 180},
-        {prop: 'imei', label: '失效时间', width: 180},
-        {label: '操作', slotName: 'handle', width: 320},
-        {prop: 'type', label: '创建人'},
-        {prop: 'gmtCreate', label: '创建时间', width: 180}
+        {prop: 'imei', label: '手机编码'},
+        {prop: 'gmtExpire', label: '失效时间'},
+        {label: '操作', slotName: 'handle', width: 200},
+        {prop: 'createName', label: '创建人'},
+        {prop: 'gmtCreate', label: '创建时间'}
       ],
       url: '/user/managerList',
       method: 'managerList'
@@ -330,6 +330,10 @@ export default {
     },
     handleNodeClick(node, data) { // 点击tree节点函数
       this.nowOrgObj = deepClone(data.data)
+      this.formData.depId = this.nowOrgObj.id
+      this.$nextTick(() => {
+        this.searchParam()
+      })
     },
     searchParam() { // 查询
       this.$refs.refGridUnit.searchHandler()
@@ -373,28 +377,12 @@ export default {
       for (var key in this.accountForm) {
         this.accountForm[key] = row[key]
       }
+      this.accountForm.id = row.id
       this.layer_account = true
       this.isEditAccount = true
       this.$nextTick(() => {
         this.$refs.overlayTree.setCurrentKey(this.accountForm.depId)
       })
-    },
-    resetPsd(row) { // 密码重置
-      this.$confirm(`<div>确定将账号'${row.name}'的密码重置为 <span style="color: red">123456</span> 吗？`, '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-        dangerouslyUseHTMLString: true
-      }).then(() => {
-        const param = {
-          id: row.id,
-          password: '123456'
-        }
-        resetPassword(param).then(res => {
-          this.$message.success('重置密码成功')
-          this.searchParam()
-        }).catch(rej => {})
-      }).catch(() => {})
     },
     delAccount(row) { // 删除账号
       this.$confirm(`确定删除账号'${row.name}'吗？`, '提示', {
@@ -414,6 +402,7 @@ export default {
     },
     closeAccount() { // 账号弹框关闭
       this.$refs['accountForm'].resetFields()
+      this.accountForm = deepClone(this.defaultAccount)
     }
   }
 }
