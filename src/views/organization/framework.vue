@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-09 15:35:54
+ * @Last Modified time: 2018-07-11 16:28:41
  */
 <template>
   <div class="layout-container">
@@ -15,6 +15,7 @@
           node-key="id"
           :highlight-current="true"
           :expand-on-click-node="false"
+          :indent="8"
           :default-expanded-keys="[nowOrgObj.id]"
           @node-click="handleNodeClick">
         </el-tree>
@@ -46,18 +47,21 @@
           :formOptions="formData"
           :height="tableHeight">
           <template slot="handle" slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" size="small"
-              @click="editAccount(scope.row)">
-              编辑
-            </el-button>
-            <el-button type="primary" icon="el-icon-refresh" size="small"
-              @click="resetPsd(scope.row)">
-              密码重置
-            </el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small"
-              @click="delAccount(scope.row)">
-              删除
-            </el-button>
+            <div v-if="scope.row.role !== 10">
+              <el-button type="primary" icon="el-icon-edit" size="small"
+                @click="editAccount(scope.row)">
+                编辑
+              </el-button>
+              <el-button type="primary" icon="el-icon-refresh" size="small"
+                @click="resetPsd(scope.row)">
+                密码重置
+              </el-button>
+              <el-button type="danger" icon="el-icon-delete" size="small"
+                @click="delAccount(scope.row)">
+                删除
+              </el-button>
+            </div>
+            
           </template>
           <template slot="roleTmp" slot-scope="scope">
             {{scope.row.role | roleStr}}
@@ -73,10 +77,10 @@
 
     <!-- 新增/编辑部门 -->
     <div class="dialog-info">
-      <el-dialog :title="isEditOrg ? '编辑部门' : '新增部门'" @close="layerClose" :visible.sync="layer_addOrg" width="500px">
+      <el-dialog :title="isEditOrg ? '编辑部门' : '添加部门'" @close="layerClose" :visible.sync="layer_addOrg" width="500px">
         <el-form size="small" :model="orgForm" ref="orgForm" :rules="rules" label-position="left" label-width="80px" style='margin-left:20px;'>
           <el-form-item label="部门名称" prop="depName">
-            <el-input v-model="orgForm.depName"></el-input>
+            <el-input v-model="orgForm.depName" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="上级部门">
             <el-input v-model="superiorName" :disabled="true"></el-input>
@@ -171,7 +175,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="accountForm.name"></el-input>
+                <el-input v-model="accountForm.name" maxlength="10"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -228,15 +232,18 @@
               <el-form-item label="入职时间" prop="gmtHire">
                 <el-date-picker
                   v-model="accountForm.gmtHire"
-                  type="date"
-                  value-format="yyyy-MM-dd"
+                  type="datetime"
+                  default-time="00:00:00"
+                  value-format="yyyy-MM-dd HH:mm:ss"
                   style="width: 100%"
+                  :disabled="isEditAccount"
                   placeholder="选择入职日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
+        <div v-show="!isEditAccount" style="padding-left:27px">温馨提示：默认密码为123456，请提醒用户首次登陆后立即更改密码</div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="layer_account = false" size="small">取消</el-button>
           <el-button type="primary" @click="submitForm('accountForm')" size="small">确定</el-button>
@@ -267,9 +274,10 @@
           <el-form-item label="入职时间" prop="gmtHire">
             <el-date-picker
               v-model="typeForm.gmtHire"
-              type="date"
+              type="datetime"
               style="width: 100%"
-              value-format="yyyy-MM-dd"
+              default-time="00:00:00"
+              value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择入职时间">
             </el-date-picker>
           </el-form-item>
@@ -278,9 +286,10 @@
           <el-form-item label="失效时间" prop="gmtExpire">
             <el-date-picker
               v-model="typeForm2.gmtExpire"
-              type="date"
+              type="datetime"
               style="width: 100%"
-              value-format="yyyy-MM-dd"
+              default-time="23:59:59"
+              value-format="yyyy-MM-dd HH:mm:ss"
               :picker-options="pickerOptions"
               placeholder="选择失效日期">
             </el-date-picker>
@@ -313,15 +322,21 @@ const roleList = [
     label: '组长'
   }, {
     value: 4,
-    label: '区域经理'
+    label: '站长'
   }, {
     value: 5,
-    label: '城市总'
+    label: '板块经理'
   }, {
     value: 6,
-    label: '人事'
+    label: '区域经理'
   }, {
     value: 7,
+    label: '城市总'
+  }, {
+    value: 8,
+    label: '人事'
+  }, {
+    value: 9,
     label: '运营'
   }
 ]
@@ -460,12 +475,12 @@ export default {
       colModels: [
         {prop: 'name', label: '姓名'},
         {prop: 'depName', label: '部门'},
-        {prop: 'role', label: '权限角色', slotName: 'roleTmp'},
-        {prop: 'mobile', label: '手机号码'},
-        {prop: 'imei', label: '手机编码', width: 180},
-        {prop: 'type', label: '类型', slotName: 'accountType'},
+        {prop: 'role', label: '权限角色', slotName: 'roleTmp', width: 100},
+        {prop: 'mobile', label: '手机号码', width: 100},
+        {prop: 'imei', label: '手机编码', width: 100},
+        {prop: 'type', label: '类型', slotName: 'accountType', width: 80},
         {label: '操作', slotName: 'handle', width: 320},
-        {prop: 'gmtCreate', label: '创建时间', width: 180}
+        {prop: 'gmtCreate', label: '创建时间'}
       ],
       url: '/user/managerList',
       method: 'managerList'
@@ -483,12 +498,17 @@ export default {
     }
   },
   methods: {
-    getTree(id) {
+    getTree(id, fn) {
       queryDepartmentByLogin().then(res => {
         if (res.data && res.data instanceof Array) {
           this.treeData = res.data
           let nowId = id || this.treeData[0].id
           this.getFirstNode(nowId)
+          if (fn) {
+            this.$nextTick(() => {
+              fn()
+            })
+          }
         }
       }).catch(rej => {})
     },
@@ -588,8 +608,20 @@ export default {
           }
           postFn(param).then(req => {
             this.layer_addOrg = false
-            this.$message.success(`${this.isEditOrg ? '编辑' : '新增'}部门成功`)
-            this.getTree(this.nowOrgObj.id)
+            if (this.isEditOrg) {
+              this.$message.success('编辑部门成功')
+              this.getTree(this.nowOrgObj.id)
+            } else {
+              this.$confirm('部门创建成功，请为部门分配房源', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'success'
+              }).then(() => {
+                this.getTree(req.data.id, this.assignHouse)
+              }).catch(() => {
+                this.getTree(this.nowOrgObj.id)
+              })
+            }
           }).catch(rej => {})
         } else {
           return false

@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 16:31:28 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-05 10:14:55
+ * @Last Modified time: 2018-07-10 16:35:16
  */
 
 let path = require('path')
@@ -15,15 +15,16 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
+      '/back': {
         target: proxyIPs.HOUTAI,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/api'
+          '^/back': '/back'
         }
       }
     },
-    host: 'localhost',
+    // host: 'localhost',
+    host: '0.0.0.0',
     port: 8888,
     autoOpenBrowser: true,
     errorOverlay: true,

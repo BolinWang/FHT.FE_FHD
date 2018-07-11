@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 16:49:14
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-04-12 10:38:46
+ * @Last Modified by: chenxing
+ * @Last Modified time: 2018-07-10 17:33:23
  */
 
 let props = {
@@ -89,12 +89,12 @@ let props = {
   // 获取列表数据  需要与后台约定数据格式
   listField: {
     type: String,
-    default: 'data.content'
+    default: 'data.data'
   },
   // 列表数据总数
   totalField: {
     type: String,
-    default: 'data.totalElements'
+    default: 'data.total'
   },
   /* 传参  基本上使用formOptions就好啦 */
   params: {

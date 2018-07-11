@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-04 16:20:19
+ * @Last Modified time: 2018-07-11 16:12:35
  */
 
 import { login, logout, getInfo } from '@/api/login'
@@ -30,11 +30,18 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       const rolesMap = {
-        '1': 'admin',
-        '99': 'service',
-        '0': 'global'
+        '1': 'citySecretary', // 城市内勤
+        '2': 'citySteward', // 城市管家
+        '3': 'headman', // 组长
+        '4': 'webmaster', // 站长
+        '5': 'plateManage', // 板块经理
+        '6': 'areaManage', // 区域经理
+        '7': 'cityDirector', // 城市总
+        '8': 'personnel', // 人事
+        '9': 'operation', // 运营
+        '10': 'admin' // 系统管理员
       }
-      state.roles = rolesMap[roles.toString()] || 'global'
+      state.roles = rolesMap[roles.toString()] || 'citySecretary'
     }
   },
 

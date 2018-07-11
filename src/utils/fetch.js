@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:13
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-03 10:43:06
+ * @Last Modified time: 2018-07-10 16:44:35
  */
 
 import axios from 'axios'
@@ -44,7 +44,7 @@ let removePending = (config, f) => {
 
 /* 默认请求参数 */
 const defaultConfig = {
-  version: '1.0',
+  v: '1.0',
   timestamp: new Date().getTime(),
   sign: '8F4C4A8E9D850EDD9692DE38723D0543'
 }

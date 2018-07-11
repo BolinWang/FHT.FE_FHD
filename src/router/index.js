@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:07:11
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-06-27 17:04:42
+ * @Last Modified time: 2018-07-11 16:20:32
  */
 
 import Vue from 'vue'
@@ -61,12 +61,15 @@ export const asyncRouterMap = [{
     component: _import('organization/framework'),
     name: '组织架构',
     meta: {
-      role: ['admin', 'global']
+      role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector']
     }
   }, {
     path: 'probation',
     component: _import('organization/probation'),
-    name: '试岗账号'
+    name: '试岗账号',
+    meta: {
+      role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
+    }
   }]
 }, {
   path: '*',
