@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-11 16:12:35
+ * @Last Modified time: 2018-07-11 17:02:42
  */
 
 import { login, logout, getInfo } from '@/api/login'
