@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-11 16:28:41
+ * @Last Modified time: 2018-07-13 17:26:17
  */
 <template>
   <div class="layout-container">
@@ -77,7 +77,7 @@
 
     <!-- 新增/编辑部门 -->
     <div class="dialog-info">
-      <el-dialog :title="isEditOrg ? '编辑部门' : '添加部门'" @close="layerClose" :visible.sync="layer_addOrg" width="500px">
+      <el-dialog :title="isEditOrg ? '编辑部门' : '添加部门'" @close="layerClose" :visible.sync="layer_addOrg" width="500px" :close-on-click-modal="false">
         <el-form size="small" :model="orgForm" ref="orgForm" :rules="rules" label-position="left" label-width="80px" style='margin-left:20px;'>
           <el-form-item label="部门名称" prop="depName">
             <el-input v-model="orgForm.depName" maxlength="20"></el-input>
@@ -95,7 +95,7 @@
 
     <!-- 房源分配管理 -->
     <div class="dialog-info">
-      <el-dialog title="房源分配管理" :visible.sync="layer_house" width="700px" @close="houseClose">
+      <el-dialog title="房源分配管理" :visible.sync="layer_house" width="700px" @close="houseClose" :close-on-click-modal="false">
         <div style="padding-bottom: 10px">
           给部门 <span class="colorRed">{{nowOrgObj.depName}}</span> 分配房源
         </div>
@@ -165,7 +165,7 @@
 
     <!-- 新增/编辑账号 -->
     <div class="dialog-info">
-      <el-dialog :title="isEditAccount ? '编辑账号' : '新增账号'" @close="closeAccount" :visible.sync="layer_account" width="800px">
+      <el-dialog :title="isEditAccount ? '编辑账号' : '新增账号'" @close="closeAccount" :visible.sync="layer_account" width="800px" :close-on-click-modal="false">
         <el-form size="small" :model="accountForm" ref="accountForm" :rules="rules" label-position="right" label-width="100px">
           <el-row>
             <el-col :span="8">
@@ -229,7 +229,18 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="入职时间" prop="gmtHire">
+              <el-form-item label="失效时间" prop="gmtExpire" v-if="isTry">
+                <el-date-picker
+                  v-model="accountForm.gmtExpire"
+                  type="datetime"
+                  default-time="23:59:59"
+                  value-format="yyyy-MM-dd HH:mm:ss"
+                  style="width: 100%"
+                  :picker-options="pickerOptions"
+                  placeholder="失效时间">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="入职时间" prop="gmtHire" v-else>
                 <el-date-picker
                   v-model="accountForm.gmtHire"
                   type="datetime"
@@ -240,6 +251,7 @@
                   placeholder="选择入职日期">
                 </el-date-picker>
               </el-form-item>
+              
             </el-col>
           </el-row>
         </el-form>
@@ -253,7 +265,7 @@
 
     <!-- 账号类型变更 -->
     <div class="dialog-info">
-      <el-dialog title="账号类型" @close="close_accountType" :visible.sync="layer_accountType" width="500px">
+      <el-dialog title="账号类型" @close="close_accountType" :visible.sync="layer_accountType" width="500px" :close-on-click-modal="false">
         <div>更改账号类型</div>
         <div style="line-height: 50px">
           <el-row>
@@ -459,6 +471,7 @@ export default {
         type: 1,
         gmtHire: ''
       },
+      isTry: false, // 是否为试用账号
       accoutTypeStatus: 1,
       typeForm: {
         mobile: '',
@@ -657,6 +670,7 @@ export default {
     handleApply() { // 新增账号
       this.layer_account = true
       this.isEditAccount = false
+      this.isTry = false
       this.accountForm = deepClone(this.defaultAccount)
       this.accountForm.depId = this.nowOrgObj.id
       this.accountForm.depName = this.nowOrgObj.depName
@@ -675,6 +689,9 @@ export default {
           let postFn = createManager
           if (this.isEditAccount) { // 编辑
             postFn = updateManager
+            if (this.isTry) { // 如果是试岗账号编辑 修改账号类型
+              param.type = 0
+            }
           }
           // 删除后台不要的字段 不然他会炸掉
           delete param.depName
@@ -689,13 +706,19 @@ export default {
       })
     },
     editAccount(row) { // 编辑账号
-      for (var key in this.accountForm) {
+      for (var key in this.defaultAccount) {
         this.accountForm[key] = row[key]
+      }
+      if (row.type === 0) { // 试岗账号编辑时添加失效时间
+        this.$set(this.accountForm, 'gmtExpire', row.gmtExpire)
+        this.isTry = true
+      } else {
+        this.isTry = false
       }
       this.accountForm.id = row.id
       this.layer_account = true
       this.isEditAccount = true
-      this.$nextTick(() => {
+      this.$nextTick(() => { // 选中所属部门
         this.$refs.overlayTree.setCurrentKey(this.accountForm.depId)
       })
     },

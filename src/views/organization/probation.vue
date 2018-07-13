@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-09 15:39:16
+ * @Last Modified time: 2018-07-13 10:15:00
  */
 <template>
   <div class="layout-container">
@@ -65,7 +65,7 @@
 
     <!-- 新增/编辑账号 -->
     <div class="dialog-info">
-      <el-dialog :title="isEditAccount ? '编辑试岗账号' : '新增试岗账号'" @close="closeAccount" :visible.sync="layer_account" width="800px">
+      <el-dialog :title="isEditAccount ? '编辑试岗账号' : '新增试岗账号'" @close="closeAccount" :visible.sync="layer_account" width="800px" :close-on-click-modal="false">
         <el-form size="small" :model="accountForm" ref="accountForm" :rules="rules" label-position="right" label-width="100px">
           <el-row>
             <el-col :span="8">
@@ -75,7 +75,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="accountForm.name"></el-input>
+                <el-input v-model="accountForm.name" maxlength="10"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -143,6 +143,7 @@
             </el-col>
           </el-row>
         </el-form>
+        <div v-show="!isEditAccount" style="padding-left:27px">温馨提示：默认密码为123456，请提醒用户首次登陆后立即更改密码</div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="layer_account = false" size="small">取消</el-button>
           <el-button type="primary" @click="submitForm('accountForm')" size="small">确定</el-button>
