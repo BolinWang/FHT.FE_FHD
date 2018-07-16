@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:13
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-10 16:44:35
+ * @Last Modified time: 2018-07-16 10:46:22
  */
 
 import axios from 'axios'
@@ -114,7 +114,7 @@ const logOutMethod = () => {
 /* axios请求体包装 */
 const responseMehod = (response, resolve, reject) => {
   const res = response.data
-  if (!response.config.interceptors || res.code * 1 === 0) {
+  if (!response.config.interceptors || res.success) {
     return resolve(res)
   }
   if (res.code * 1 === 1011 && res.message === '数据不存在') {

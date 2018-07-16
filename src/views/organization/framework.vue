@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-13 17:26:17
+ * @Last Modified time: 2018-07-16 10:52:59
  */
 <template>
   <div class="layout-container">
@@ -574,6 +574,7 @@ export default {
       this.nowOrgObj = deepClone(data.data)
       this.parentOrg = data.parent.data instanceof Array ? deepClone(data.parent.data[0]) : deepClone(data.parent.data)
       this.formData.depId = this.nowOrgObj.id
+      this.formData.nameOrMobile = ''
       this.$nextTick(() => {
         this.searchParam()
       })
