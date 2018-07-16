@@ -2,7 +2,7 @@
  * @Author: chenxing 
  * @Date: 2018-06-26 11:01:57 
  * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-16 10:52:59
+ * @Last Modified time: 2018-07-16 17:47:19
  */
 <template>
   <div class="layout-container">
@@ -486,11 +486,11 @@ export default {
       isEditAccount: false,
       layer_account: false,
       colModels: [
-        {prop: 'name', label: '姓名'},
+        {prop: 'name', label: '姓名', width: 100},
         {prop: 'depName', label: '部门'},
         {prop: 'role', label: '权限角色', slotName: 'roleTmp', width: 100},
         {prop: 'mobile', label: '手机号码', width: 100},
-        {prop: 'imei', label: '手机编码', width: 100},
+        {prop: 'imei', label: '手机编码'},
         {prop: 'type', label: '类型', slotName: 'accountType', width: 80},
         {label: '操作', slotName: 'handle', width: 320},
         {prop: 'gmtCreate', label: '创建时间'}
