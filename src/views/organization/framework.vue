@@ -1,17 +1,17 @@
 /*
- * @Author: chenxing 
- * @Date: 2018-06-26 11:01:57 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-16 17:47:19
+ * @Author: chenxing
+ * @Date: 2018-06-26 11:01:57
+ * @Last Modified by: FT.FE.Bolin
+ * @Last Modified time: 2018-07-27 10:13:07
  */
 <template>
   <div class="layout-container">
     <el-container>
       <el-aside width="240px" class="asideBox" :style="treeHeight">
-        <el-tree 
+        <el-tree
           ref="trees"
           :data="treeData"
-          :props="defaultProps" 
+          :props="defaultProps"
           node-key="id"
           :highlight-current="true"
           :expand-on-click-node="false"
@@ -41,7 +41,7 @@
           ref="refGridUnit"
           :columns="colModels"
           :url="url"
-          listField="data.data"
+          listField="data.result"
           :autoLoad="false"
           :dataMethod="method"
           :formOptions="formData"
@@ -61,7 +61,7 @@
                 删除
               </el-button>
             </div>
-            
+
           </template>
           <template slot="roleTmp" slot-scope="scope">
             {{scope.row.role | roleStr}}
@@ -106,11 +106,11 @@
                 城市
               </div>
               <ul class="contentNav">
-                  <li 
-                    v-for="(item, index) in cityData" :key="index" 
+                  <li
+                    v-for="(item, index) in cityData" :key="index"
                     :class="{current: cityIndex === index}" @click="cityIndex = index">
-                    <el-checkbox 
-                      :label="item.name" 
+                    <el-checkbox
+                      :label="item.name"
                       :indeterminate="item.indeterminate"
                       v-model="item.checked"
                       @change="checkChange(item.checked, item.childrens)">
@@ -125,10 +125,10 @@
                 区域
               </div>
               <ul class="contentNav">
-                  <li 
+                  <li
                     v-for="(item, index) in (cityData.length > 0 ? cityData[cityIndex].childrens : [])" :key="index"
                     :class="{current: areaIndex === index}" @click="areaIndex = index">
-                    <el-checkbox 
+                    <el-checkbox
                       :label="item.name"
                       :indeterminate="item.indeterminate"
                       v-model="item.checked"
@@ -144,9 +144,9 @@
                 板块/商圈
               </div>
               <ul class="contentNav">
-                  <li 
+                  <li
                     v-for="(item, index) in (cityData.length > 0 ? cityData[cityIndex].childrens[areaIndex].childrens : [])" :key="index">
-                    <el-checkbox 
+                    <el-checkbox
                       :label="item.name"
                       v-model="item.checked"
                       @change="checkChange(item.checked, item.childrens)"
@@ -195,10 +195,10 @@
             <el-col :span="12">
               <el-form-item label="所属部门" prop="depName">
                 <el-select v-model="accountForm.depName" style="width: 100%">
-                  <el-tree 
+                  <el-tree
                     ref="overlayTree"
                     :data="treeData"
-                    :props="defaultProps" 
+                    :props="defaultProps"
                     node-key="id"
                     :highlight-current="true"
                     :expand-on-click-node="false"
@@ -251,7 +251,7 @@
                   placeholder="选择入职日期">
                 </el-date-picker>
               </el-form-item>
-              
+
             </el-col>
           </el-row>
         </el-form>
@@ -902,5 +902,5 @@ export default {
       }
     }
   }
-  
+
 </style>
