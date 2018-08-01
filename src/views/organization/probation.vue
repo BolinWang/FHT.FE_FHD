@@ -1,17 +1,17 @@
 /*
- * @Author: chenxing 
- * @Date: 2018-06-26 11:01:57 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-13 10:15:00
+ * @Author: chenxing
+ * @Date: 2018-06-26 11:01:57
+ * @Last Modified by: FT.FE.Bolin
+ * @Last Modified time: 2018-08-01 15:56:42
  */
 <template>
   <div class="layout-container">
     <el-container>
       <el-aside width="240px" class="asideBox" :style="treeHeight">
-        <el-tree 
+        <el-tree
           ref="trees"
           :data="treeData"
-          :props="defaultProps" 
+          :props="defaultProps"
           node-key="id"
           :highlight-current="true"
           :expand-on-click-node="false"
@@ -36,7 +36,7 @@
           ref="refGridUnit"
           :columns="colModels"
           :url="url"
-          listField="data.data"
+          listField="data.result"
           :autoLoad="false"
           :dataMethod="method"
           :formOptions="formData"
@@ -95,10 +95,10 @@
             <el-col :span="12">
               <el-form-item label="所属部门" prop="depName">
                 <el-select v-model="accountForm.depName" style="width: 100%">
-                  <el-tree 
+                  <el-tree
                     ref="overlayTree"
                     :data="treeData"
-                    :props="defaultProps" 
+                    :props="defaultProps"
                     node-key="id"
                     :highlight-current="true"
                     :expand-on-click-node="false"
@@ -470,5 +470,5 @@ export default {
       }
     }
   }
-  
+
 </style>
