@@ -411,6 +411,9 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
+  .layout-container .pageMain{
+    padding:0 20px;
+  }
   .asideBox {
     border: 1px solid #ddd;
     height: 100%;
