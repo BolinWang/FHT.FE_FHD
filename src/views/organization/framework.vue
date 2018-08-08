@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-08-08 17:45:43
+ * @Last Modified time: 2018-08-08 18:23:21
  */
 <template>
   <div class="layout-container">
@@ -176,7 +176,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="accountForm.name" maxlength="10" :disabled="true"></el-input>
+                <el-input v-model="accountForm.name" maxlength="10" :disabled="editAdd"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -390,6 +390,7 @@ export default {
       }
     }
     return {
+      editAdd: true,
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() < Date.now()
@@ -670,6 +671,7 @@ export default {
       this.$refs.refGridUnit.searchHandler()
     },
     handleApply() { // 新增账号
+      this.editAdd = false
       this.layer_account = true
       this.isEditAccount = false
       this.isTry = false
@@ -708,6 +710,7 @@ export default {
       })
     },
     editAccount(row) { // 编辑账号
+      this.editAdd = true
       for (var key in this.defaultAccount) {
         this.accountForm[key] = row[key]
       }
