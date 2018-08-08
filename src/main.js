@@ -22,7 +22,7 @@ import 'nprogress/nprogress.css'
 import 'normalize.css/normalize.css'
 
 Vue.config.productionTip = false
-
+process.env.MOCK && require('./mock')
 Vue.use(ElementUI)
 Vue.use(VuePreview)
 Vue.use(VueLazyload, {

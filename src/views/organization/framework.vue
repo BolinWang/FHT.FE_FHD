@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-07-27 10:13:07
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-08-08 17:45:43
  */
 <template>
   <div class="layout-container">
@@ -110,11 +110,11 @@
                     v-for="(item, index) in cityData" :key="index"
                     :class="{current: cityIndex === index}" @click="cityIndex = index">
                     <el-checkbox
-                      :label="item.name"
                       :indeterminate="item.indeterminate"
                       v-model="item.checked"
                       @change="checkChange(item.checked, item.childrens)">
                     </el-checkbox>
+                    <span :class="{ checkblue: item.checked }">{{item.name}}</span>
                   </li>
               </ul>
             </div>
@@ -128,12 +128,13 @@
                   <li
                     v-for="(item, index) in (cityData.length > 0 ? cityData[cityIndex].childrens : [])" :key="index"
                     :class="{current: areaIndex === index}" @click="areaIndex = index">
+                    
                     <el-checkbox
-                      :label="item.name"
                       :indeterminate="item.indeterminate"
                       v-model="item.checked"
                       @change="checkChange(item.checked, item.childrens)"
                       ></el-checkbox>
+                      <span :class="{ checkblue: item.checked }">{{item.name}}</span>
                   </li>
               </ul>
             </div>
@@ -147,10 +148,10 @@
                   <li
                     v-for="(item, index) in (cityData.length > 0 ? cityData[cityIndex].childrens[areaIndex].childrens : [])" :key="index">
                     <el-checkbox
-                      :label="item.name"
                       v-model="item.checked"
                       @change="checkChange(item.checked, item.childrens)"
                       ></el-checkbox>
+                      <span :class="{ checkblue: item.checked }">{{item.name}}</span>
                   </li>
               </ul>
             </div>
@@ -175,7 +176,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="姓名" prop="name">
-                <el-input v-model="accountForm.name" maxlength="10"></el-input>
+                <el-input v-model="accountForm.name" maxlength="10" :disabled="true"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
@@ -843,6 +844,12 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
+.checkblue{
+  color: #409eff;
+}
+.layout-container .pageMain{
+    padding:0 20px;
+  }
   .asideBox {
     border: 1px solid #ddd;
     height: 100%;

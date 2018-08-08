@@ -8,6 +8,7 @@ module.exports = {
   NODE_ENV: '"production"',
   ENV_CONFIG: '"prod"',
   NPM_CONFIG_REPORT: '"true"',
+  MOCK: 'false',  //测试环境不使用moock
   /* 线上API地址 */
   BASE_API: '"https://flying-api.mdguanjia.com/back"'
 }

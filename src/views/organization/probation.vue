@@ -5,7 +5,7 @@
  * @Last Modified time: 2018-08-01 15:56:42
  */
 <template>
-  <div class="layout-container">
+  <div class="layout-container con-f">
     <el-container>
       <el-aside width="240px" class="asideBox" :style="treeHeight">
         <el-tree

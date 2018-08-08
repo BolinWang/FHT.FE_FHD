@@ -19,12 +19,12 @@ module.exports = {
         target: proxyIPs.HOUTAI,
         changeOrigin: true,
         pathRewrite: {
-          '^/back': '/back'
+          '^/back': ''
         }
       }
     },
-    // host: 'localhost',
-    host: '0.0.0.0',
+     host: 'localhost',
+    // host: '0.0.0.0',
     port: 8888,
     autoOpenBrowser: true,
     errorOverlay: true,

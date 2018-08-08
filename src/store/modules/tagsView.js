@@ -5,10 +5,11 @@
  * @Last Modified time: 2018-04-11 17:09:19
  */
 
+import Storage from '@/utils/local-plugin'
 const tagsView = {
   state: {
-    visitedViews: [],
-    cachedViews: []
+    visitedViews: Storage.get('visitedViews') || [], // 路由详细
+    cachedViews: Storage.get('cachedViews') || [] // 路由name
   },
   mutations: {
     ADD_VISITED_VIEWS: (state, view) => {
@@ -18,20 +19,24 @@ const tagsView = {
         path: view.path,
         title: view.meta.title || 'no-name'
       })
+      Storage.set('visitedViews', state.visitedViews)
       if (!view.meta.noCache) {
         state.cachedViews.push(view.name)
+        Storage.set('cachedViews', state.cachedViews)
       }
     },
     DEL_VISITED_VIEWS: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
         if (v.path === view.path) {
           state.visitedViews.splice(i, 1)
+          Storage.removeItem('visitedViews', i)
           break
         }
       }
       for (const i of state.cachedViews) {
         if (i === view.name) {
           const index = state.cachedViews.indexOf(i)
+          Storage.removeItem('cachedViews', index)
           state.cachedViews.splice(index, 1)
           break
         }
