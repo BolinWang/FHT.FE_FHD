@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
- * @Last Modified by: ghost
- * @Last Modified time: 2018-08-08 18:23:21
+ * @Last Modified by: FT.FE.Bolin
+ * @Last Modified time: 2018-08-15 09:54:10
  */
 <template>
   <div class="layout-container">
@@ -128,7 +128,7 @@
                   <li
                     v-for="(item, index) in (cityData.length > 0 ? cityData[cityIndex].childrens : [])" :key="index"
                     :class="{current: areaIndex === index}" @click="areaIndex = index">
-                    
+
                     <el-checkbox
                       :indeterminate="item.indeterminate"
                       v-model="item.checked"
@@ -351,6 +351,9 @@ const roleList = [
   }, {
     value: 9,
     label: '运营'
+  }, {
+    value: 11,
+    label: 'BD'
   }
 ]
 export default {
