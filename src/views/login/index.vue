@@ -1,8 +1,8 @@
 /*
- * @Author: FT.FE.Bolin 
- * @Date: 2018-04-11 17:22:52 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-11 11:08:28
+ * @Author: FT.FE.Bolin
+ * @Date: 2018-04-11 17:22:52
+ * @Last Modified by: FT.FE.Bolin
+ * @Last Modified time: 2018-08-16 16:24:59
  */
 
 <template>
@@ -11,13 +11,13 @@
       <h3 class="title">飞虎队管理平台</h3>
       <el-form-item prop="mobile">
         <span class="svg-container">
-          <icon-svg icon-class="peoples"></icon-svg>
+          <i class="iconfont icon-iPhoneX"></i>
         </span>
         <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="请输入用户名"></el-input>
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
-          <icon-svg icon-class="password"></icon-svg>
+          <i class="iconfont icon-mima"></i>
         </span>
         <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
       </el-form-item>
@@ -120,8 +120,9 @@ export default {
     width: 289px;
   }
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 5px;
     color: #fff;
+    font-weight: 700;
   }
   .title {
     font-size: 26px;

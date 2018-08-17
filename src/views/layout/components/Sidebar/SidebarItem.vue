@@ -1,8 +1,8 @@
 /*
- * @Author: FT.FE.Bolin 
- * @Date: 2018-04-11 17:11:36 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-06-25 16:07:35
+ * @Author: FT.FE.Bolin
+ * @Date: 2018-04-11 17:11:36
+ * @Last Modified by: FT.FE.Bolin
+ * @Last Modified time: 2018-08-16 14:02:27
  */
 
 <template>
@@ -48,6 +48,7 @@ export default {
   margin-right: 11px;
   position: relative;
   top: -2px;
+  color: #fff;
 }
 
 .hideSidebar .menu-indent {
