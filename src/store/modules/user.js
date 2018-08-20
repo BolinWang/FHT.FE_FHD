@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-11 17:02:42
+ * @Last Modified by: FT.FE.Bolin
+ * @Last Modified time: 2018-08-20 10:40:05
  */
 
 import { login, logout, getInfo } from '@/api/login'
@@ -54,6 +54,11 @@ const user = {
         login(mobile, password).then(response => {
           const data = response.data
           setSessionId(data.sessionId)
+          // 存储账号密码供BI鉴权使用
+          localStorage.setItem('userInfo', JSON.stringify({
+            mobile,
+            password
+          }))
           commit('SET_SESSIONID', data.sessionId)
           resolve()
         }).catch(error => {

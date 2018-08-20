@@ -19,7 +19,7 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'dataFromBI',
   data() {
@@ -52,12 +52,20 @@ export default {
         this.$message.error('BI链接无效')
         return false
       }
-      // axios.get(url,{
-      //   headers: {'accept': 'text/html, text/plain'}
+      window.open(url)
+      // let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+      // axios.get('http://47.96.238.63:8090/fh/ReportServer?op=fs_load&cmd=sso', {
+      //   withCredentials: true,
+      //   params: {
+      //     fr_username: userInfo.mobile,
+      //     fr_password: userInfo.password
+      //   }
       // }).then((response) => {
       //   console.log(response)
-      // }).catch({})
-      window.open(url)
+      // }).catch((err) => {
+      //   console.log(err)
+      //   this.$message.error('请求BI失败，请联系管理员')
+      // })
     }
   }
 }

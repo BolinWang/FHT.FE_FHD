@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-08-16 16:24:59
+ * @Last Modified time: 2018-08-20 10:40:10
  */
 
 <template>
@@ -102,6 +102,7 @@ export default {
   background-size: cover;
   background-position: center center;
   input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px rgb(133, 133, 133) inset !important;
     -webkit-box-shadow: 0 0 0px 1000px rgb(133, 133, 133) inset !important;
     -webkit-text-fill-color: #fff !important;
   }
