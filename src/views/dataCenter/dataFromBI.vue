@@ -52,20 +52,27 @@ export default {
         this.$message.error('BI链接无效')
         return false
       }
-      window.open(url)
-      // let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
-      // axios.get('http://47.96.238.63:8090/fh/ReportServer?op=fs_load&cmd=sso', {
-      //   withCredentials: true,
-      //   params: {
-      //     fr_username: userInfo.mobile,
-      //     fr_password: userInfo.password
-      //   }
-      // }).then((response) => {
-      //   console.log(response)
-      // }).catch((err) => {
-      //   console.log(err)
-      //   this.$message.error('请求BI失败，请联系管理员')
-      // })
+      let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+      let newPage = window.open()
+      newPage.document.title = 'BI权限识别中...'
+      axios.get('//bi.mdguanjia.com/fh/ReportServer?op=fs_load&cmd=sso', {
+        withCredentials: true,
+        params: {
+          fr_username: 'root',
+          fr_password: 123
+        }
+      }).then((response) => {
+        console.log(response)
+        if (response.data.includes('fail')) {
+          this.$message.error('该账号无权查看，请联系管理员')
+          newPage.document.write('该账号无权查看，请联系管理员')
+        } else {
+          newPage.location.href = url
+        }
+      }).catch((err) => {
+        console.log(err)
+        this.$message.error('请求BI失败，请联系管理员')
+      })
     }
   }
 }
