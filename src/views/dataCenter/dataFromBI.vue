@@ -58,8 +58,8 @@ export default {
       axios.get('//bi.mdguanjia.com/fh/ReportServer?op=fs_load&cmd=sso', {
         withCredentials: true,
         params: {
-          fr_username: 'root',
-          fr_password: 123
+          fr_username: userInfo.mobile,
+          fr_password: userInfo.password
         }
       }).then((response) => {
         console.log(response)
