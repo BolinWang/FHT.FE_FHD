@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-08-20 10:40:05
+ * @Last Modified time: 2018-08-27 09:22:12
  */
 
 import { login, logout, getInfo } from '@/api/login'
@@ -57,7 +57,7 @@ const user = {
           // 存储账号密码供BI鉴权使用
           localStorage.setItem('userInfo', JSON.stringify({
             mobile,
-            password
+            password: userInfo.password
           }))
           commit('SET_SESSIONID', data.sessionId)
           resolve()
