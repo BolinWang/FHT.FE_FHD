@@ -53,9 +53,13 @@ export default {
         return false
       }
       let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+      if (!userInfo.mobile || !userInfo.password) {
+        this.$message.error('用户信息丢失，请重新登录后重试')
+        return false
+      }
       let newPage = window.open()
       newPage.document.title = 'BI权限识别中...'
-      axios.get('//bi.mdguanjia.com/fh/ReportServer?op=fs_load&cmd=sso', {
+      axios.get(window.location.protocol + '//bi.mdguanjia.com/fh/ReportServer?op=fs_load&cmd=sso', {
         withCredentials: true,
         params: {
           fr_username: userInfo.mobile,
