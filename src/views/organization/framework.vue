@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-08-08 18:23:21
+ * @Last Modified time: 2018-09-01 17:11:27
  */
 <template>
   <div class="layout-container">
@@ -31,10 +31,35 @@
           </el-col>
         </el-row>
         <div class="model-search clearfix">
-          <el-input size="small" v-model="formData.nameOrMobile" placeholder="姓名/手机号码" style="width:300px;" @keydown.native.enter="searchParam">
-          </el-input>
+          <el-select
+            v-model="formData.nameOrMobile"
+            size="small"
+            multiple
+            style="width:180px;"
+            filterable
+            remote>
+
+          </el-select>
+         <!-- 1.5.1新增检索条件-->
+          <!-- <el-select size="small" style="width:100px;" placeholder="在职情况">
+            <el-option
+              v-for="item in IncumbencyList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+          <el-select size="small" style="width:100px;" placeholder="请选择类型">
+            <el-option
+              v-for="item in InserviceList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select> -->
           <el-button type="primary" size="small" icon="el-icon-search" @click.native="searchParam" v-waves class="filter-item">查询</el-button>
           <el-button plain size="small" icon="el-icon-remove-outline" @click.native="clearForm">清空</el-button>
+          <el-button type="primary" size="small" icon="el-icon-upload" @click.native="clearForm">导出</el-button>
           <el-button class="right" type="primary" size="small" icon="el-icon-circle-plus-outline" @click.native="handleApply">新增账号</el-button>
         </div>
         <GridUnit
@@ -83,7 +108,7 @@
             <el-input v-model="orgForm.depName" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="上级部门">
-            <el-input v-model="superiorName" :disabled="true"></el-input>
+            <el-input v-model="superiorName" :disabled="isEditOrg&&nowOrgObj.parentId==0"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -128,7 +153,7 @@
                   <li
                     v-for="(item, index) in (cityData.length > 0 ? cityData[cityIndex].childrens : [])" :key="index"
                     :class="{current: areaIndex === index}" @click="areaIndex = index">
-                    
+
                     <el-checkbox
                       :indeterminate="item.indeterminate"
                       v-model="item.checked"
@@ -390,6 +415,31 @@ export default {
       }
     }
     return {
+      higherUp: [], // 选择上级部门的list
+      IncumbencyList: [
+        {
+          value: 1,
+          label: '在职'
+        }, {
+          value: 2,
+          label: '全部'
+        }, {
+          value: 3,
+          label: '离职'
+        }
+      ],
+      InserviceList: [
+        {
+          value: 1,
+          label: '正式'
+        }, {
+          value: 2,
+          label: '使用中'
+        }, {
+          value: 3,
+          label: '已失效'
+        }
+      ],
       editAdd: true,
       pickerOptions: {
         disabledDate(time) {
@@ -426,7 +476,7 @@ export default {
         children: 'child',
         label: 'depName'
       },
-      treeData: [],
+      treeData: [ ],
       cityIndex: 0,
       areaIndex: 0,
       cityData: [],
@@ -516,6 +566,7 @@ export default {
     getTree(id, fn) {
       queryDepartmentByLogin().then(res => {
         if (res.data && res.data instanceof Array) {
+          console.log(res.data)
           this.treeData = res.data
           let nowId = id || this.treeData[0].id
           this.getFirstNode(nowId)
@@ -573,7 +624,7 @@ export default {
       })
     },
     handleNodeClick(node, data) { // 点击tree节点函数
-      this.nowOrgObj = deepClone(data.data)
+      this.nowOrgObj = deepClone(data.data) // tree全部数据
       this.parentOrg = data.parent.data instanceof Array ? deepClone(data.parent.data[0]) : deepClone(data.parent.data)
       this.formData.depId = this.nowOrgObj.id
       this.formData.nameOrMobile = ''
@@ -613,6 +664,7 @@ export default {
     },
     submitOrg() {
       this.$refs['orgForm'].validate((valid) => {
+        console.log(valid)
         if (valid) {
           let param = deepClone(this.orgForm)
           let postFn = createDepartment
