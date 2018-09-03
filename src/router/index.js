@@ -2,7 +2,8 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:07:11
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-03 10:11:42
+ * @Last Modified time: 2018-09-03 16:05:11
+
  */
 
 import Vue from 'vue'
@@ -86,21 +87,20 @@ export const asyncRouterMap = [{
     }
   }]
 },
-// {
-//   path: '/dailyOperation',
-//   component: Layout,
-//   redirect: 'noredirect',
-//   name: '日常运营',
-//   icon: 'icon-fangyuan',
-//   children: [{
-//     path: 'rentingABill',
-//     component: _import('dailyOperation/rentingABill'),
-//     name: '催租账单',
-//     meta: {
-//       role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
-//     }
-//   }]
-// },
+{
+  path: '/dataCenter',
+  component: Layout,
+  noDropdown: true,
+  icon: 'icon-fangyuan',
+  children: [{
+    path: '',
+    component: _import('dataCenter/dataFromBI'),
+    name: '数据中心',
+    meta: {
+      role: ['admin', 'cityDirector', 'operation']
+    }
+  }]
+},
 {
   path: '*',
   redirect: '/404',

@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-03 11:41:25
+ * @Last Modified time: 2018-09-03 16:05:09
  */
 <template>
   <div class="layout-container">
@@ -387,6 +387,9 @@ const roleList = [
   }, {
     value: 9,
     label: '运营'
+  }, {
+    value: 11,
+    label: 'BD'
   }
 ]
 export default {
