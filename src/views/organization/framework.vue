@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-01 17:11:27
+ * @Last Modified time: 2018-09-03 11:41:25
  */
 <template>
   <div class="layout-container">
@@ -31,17 +31,10 @@
           </el-col>
         </el-row>
         <div class="model-search clearfix">
-          <el-select
-            v-model="formData.nameOrMobile"
-            size="small"
-            multiple
-            style="width:180px;"
-            filterable
-            remote>
+          <el-input size="small" v-model="formData.nameOrMobile" placeholder="姓名/手机号码" style="width:140px;" @keydown.native.enter="searchParam">
+          </el-input>
 
-          </el-select>
-         <!-- 1.5.1新增检索条件-->
-          <!-- <el-select size="small" style="width:100px;" placeholder="在职情况">
+          <!-- <el-select size="small" style="width:140px;"  placeholder="在职情况">
             <el-option
               v-for="item in IncumbencyList"
               :key="item.value"
@@ -49,7 +42,7 @@
               :value="item.value">
             </el-option>
           </el-select>
-          <el-select size="small" style="width:100px;" placeholder="请选择类型">
+          <el-select size="small" style="width:140px;"  placeholder="请选择类型">
             <el-option
               v-for="item in InserviceList"
               :key="item.value"
@@ -59,7 +52,7 @@
           </el-select> -->
           <el-button type="primary" size="small" icon="el-icon-search" @click.native="searchParam" v-waves class="filter-item">查询</el-button>
           <el-button plain size="small" icon="el-icon-remove-outline" @click.native="clearForm">清空</el-button>
-          <el-button type="primary" size="small" icon="el-icon-upload" @click.native="clearForm">导出</el-button>
+          <el-button type="primary" size="small" icon="el-icon-upload" @click.native="exportExcel">导出</el-button>
           <el-button class="right" type="primary" size="small" icon="el-icon-circle-plus-outline" @click.native="handleApply">新增账号</el-button>
         </div>
         <GridUnit
@@ -108,7 +101,25 @@
             <el-input v-model="orgForm.depName" maxlength="20"></el-input>
           </el-form-item>
           <el-form-item label="上级部门">
-            <el-input v-model="superiorName" :disabled="isEditOrg&&nowOrgObj.parentId==0"></el-input>
+            <el-input  v-model="superiorName" v-show="!isEditOrg" :disabled='true'></el-input>
+            <el-select v-model="superiorName" v-show="isEditOrg"  :disabled="isEditOrg&&nowOrgObj.parentId==0">
+             <!-- <el-tree
+               ref="overlayTree"
+               :data="hightOrganList"
+               :props="defaultProps"
+               node-key="id"
+               highlight-current="true"
+               :expand-on-click-node="false"
+               :default-expanded-keys="[nowheightObj.id]"
+               @node-click="overlayNodeClick">
+              </el-tree> -->
+              <el-option
+              v-for="item in hightOrganList"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -415,7 +426,8 @@ export default {
       }
     }
     return {
-      higherUp: [], // 选择上级部门的list
+      hightOrganList: [],
+      nowheightObj: {},
       IncumbencyList: [
         {
           value: 1,
@@ -476,7 +488,7 @@ export default {
         children: 'child',
         label: 'depName'
       },
-      treeData: [ ],
+      treeData: [],
       cityIndex: 0,
       areaIndex: 0,
       cityData: [],
@@ -624,7 +636,7 @@ export default {
       })
     },
     handleNodeClick(node, data) { // 点击tree节点函数
-      this.nowOrgObj = deepClone(data.data) // tree全部数据
+      this.nowOrgObj = deepClone(data.data)
       this.parentOrg = data.parent.data instanceof Array ? deepClone(data.parent.data[0]) : deepClone(data.parent.data)
       this.formData.depId = this.nowOrgObj.id
       this.formData.nameOrMobile = ''
@@ -661,10 +673,30 @@ export default {
       this.superiorName = this.parentOrg.depName
       this.orgForm.depName = this.nowOrgObj.depName
       this.layer_addOrg = true
+      this.traverseTree(this.treeData[0]) // 遍历树形结构
+      this.delectSame()
+    },
+    delectSame() {
+      this.hightOrganList = this.hightOrganList.filter(item => item.name !== this.nowOrgObj.depName)
+    },
+    traverseTree(node) {
+      if (!node) {
+        return
+      }
+      let newname = {
+        id: node.id,
+        name: node.depName
+      }
+      this.hightOrganList.push(newname)
+      if (node.child && node.child.length > 0) {
+        let i = 0
+        for (i = 0; i < node.child.length; i++) {
+          this.traverseTree(node.child[i])
+        }
+      }
     },
     submitOrg() {
       this.$refs['orgForm'].validate((valid) => {
-        console.log(valid)
         if (valid) {
           let param = deepClone(this.orgForm)
           let postFn = createDepartment
@@ -674,6 +706,7 @@ export default {
           } else { // 新增
             param.parentId = this.nowOrgObj.id
           }
+          console.log(param)
           postFn(param).then(req => {
             this.layer_addOrg = false
             if (this.isEditOrg) {
