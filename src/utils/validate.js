@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:36
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-04-12 10:35:29
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-04 17:18:04
  */
 
 /* 是否是公司邮箱*/
@@ -38,5 +38,11 @@ export function validateUpperCase(str) {
 /* 大小写字母*/
 export function validatAlphabets(str) {
   const reg = /^[A-Za-z]+$/
+  return reg.test(str)
+}
+
+/* 验证身份证号码*/
+export function validateisCard(str) {
+  const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
   return reg.test(str)
 }

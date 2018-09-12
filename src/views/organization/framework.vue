@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
- * @Last Modified by: ghost
- * @Last Modified time: 2018-09-03 16:05:09
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-12 15:40:15
  */
 <template>
   <div class="layout-container">
@@ -33,8 +33,7 @@
         <div class="model-search clearfix">
           <el-input size="small" v-model="formData.nameOrMobile" placeholder="姓名/手机号码" style="width:140px;" @keydown.native.enter="searchParam">
           </el-input>
-
-          <!-- <el-select size="small" style="width:140px;"  placeholder="在职情况">
+          <el-select size="small" v-model="formData.isDelete" style="width:140px;"  placeholder="在职情况">
             <el-option
               v-for="item in IncumbencyList"
               :key="item.value"
@@ -42,14 +41,14 @@
               :value="item.value">
             </el-option>
           </el-select>
-          <el-select size="small" style="width:140px;"  placeholder="请选择类型">
+          <el-select size="small" v-model="formData.type" style="width:140px;"  placeholder="请选择类型">
             <el-option
               v-for="item in InserviceList"
               :key="item.value"
               :label="item.label"
               :value="item.value">
             </el-option>
-          </el-select> -->
+          </el-select>
           <el-button type="primary" size="small" icon="el-icon-search" @click.native="searchParam" v-waves class="filter-item">查询</el-button>
           <el-button plain size="small" icon="el-icon-remove-outline" @click.native="clearForm">清空</el-button>
           <el-button type="primary" size="small" icon="el-icon-upload" @click.native="exportExcel">导出</el-button>
@@ -74,9 +73,13 @@
                 @click="resetPsd(scope.row)">
                 密码重置
               </el-button>
-              <el-button type="danger" icon="el-icon-delete" size="small"
-                @click="delAccount(scope.row)">
-                删除
+              <el-button v-if="scope.row.isDelete==1" type="danger"  size="small"
+                @click="backAccount(scope.row)">
+                复职
+              </el-button>
+               <el-button v-else type="danger"  size="small"
+                @click="leaveAccount(scope.row)">
+                离职
               </el-button>
             </div>
 
@@ -103,22 +106,17 @@
           <el-form-item label="上级部门">
             <el-input  v-model="superiorName" v-show="!isEditOrg" :disabled='true'></el-input>
             <el-select v-model="superiorName" v-show="isEditOrg"  :disabled="isEditOrg&&nowOrgObj.parentId==0">
-             <!-- <el-tree
-               ref="overlayTree"
-               :data="hightOrganList"
-               :props="defaultProps"
-               node-key="id"
-               highlight-current="true"
-               :expand-on-click-node="false"
-               :default-expanded-keys="[nowheightObj.id]"
-               @node-click="overlayNodeClick">
-              </el-tree> -->
-              <el-option
-              v-for="item in hightOrganList"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
+              <el-tree
+                ref="overlayTree"
+                :data="treeData"
+                :props="defaultProps"
+                node-key="id"
+                :highlight-current="true"
+                :expand-on-click-node="false"
+                :default-expanded-keys="[parentOrg.id]"
+                @node-click="editNodeclick">
+              </el-tree>
+              <el-option style="display:none" value=""></el-option>
             </el-select>
           </el-form-item>
         </el-form>
@@ -291,6 +289,13 @@
 
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="身份证号码" prop="idNo">
+                <el-input v-model="accountForm.idNo" :disabled="editAdd"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
         <div v-show="!isEditAccount" style="padding-left:27px">温馨提示：默认密码为123456，请提醒用户首次登陆后立即更改密码</div>
         <div slot="footer" class="dialog-footer">
@@ -351,14 +356,17 @@
         </div>
       </el-dialog>
     </div>
+    <!-- 离职／复职弹窗 -->
+    <Incumbency ref="incumbency" v-on:searchStart = "searchParam"></Incumbency>
   </div>
 </template>
 <script>
 import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
-import { validateMobile } from '@/utils/validate'
+import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
-import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager } from '@/api/organization'
+import Incumbency from './commpents/Incumbency'
+import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager, personnelBack} from '@/api/organization'
 const roleList = [
   {
     value: 1,
@@ -398,7 +406,8 @@ export default {
     waves
   },
   components: {
-    GridUnit
+    GridUnit,
+    Incumbency
   },
   created() {
     /* 表格高度控制 */
@@ -407,7 +416,7 @@ export default {
     window.onresize = () => {
       return (() => {
         temp_height = document.body.clientHeight - 230
-        this.tableHeight = this.tableHeight = temp_height > 300 ? temp_height : 300
+        this.tableHeight = temp_height > 300 ? temp_height : 300
       })()
     }
     this.defaultAccount = deepClone(this.accountForm)
@@ -428,31 +437,42 @@ export default {
         callback()
       }
     }
+    const isCardNo = (rule, value, callback) => {
+      if (!validateisCard(value)) {
+        callback(new Error('请输入正确的身份证号码'))
+      } else {
+        callback()
+      }
+    }
     return {
+      editParentId: null,
       hightOrganList: [],
       nowheightObj: {},
       IncumbencyList: [
         {
-          value: 1,
-          label: '在职'
-        }, {
-          value: 2,
+          value: null,
           label: '全部'
         }, {
-          value: 3,
+          value: 0,
+          label: '在职'
+        }, {
+          value: 1,
           label: '离职'
         }
       ],
       InserviceList: [
         {
+          value: 0,
+          label: '试用'
+        }, {
           value: 1,
           label: '正式'
         }, {
           value: 2,
-          label: '使用中'
-        }, {
-          value: 3,
           label: '已失效'
+        }, {
+          value: null,
+          label: '全部'
         }
       ],
       editAdd: true,
@@ -485,6 +505,9 @@ export default {
         ],
         gmtHire: [
           { required: true, message: '请选择入职时间', trigger: 'blur' }
+        ],
+        idNo: [
+          { required: true, trigger: 'blur', validator: isCardNo}
         ]
       },
       defaultProps: {
@@ -509,7 +532,8 @@ export default {
       formData: {
         nameOrMobile: '',
         depId: '',
-        type: null
+        type: null,
+        isDelete: null
       },
       nowOrgObj: {
         depName: '',
@@ -536,7 +560,8 @@ export default {
         role: '',
         imei: '',
         type: 1,
-        gmtHire: ''
+        gmtHire: '',
+        idNo: ''
       },
       isTry: false, // 是否为试用账号
       accoutTypeStatus: 1,
@@ -578,6 +603,12 @@ export default {
     }
   },
   methods: {
+    backAccount(row) { // 复职
+      this.$refs.incumbency.open(row)
+    },
+    leaveAccount(row) { // 离职
+      this.$refs.incumbency.open(row)
+    },
     getTree(id, fn) {
       queryDepartmentByLogin().then(res => {
         if (res.data && res.data instanceof Array) {
@@ -674,29 +705,14 @@ export default {
     editOrg() { // 编辑部门
       this.isEditOrg = true
       this.superiorName = this.parentOrg.depName
+      this.editParentId = this.parentOrg.id
       this.orgForm.depName = this.nowOrgObj.depName
       this.layer_addOrg = true
-      this.traverseTree(this.treeData[0]) // 遍历树形结构
-      this.delectSame()
     },
-    delectSame() {
-      this.hightOrganList = this.hightOrganList.filter(item => item.name !== this.nowOrgObj.depName)
-    },
-    traverseTree(node) {
-      if (!node) {
-        return
-      }
-      let newname = {
-        id: node.id,
-        name: node.depName
-      }
-      this.hightOrganList.push(newname)
-      if (node.child && node.child.length > 0) {
-        let i = 0
-        for (i = 0; i < node.child.length; i++) {
-          this.traverseTree(node.child[i])
-        }
-      }
+    editNodeclick(node, data) { // 编辑部门tree点击
+      this.parentOrg.depName = data.data.depName
+      this.editParentId = data.data.id
+      this.superiorName = this.parentOrg.depName
     },
     submitOrg() {
       this.$refs['orgForm'].validate((valid) => {
@@ -705,7 +721,15 @@ export default {
           let postFn = createDepartment
           if (this.isEditOrg) { // 编辑
             param.depId = this.nowOrgObj.id
+            param.parentId = this.editParentId
             postFn = updateDepartment
+            while (param.parentId === param.depId) {
+              this.$message({
+                message: '请选择除自己之外的其他部门',
+                type: 'error'
+              })
+              return false
+            }
           } else { // 新增
             param.parentId = this.nowOrgObj.id
           }

@@ -5,21 +5,22 @@
     </div>
     <div class="table-box">
        <el-table
+        size="small"
         :data="roleList"
         style="width: 100%">
         <el-table-column
           type="index">
         </el-table-column>
         <el-table-column
-          prop="date"
+          prop="roleName"
           label="角色">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="gmtCreate"
           label="创建时间">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="gmtModified"
           label="修改时间">
         </el-table-column>
          <el-table-column
@@ -28,11 +29,11 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                @click="handleEdit(scope.row)">编辑</el-button>
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                @click="handleDelete(scope.row)">删除</el-button>
             </template>
         </el-table-column>
       </el-table>
@@ -43,45 +44,43 @@
 </template>
 <script>
 import operateRole from './compents/operateRole'
+
+import { roleListApi, deleteRoleApi } from '@/api/organization'
 export default {
   components: {
     operateRole
   },
   data() {
     return {
-      roleList: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '家'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333,
-          tag: '公司'
-        }
-      ]
+      roleList: []
     }
   },
   mounted() {
-
+    this.getList()
   },
   methods: {
-    handleEdit() { // 编辑
-      this.$refs.operateRole.open(true)
+    getList() {
+      roleListApi().then(res => {
+        this.roleList = res.data
+      })
     },
-    handleDelete() { // 删除
-
+    handleEdit(row) { // 编辑
+      this.$refs.operateRole.open(row)
+    },
+    handleDelete(row) { // 删除
+      let param = {
+        roleId: row.roleId
+      }
+      deleteRoleApi(param).then(res => {
+        this.getList()
+        this.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+      })
     },
     handClick() { // 新增
-      this.$refs.operateRole.open(false)
+      this.$refs.operateRole.open()
     }
   }
 }

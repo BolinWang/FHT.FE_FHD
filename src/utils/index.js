@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:26
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-09 11:14:47
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-04 18:23:57
  */
 
 export function parseTime(time, cFormat) {
@@ -264,4 +264,12 @@ export function deepClone(source) {
 export function plusXing(str, frontLen, endLen) {
   let len = str.length - frontLen - endLen
   return str.substring(0, frontLen) + '*'.repeat(len) + str.substring(str.length - endLen)
+}
+
+// 清空对象
+export function delObjectItem(obj) {
+  Object.keys(obj).forEach(function(key) {
+    obj[key] = ''
+  })
+  return obj
 }

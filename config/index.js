@@ -1,14 +1,15 @@
 /*
- * @Author: FT.FE.Bolin 
- * @Date: 2018-04-11 16:31:28 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-10 16:35:16
+ * @Author: FT.FE.Bolin
+ * @Date: 2018-04-11 16:31:28
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-12 11:13:07
  */
 
 let path = require('path')
 /* 本地联调后端IP地址 */
 let proxyIPs = {
-  HOUTAI: 'http://192.168.5.243:8080/'
+  // HOUTAI: 'http://192.168.5.115:8080/back'
+    ChenSheng: 'http://192.168.5.152:8080/back'
 }
 module.exports = {
   dev: {
@@ -16,24 +17,24 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/back': {
-        target: proxyIPs.HOUTAI,
+        target: proxyIPs.ChenSheng,
         changeOrigin: true,
         pathRewrite: {
           '^/back': ''
         }
       }
     },
-     host: 'localhost',
+    host: 'localhost',
     // host: '0.0.0.0',
-    port: 8888,
-    autoOpenBrowser: true,
+    port: 9528,
+    autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: false,
     poll: false,
     devtool: 'eval-source-map',
     cacheBusting: true,
     cssSourceMap: false,
-    useEslint: true,
+    useEslint: false,
     showEslintErrorsInOverlay: false
   },
   build: {

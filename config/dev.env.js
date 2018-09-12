@@ -1,8 +1,8 @@
 /*
- * @Author: FT.FE.Bolin 
- * @Date: 2018-04-11 16:29:26 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-10 16:35:09
+ * @Author: FT.FE.Bolin
+ * @Date: 2018-04-11 16:29:26
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-12 16:19:06
  */
 
 module.exports = {
@@ -11,6 +11,6 @@ module.exports = {
   NPM_CONFIG_REPORT: '"false"',
   MOCK: 'true',
   /* 本地请求时配置api代理 */
-  // BASE_API: '"http://localhost:8888/api"'
+    //  BASE_API: '"http://localhost:9528/back"'
   BASE_API: '"https://test-flying-api.mdguanjia.com/back"'
 }

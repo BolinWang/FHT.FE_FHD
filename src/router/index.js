@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:07:11
- * @Last Modified by: ghost
- * @Last Modified time: 2018-09-03 16:05:11
+ * @Last Modified by:
+ * @Last Modified time: 2018-09-06 21:41:57
 
  */
 
@@ -72,7 +72,7 @@ export const asyncRouterMap = [{
       role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
     }
   }, {
-    path: 'satffChange',
+    path: 'staffChange',
     component: _import('staffChange/staffChange'),
     name: '人员变动',
     meta: {

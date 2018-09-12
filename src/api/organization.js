@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-07-02 16:44:05
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-04 14:08:40
+ * @Last Modified by:
+ * @Last Modified time: 2018-09-06 21:25:59
  */
 
 import { fetch } from '@/utils/fetch'
@@ -90,6 +90,78 @@ export function updateType(params = {}) {
 /* 账号删除 */
 export function deleteManager(params = {}) {
   return fetch('/user/deleteManager', {
+    method: 'method',
+    params
+  })
+}
+
+/* 职员复职 */
+export function personnelBack(params = {}) {
+  return fetch('/user/personnelBack', {
+    method: 'method',
+    params
+  })
+}
+
+/* 职员离职 */
+export function personnelLeave(params = {}) {
+  return fetch('/user/personnelLeave', {
+    method: 'method',
+    params
+  })
+}
+
+/* 查询在职管家 */
+export function queryOnTheJob(params = {}) {
+  return fetch('/user/queryOnTheJob', {
+    method: 'method',
+    params
+  })
+}
+
+/* 查询人事变动记录 */
+export function queryModifyRecord(params = {}) {
+  return fetch('/user/queryModifyRecord', {
+    method: 'method',
+    params
+  })
+}
+
+// 页面全部
+export function showRoleMenusApi(params = {}) {
+  return fetch('/role/showRoleMenus', {
+    method: 'method',
+    params
+  })
+}
+
+// 角色列表
+export function roleListApi(params = {}) {
+  return fetch('/role/list', {
+    method: 'method',
+    params
+  })
+}
+
+// 删除角色
+export function deleteRoleApi(params = {}) {
+  return fetch('/role/delete', {
+    method: 'method',
+    params
+  })
+}
+
+// 添加编辑
+export function roleSaveApi(params = {}) {
+  return fetch('/role/save', {
+    method: 'method',
+    params
+  })
+}
+
+// 查看路由
+export function roleMenusListApi(params = {}) {
+  return fetch('/role/roleMenusList', {
     method: 'method',
     params
   })
