@@ -1,8 +1,8 @@
 /*
  * @Author: ghost
  * @Date: 2018-09-04 20:08:01
- * @Last Modified by: ghost
- * @Last Modified time: 2018-09-05 00:09:32
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-12 18:54:11
  */
 
 <template>
@@ -104,8 +104,12 @@ export default {
       })
     },
     chooseTab(targetName) {
+      this.staffList = []
+      this.total = null
       this.type = targetName.name
-      targetName.name === 1 ? this.colModels = typedata : this.colModels = typedata2
+      console.log(targetName.name)
+      targetName.name === '1' ? this.colModels = typedata : this.colModels = typedata2
+      console.log(this.colModels)
       this.searchParam()
     }
   }

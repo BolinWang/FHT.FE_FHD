@@ -93,21 +93,23 @@ export default {
       }
       this.dataFomart()
     },
-    dataFomart() { // 遍历数据判断checked（是否全选）和indeterminate（是否部分选中）
-      let areaIndeterminate = []
-      this.allList.map(nowList => { // 遍历城市
-        nowList.children.map(areaList => { // 遍历
-          if (areaList.flag === true) {
-            areaIndeterminate.push(areaList)
+    dataFomart() {
+      this.form.menuIds = []
+      this.allList.map(allListItem => {
+        let allListItemnum = []
+        allListItem.children.map(twoList => {
+          if (twoList.flag === true) {
+            allListItemnum.push(twoList)
+            this.form.menuIds.push(twoList.menuId)
+            allListItem.isIndeterminat = true
           }
         })
-        if (areaIndeterminate.length === nowList.children.length) {
-          nowList.flag = true
-          nowList.indeterminate = false
+        if (allListItemnum.length === allListItem.children.length) {
+          allListItem.flag = true
+          this.form.menuIds.push(allListItem.menuId)
+          allListItem.isIndeterminat = false
         } else {
-          nowList.flag = false
-          // 只要某个区域勾选了或者部分勾选了，城市都处于部分选中状态
-          nowList.indeterminate = areaIndeterminate.length > 0
+          allListItem.flag = false
         }
       })
     },
@@ -123,16 +125,18 @@ export default {
       }
     },
     saveSub() {
-      this.allList.forEach((value, index) => {
-        this.traverseTree(value, index)
-        this.operaIndex = 0
-      })
+      // this.allList.forEach((value, index) => {
+      //   this.traverseTree(value, index)
+      //   this.operaIndex = 0
+      // })
       this.form.backLogin === true ? this.form.backLogin = 1 : this.form.backLogin = 0
-      this.form.menuIds = this.allListNow.filter(v => v.flag).map(v => v.menuId)
+      // this.form.menuIds = this.allListNow.filter(v => v.flag).map(v => v.menuId)
+      console.log(this.form.menuIds)
       roleSaveApi(this.form).then(res => {
         delObjectItem(this.form.menuIds)
         this.allListNow = []
         this.editOradd = null
+        this.dialogFormVisible = false
         this.$message({
           message: '添加角色成功',
           type: 'success'
@@ -144,6 +148,7 @@ export default {
         roleId: this.editOradd !== null && this.editOradd !== undefined ? this.editOradd.roleId : -1
       }
       showRoleMenusApi(params).then(res => {
+        console.log(res.data)
         this.allList = res.data
       })
     },
@@ -162,6 +167,10 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.grid-content {
+    width: 100%;
+    height: 360px;
+    border: 1px solid #ccc;}
  .contentNav {
       width: 100%;
       height: 330px;

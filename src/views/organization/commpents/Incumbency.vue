@@ -3,7 +3,7 @@
     <el-dialog title="离职" :visible.sync="leaveFormVisible" label-width="140px">
       <el-form :model="formleave" :rules="leaverule" ref='leaveForm'  size="small">
         <div class="title-text">确定此员工离职么</div>
-        <el-form-item label="请选择离职时间"  prop="gmtLeave">
+        <el-form-item label="请选择离职时间"  prop="gmtLeave" label-width="120px">
            <el-date-picker
             v-model="formleave.gmtLeave"
             type="date"
@@ -11,7 +11,7 @@
            </el-date-picker>
         </el-form-item>
         <div class="title-text">检测该职员下还有在生效的租约，请分配新的管理者</div>
-        <el-form-item label="业务交接人员"  prop='transferId'>
+        <el-form-item label="业务交接人员" label-width="120px">
           <el-select
             v-model="formleave.transferId"
             filterable
@@ -38,14 +38,14 @@
     <el-dialog title="复职" :visible.sync="backFormVisible">
       <el-form :model="formback" label-position="left" :rules="backrules" ref='backForm' size="small" label-width="140px">
         <div class="title-text">确定复职此员工么</div>
-        <el-form-item label="复职时间:" prop="gmtBack">
+        <el-form-item label="复职时间:" prop="gmtBack" label-width="120px">
           <el-date-picker
             v-model="formback.gmtBack"
             type="date"
             placeholder="选择复职时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="指定手机号码:" prop="mobile">
+        <el-form-item label="指定手机号码:" prop="mobile" label-width="120px">
           <el-input v-model="formback.mobile"></el-input>
         </el-form-item>
         <el-form-item label="手机编码:" prop="imei">
@@ -61,8 +61,12 @@
   </div>
 </template>
 <script>
-import { personnelBack, personnelLeave, queryOnTheJob} from '@/api/organization'
-import {delObjectItem, parseTime} from '@/utils'
+import {
+  personnelBack,
+  personnelLeave,
+  queryOnTheJob }
+  from '@/api/organization'
+import { parseTime } from '@/utils'
 import { validateMobile } from '@/utils/validate'
 export default {
   data() {
@@ -80,14 +84,14 @@ export default {
         ],
         transferId: [
           { required: true, message: '请选择业务交接人员', trigger: 'blur' }
-        ],
+        ]
       },
       backrules: {
         gmtBack: [
-          {required: true, message: '请选择复职时间', trigger: 'blur' }
+          { required: true, message: '请选择复职时间', trigger: 'blur' }
         ],
         mobile: [
-          {required: true, trigger: 'blur', validator: validatePhone }
+          { required: true, trigger: 'blur', validator: validatePhone }
         ],
         imei: [
           {required: true, message: '请输入手机编码', trigger: 'blur'}
@@ -103,58 +107,65 @@ export default {
       },
       formback: {
         gmtBack: '',
-        managerId: "",
+        managerId: '',
         mobile: '',
         imei: ''
       }
     }
   },
   methods: {
-    cancelBack(formName){
+    cancelBack(formName) {
       this.backFormVisible = false
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
-    submitBack(formName){
+    submitBack(formName) {
       this.backFormVisible = false
       this.formback.gmtBack = parseTime(this.formback.gmtBack)
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            personnelBack(this.formback).then(res =>{
-              this.$emit("searchStart")
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          personnelBack(this.formback).then(res => {
+            this.$emit('searchStart')
+            this.$message({
+              message: '操作成功',
+              type: 'success'
             })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
-    submitLeave(formName){
-      this.leaveFormVisible = false
+    submitLeave(formName) {
       this.formleave.gmtLeave = parseTime(this.formleave.gmtLeave)
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            personnelLeave(this.formleave).then(res =>{
-              this.$emit("searchStart")
-              this.$message({
-                message: '操作成功',
-                type: 'success'
-              });
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (this.formleave.transferId === '') {
+            this.$message({
+              message: '请选择交接人',
+              type: 'success'
             })
-          } else {
-            console.log('error submit!!');
-            return false;
+            return
           }
-        });
+          this.leaveFormVisible = false
+          personnelLeave(this.formleave).then(res => {
+            this.$emit('searchStart')
+            this.$message({
+              message: '操作成功',
+              type: 'success'
+            })
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
     },
-    cancelLeave(formName){
+    cancelLeave(formName) {
       this.leaveFormVisible = false
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
-    open(row){
+    open(row) {
       row.isDelete === 1 ? this.back(row) : this.leave(row)
     },
     leave(row) {
@@ -165,16 +176,16 @@ export default {
       this.backFormVisible = true
       this.formback.managerId = row.id
     },
-    remoteMethod(query){
-      if(query !== ''){
+    remoteMethod(query) {
+      if (query !== '') {
         let param = {
           keyword: query
         }
-        queryOnTheJob(param).then(res =>{
+        queryOnTheJob(param).then(res => {
           this.onJobList = res.data
         })
-      }else{
-       this.onJobList=[]
+      } else {
+        this.onJobList = []
       }
     }
   }

@@ -26,16 +26,16 @@ export default {
     columns: {
       type: Array,
       label: {
-        type: String,
+        type: String
       },
       prop: {
-        type: String,
+        type: String
       }
-    },
+    }
   },
   data() {
     return {
-      tableHeight: null,
+      tableHeight: null
     }
   },
   mounted() {
