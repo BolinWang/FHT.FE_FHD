@@ -2,8 +2,8 @@
    <div class="container">
      <el-dialog :title="editOradd?'编辑角色':'新建角色'" :visible.sync="dialogFormVisible">
        <div class="text-box">
-         <el-form  :inline="true" ref="form" :model="form" label-width="80px" size="small">
-           <el-form-item label="角色名称">
+         <el-form  :inline="true" ref="form" :rules="rules"  :model="form" label-width="80px" size="small">
+           <el-form-item label="角色名称" prop='roleName'>
               <!-- <el-form-item label="权限角色" prop="role">
                 <el-select v-model="accountForm.role" style="width: 100%">
                   <el-option
@@ -76,6 +76,11 @@ export default {
       allList: [],
       allListNow: [],
       operaIndex: 0,
+      rules: {
+        roleName: [
+          { min: 0, max: 10, message: '长度在 10 个字符以内', trigger: 'blur' }
+        ]
+      },
       form: {
         roleId: '',
         roleName: '',
