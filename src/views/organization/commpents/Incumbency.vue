@@ -36,7 +36,7 @@
       </div>
     </el-dialog>
     <el-dialog title="复职" :visible.sync="backFormVisible">
-      <el-form :model="formback" label-position="left" :rules="backrules" ref='backForm' size="small" label-width="140px">
+      <el-form :model="formback" label-position="left" :rules="rules" ref='formback' size="small" label-width="140px">
         <div class="title-text">确定复职此员工么</div>
         <el-form-item label="复职时间:" prop="gmtBack" label-width="120px">
           <el-date-picker
@@ -54,8 +54,8 @@
         <div class="title-text">温馨提示:复职后密码重新为123456</div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelBack('backForm')">取 消</el-button>
-        <el-button type="primary" @click="submitBack('backForm')">确 定</el-button>
+        <el-button @click="cancelBack('formback')">取 消</el-button>
+        <el-button type="primary" @click="submitBack('formback')">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -86,9 +86,9 @@ export default {
           { required: true, message: '请选择业务交接人员', trigger: 'blur' }
         ]
       },
-      backrules: {
+      rules: {
         gmtBack: [
-          { required: true, message: '请选择复职时间', trigger: 'blur' }
+          { required: true, message: '请选择复职时间', trigger: 'change' }
         ],
         mobile: [
           { required: true, trigger: 'blur', validator: validatePhone }
@@ -119,11 +119,18 @@ export default {
       this.$refs[formName].resetFields()
     },
     submitBack(formName) {
-      this.backFormVisible = false
+      if (this.formback.gmtBack) {
+        this.$message({
+          message: '请选择复职时间',
+          type: 'success'
+        })
+        return
+      }
       this.formback.gmtBack = parseTime(this.formback.gmtBack)
       this.$refs[formName].validate((valid) => {
         if (valid) {
           personnelBack(this.formback).then(res => {
+            this.backFormVisible = false
             this.$emit('searchStart')
             this.$message({
               message: '操作成功',

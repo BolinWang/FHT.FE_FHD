@@ -142,6 +142,13 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="身份证号码" prop="idNo">
+                <el-input v-model="accountForm.idNo"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
         <div v-show="!isEditAccount" style="padding-left:27px">温馨提示：默认密码为123456，请提醒用户首次登陆后立即更改密码</div>
         <div slot="footer" class="dialog-footer">
@@ -156,7 +163,7 @@
 <script>
 import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
-import { validateMobile } from '@/utils/validate'
+import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
 import { queryDepartmentByLogin, createManager, updateManager, deleteManager } from '@/api/organization'
 const roleList = [
@@ -204,6 +211,13 @@ export default {
         callback()
       }
     }
+    const isCardNo = (rule, value, callback) => {
+      if (!validateisCard(value)) {
+        callback(new Error('请输入正确的身份证号码'))
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptions: {
         disabledDate(time) {
@@ -234,6 +248,9 @@ export default {
         ],
         gmtHire: [
           { required: true, message: '请选择入职时间', trigger: 'change' }
+        ],
+        idNo: [
+          { required: true, trigger: 'blur', validator: isCardNo }
         ]
       },
       defaultProps: {

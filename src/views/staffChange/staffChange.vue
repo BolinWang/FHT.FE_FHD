@@ -11,9 +11,18 @@
       <el-tab-pane :label="item.value"  :name="item.key"  v-for="(item, index) in recordType" :key="index">
         <div class="search-box">
           <el-input
+            v-if="item.key==1"
             style="width:300px;"
             size="small"
             placeholder="离职人员姓名／手机号码／身份证号"
+            v-model="keyword"
+            clearable>
+          </el-input>
+          <el-input
+            v-else
+            style="width:300px;"
+            size="small"
+            placeholder="复职人员姓名／手机号码／身份证号"
             v-model="keyword"
             clearable>
           </el-input>
@@ -99,8 +108,9 @@ export default {
       }
       params = Object.assign(params, this.pageItems)
       queryModifyRecord(params).then(res => {
+        console.log(res)
         this.staffList = res.data.result
-        this.total = res.total
+        this.total = res.data.total
       })
     },
     chooseTab(targetName) {

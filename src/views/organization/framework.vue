@@ -366,7 +366,7 @@ import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
 import Incumbency from './commpents/Incumbency'
-import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager, personnelBack} from '@/api/organization'
+import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager } from '@/api/organization'
 const roleList = [
   {
     value: 1,
@@ -507,7 +507,7 @@ export default {
           { required: true, message: '请选择入职时间', trigger: 'blur' }
         ],
         idNo: [
-          { required: true, trigger: 'blur', validator: isCardNo}
+          { required: true, trigger: 'blur', validator: isCardNo }
         ]
       },
       defaultProps: {
