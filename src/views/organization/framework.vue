@@ -603,11 +603,14 @@ export default {
     }
   },
   methods: {
+    getroleOptsList() {
+
+    },
     exportExcel() {
-      this.formData.type = this.formData.type || ''
-      this.formData.isDelete = this.formData.isDelete || ''
-      console.log(this.formData.type)
-      const href = `${process.env.BASE_API}/user/exportExcel?isDelete=${this.formData.isDelete}&type=${this.formData.type}&nameOrMobile=${this.formData.nameOrMobile}&depId=${this.formData.depId}`
+      let type = this.formData.type !== null ? this.formData.type : ''
+      let isDelete = this.formData.isDelete !== null ? this.formData.isDelete : ''
+      console.log(type)
+      const href = `${process.env.BASE_API}/user/exportExcel?isDelete=${isDelete}&type=${type}&nameOrMobile=${this.formData.nameOrMobile}&depId=${this.formData.depId}`
       var elink = document.createElement('a')
       elink.style.display = 'none'
       console.log(href)

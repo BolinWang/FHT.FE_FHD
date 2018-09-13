@@ -142,7 +142,7 @@ export default {
       this.dataFomart()
       console.log(this.form.menuIds)
       roleSaveApi(this.form).then(res => {
-        delObjectItem(this.form.menuIds)
+        delObjectItem(this.form)
         this.allListNow = []
         this.editOradd = null
         this.dialogFormVisible = false

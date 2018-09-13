@@ -44,7 +44,7 @@ import { queryModifyRecord } from '@/api/organization'
 const typedata = [
   {prop: 'name', label: '姓名'},
   {prop: 'depName', label: '部门'},
-  {prop: 'createName', label: '权限角色'},
+  {prop: 'roleName', label: '权限角色'},
   {prop: 'mobile', label: '手机号码'},
   {prop: 'idNo', label: '身份证号'},
   {prop: 'gmtLeave', label: '离职时间'},
