@@ -44,7 +44,7 @@
       </el-table>
     </div>
     <!-- 编辑／新增账号权限 -->
-    <operate-Role ref="operateRole"></operate-Role>
+    <operate-Role ref="operateRole" v-on:editOver='getList'></operate-Role>
   </div>
 </template>
 <script>

@@ -146,8 +146,9 @@ export default {
         this.allListNow = []
         this.editOradd = null
         this.dialogFormVisible = false
+        this.$emit('editOver')
         this.$message({
-          message: '添加角色成功',
+          message: '保存成功',
           type: 'success'
         })
       })

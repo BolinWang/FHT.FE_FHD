@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: 
- * @Last Modified time: 2018-09-13 20:57:11
+ * @Last Modified time: 2018-09-14 00:12:38
  */
 <template>
   <div class="layout-container">
@@ -249,9 +249,9 @@
                 <el-select v-model="accountForm.role" style="width: 100%">
                   <el-option
                     v-for="item in roleOpts"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
+                    :key="item.roleId"
+                    :label="item.roleName"
+                    :value="item.roleId">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -366,7 +366,7 @@ import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
 import Incumbency from './commpents/Incumbency'
-import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager } from '@/api/organization'
+import { queryDepartmentByLogin, createDepartment, updateDepartment, queryDepAreaPerm, createDepAreaPerm, delDepartment, createManager, updateManager, resetPassword, updateType, deleteManager, roleListApi } from '@/api/organization'
 const roleList = [
   {
     value: 1,
@@ -421,6 +421,7 @@ export default {
     }
     this.defaultAccount = deepClone(this.accountForm)
     this.getTree()
+    this.getroleOptsList()
   },
   computed: {
     treeHeight() {
@@ -528,7 +529,7 @@ export default {
         }
       ],
       rowData: {},
-      roleOpts: roleList,
+      roleOpts: [],
       formData: {
         nameOrMobile: '',
         depId: '',
@@ -580,7 +581,7 @@ export default {
       colModels: [
         {prop: 'name', label: '姓名', width: 100},
         {prop: 'depName', label: '部门'},
-        {prop: 'role', label: '权限角色', slotName: 'roleTmp', width: 100},
+        {prop: 'roleName', label: '权限角色', slotName: 'roleTmp', width: 100},
         {prop: 'mobile', label: '手机号码', width: 100},
         {prop: 'imei', label: '手机编码'},
         {prop: 'type', label: '类型', slotName: 'accountType', width: 80},
@@ -604,12 +605,13 @@ export default {
   },
   methods: {
     getroleOptsList() {
-
+      roleListApi().then(res => {
+        this.roleOpts = res.data
+      })
     },
     exportExcel() {
       let type = this.formData.type !== null ? this.formData.type : ''
       let isDelete = this.formData.isDelete !== null ? this.formData.isDelete : ''
-      console.log(type)
       const href = `${process.env.BASE_API}/user/exportExcel?isDelete=${isDelete}&type=${type}&nameOrMobile=${this.formData.nameOrMobile}&depId=${this.formData.depId}`
       var elink = document.createElement('a')
       elink.style.display = 'none'

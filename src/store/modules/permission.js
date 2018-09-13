@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
- * @Last Modified by:   FT.FE.Bolin
- * @Last Modified time: 2018-04-11 17:08:54
+ * @Last Modified by:
+ * @Last Modified time: 2018-09-13 23:42:39
  */
 
 import {
@@ -58,12 +58,14 @@ const permission = {
     }, data) {
       return new Promise(resolve => {
         const { roles } = data
+        console.log(roles)
+
         let accessedRouters
-        if (roles.indexOf('admin') >= 0) {
-          accessedRouters = asyncRouterMap
-        } else {
-          accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        }
+        // if (roles.indexOf('admin') >= 0) {
+        accessedRouters = asyncRouterMap
+        // } else {
+        // accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+        // }
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })
