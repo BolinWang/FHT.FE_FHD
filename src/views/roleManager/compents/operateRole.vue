@@ -14,7 +14,7 @@
                   </el-option>
                 </el-select>
               </el-form-item> -->
-            <el-input v-model="form.roleName"  placeholder="请输入"></el-input>
+            <el-input v-model="form.roleName" :maxlength="10"  placeholder="请输入"></el-input>
            </el-form-item>
            <el-form-item class="right">
               <el-checkbox v-model="form.backLogin">允许登陆飞虎队后台</el-checkbox>
@@ -59,7 +59,7 @@
         </el-row>
        </div>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button @click="cancelRole">取 消</el-button>
           <el-button type="primary" @click="saveSub">确 定</el-button>
         </div>
     </el-dialog>
@@ -140,9 +140,7 @@ export default {
       this.form.backLogin === true ? this.form.backLogin = 1 : this.form.backLogin = 0
       // this.form.menuIds = this.allListNow.filter(v => v.isFlag).map(v => v.menuId)
       this.dataFomart()
-      console.log(this.form.menuIds)
       roleSaveApi(this.form).then(res => {
-        console.log('123')
         delObjectItem(this.form)
         this.allListNow = []
         this.editOradd = null
@@ -153,6 +151,12 @@ export default {
           type: 'success'
         })
       })
+    },
+    cancelRole() {
+      delObjectItem(this.form)
+      this.allListNow = []
+      this.editOradd = null
+      this.dialogFormVisible = false
     },
     getList() {
       let params = {
