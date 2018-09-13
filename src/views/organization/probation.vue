@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: 
- * @Last Modified time: 2018-09-14 00:10:10
+ * @Last Modified time: 2018-09-14 00:24:24
  */
 <template>
   <div class="layout-container con-f">
@@ -165,7 +165,7 @@ import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
-import { queryDepartmentByLogin, createManager, updateManager, deleteManager, roleListApi} from '@/api/organization'
+import { queryDepartmentByLogin, createManager, updateManager, deleteManager } from '@/api/organization'
 const roleList = [
   {
     value: 2,
@@ -327,7 +327,6 @@ export default {
   },
   methods: {
     getList() {
-      roleListApi().then
     },
     getTree(id) {
       queryDepartmentByLogin().then(res => {

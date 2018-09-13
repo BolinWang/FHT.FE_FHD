@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: 
- * @Last Modified time: 2018-09-14 00:12:38
+ * @Last Modified time: 2018-09-14 00:34:00
  */
 <template>
   <div class="layout-container">
@@ -85,7 +85,7 @@
 
           </template>
           <template slot="roleTmp" slot-scope="scope">
-            {{scope.row.role | roleStr}}
+            {{scope.row.roleName }}
           </template>
           <template slot="accountType" slot-scope="scope">
             <el-tag v-if="scope.row.type == 1">正式</el-tag>

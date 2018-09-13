@@ -142,6 +142,7 @@ export default {
       this.dataFomart()
       console.log(this.form.menuIds)
       roleSaveApi(this.form).then(res => {
+        console.log('123')
         delObjectItem(this.form)
         this.allListNow = []
         this.editOradd = null
