@@ -66,7 +66,7 @@ import {
   personnelLeave,
   queryOnTheJob }
   from '@/api/organization'
-import { parseTime } from '@/utils'
+import { parseTime, delObjectItem} from '@/utils'
 import { validateMobile } from '@/utils/validate'
 export default {
   data() {
@@ -116,10 +116,11 @@ export default {
   methods: {
     cancelBack(formName) {
       this.backFormVisible = false
+      delObjectItem(this.formback)
       this.$refs[formName].resetFields()
     },
     submitBack(formName) {
-      if (this.formback.gmtBack) {
+      if (!this.formback.gmtBack) {
         this.$message({
           message: '请选择复职时间',
           type: 'success'
@@ -130,6 +131,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           personnelBack(this.formback).then(res => {
+            delObjectItem(this.formback)
             this.backFormVisible = false
             this.$emit('searchStart')
             this.$message({
@@ -144,6 +146,13 @@ export default {
       })
     },
     submitLeave(formName) {
+      if (!this.formback.gmtLeave) {
+        this.$message({
+          message: '请选择离职时间',
+          type: 'success'
+        })
+        return
+      }
       this.formleave.gmtLeave = parseTime(this.formleave.gmtLeave)
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -156,6 +165,7 @@ export default {
           }
           this.leaveFormVisible = false
           personnelLeave(this.formleave).then(res => {
+            delObjectItem(this.formleave)
             this.$emit('searchStart')
             this.$message({
               message: '操作成功',
@@ -170,6 +180,7 @@ export default {
     },
     cancelLeave(formName) {
       this.leaveFormVisible = false
+      delObjectItem(this.formleave)
       this.$refs[formName].resetFields()
     },
     open(row) {

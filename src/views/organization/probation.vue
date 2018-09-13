@@ -145,7 +145,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="身份证号码" prop="idNo">
-                <el-input v-model="accountForm.idNo"></el-input>
+                <el-input v-model="accountForm.idNo" :disabled="true"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -287,6 +287,7 @@ export default {
         role: '',
         imei: '',
         type: 0,
+        idNo: '',
         gmtExpire: ''
       },
       defaultAccount: {},

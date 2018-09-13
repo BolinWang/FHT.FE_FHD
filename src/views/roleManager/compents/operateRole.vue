@@ -4,6 +4,16 @@
        <div class="text-box">
          <el-form  :inline="true" ref="form" :model="form" label-width="80px" size="small">
            <el-form-item label="角色名称">
+              <!-- <el-form-item label="权限角色" prop="role">
+                <el-select v-model="accountForm.role" style="width: 100%">
+                  <el-option
+                    v-for="item in roleOpts"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item> -->
             <el-input v-model="form.roleName"  placeholder="请输入"></el-input>
            </el-form-item>
            <el-form-item class="right">
@@ -21,11 +31,11 @@
               <ul class="contentNav">
                   <li v-for="(item, index) in allList" :key="index" @click="operaIndex = index">
                     <el-checkbox
-                      v-model="item.flag"
+                      v-model="item.isFlag"
                       :indeterminate='item.isIndeterminat'
-                      @change="checkChange(item.flag, item.children)">
+                      @change="checkChange(item.isFlag, item.children)">
                     </el-checkbox>
-                    <span :class="{ checkblue: item.flag==true }">{{item.menuName}}</span>
+                    <span :class="{ checkblue: item.isFlag==true }">{{item.menuName}}</span>
                   </li>
               </ul>
             </div>
@@ -38,10 +48,10 @@
               <ul class="contentNav">
                   <li  v-for="(item, index) in (allList.length > 0 ? allList[operaIndex].children : [])" :key="index" >
                     <el-checkbox
-                      v-model="item.flag"
-                      @change="checkChange(item.flag, item.children)">
+                      v-model="item.isFlag"
+                      @change="checkChange(item.isFlag, item.children)">
                     </el-checkbox>
-                    <span :class="{ checkblue: item.flag==true }">{{item.menuName}}</span>
+                    <span :class="{ checkblue: item.isFlag==true }">{{item.menuName}}</span>
                   </li>
               </ul>
             </div>
@@ -80,7 +90,7 @@ export default {
     checkChange(checked, data) { // checkbox框切换
       function checkFn(list) {
         list.map(v => {
-          v.flag = checked
+          v.isFlag = checked
           if (v.children instanceof Array && v.children.length > 0) {
             checkFn(v.children)
           } else {
@@ -98,18 +108,20 @@ export default {
       this.allList.map(allListItem => {
         let allListItemnum = []
         allListItem.children.map(twoList => {
-          if (twoList.flag === true) {
+          if (twoList.isFlag === true) {
             allListItemnum.push(twoList)
             this.form.menuIds.push(twoList.menuId)
             allListItem.isIndeterminat = true
           }
         })
-        if (allListItemnum.length === allListItem.children.length) {
-          allListItem.flag = true
+        if (allListItemnum.length > 0) {
           this.form.menuIds.push(allListItem.menuId)
+        }
+        if (allListItemnum.length === allListItem.children.length) {
+          allListItem.isFlag = true
           allListItem.isIndeterminat = false
         } else {
-          allListItem.flag = false
+          allListItem.isFlag = false
         }
       })
     },
@@ -125,12 +137,9 @@ export default {
       }
     },
     saveSub() {
-      // this.allList.forEach((value, index) => {
-      //   this.traverseTree(value, index)
-      //   this.operaIndex = 0
-      // })
       this.form.backLogin === true ? this.form.backLogin = 1 : this.form.backLogin = 0
-      // this.form.menuIds = this.allListNow.filter(v => v.flag).map(v => v.menuId)
+      // this.form.menuIds = this.allListNow.filter(v => v.isFlag).map(v => v.menuId)
+      this.dataFomart()
       console.log(this.form.menuIds)
       roleSaveApi(this.form).then(res => {
         delObjectItem(this.form.menuIds)
@@ -148,7 +157,6 @@ export default {
         roleId: this.editOradd !== null && this.editOradd !== undefined ? this.editOradd.roleId : -1
       }
       showRoleMenusApi(params).then(res => {
-        console.log(res.data)
         this.allList = res.data
       })
     },

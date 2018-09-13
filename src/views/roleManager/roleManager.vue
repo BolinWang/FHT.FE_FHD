@@ -12,8 +12,10 @@
           type="index">
         </el-table-column>
         <el-table-column
-          prop="roleName"
           label="角色">
+           <template slot-scope="scope">
+              <span >{{ scope.row.roleName || '-'}}</span>
+            </template>
         </el-table-column>
         <el-table-column
           prop="gmtCreate"
@@ -22,6 +24,9 @@
         <el-table-column
           prop="gmtModified"
           label="修改时间">
+          <template slot-scope="scope">
+              <span >{{ scope.row.roleName || '-'}}</span>
+            </template>
         </el-table-column>
          <el-table-column
           width="180"
