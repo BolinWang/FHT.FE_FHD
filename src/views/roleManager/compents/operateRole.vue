@@ -158,6 +158,7 @@ export default {
       }
       showRoleMenusApi(params).then(res => {
         this.allList = res.data
+        console.log(this.allList)
       })
     },
     open(row) {
