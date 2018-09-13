@@ -2,7 +2,7 @@
  * @Author: ghost
  * @Date: 2018-09-04 20:08:01
  * @Last Modified by: 
- * @Last Modified time: 2018-09-12 18:54:11
+ * @Last Modified time: 2018-09-13 20:55:05
  */
 
 <template>
@@ -22,7 +22,7 @@
             v-else
             style="width:300px;"
             size="small"
-            placeholder="复职人员姓名／手机号码／身份证号"
+            placeholder="复职人员姓名／身份证号"
             v-model="keyword"
             clearable>
           </el-input>

@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-08-01 15:56:42
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-13 21:03:26
  */
 <template>
   <div class="layout-container con-f">
@@ -145,7 +145,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="身份证号码" prop="idNo">
-                <el-input v-model="accountForm.idNo" :disabled="true"></el-input>
+                <el-input v-model="accountForm.idNo" :disabled="isEditAccount"></el-input>
               </el-form-item>
             </el-col>
           </el-row>

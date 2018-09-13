@@ -25,7 +25,7 @@
           prop="gmtModified"
           label="修改时间">
           <template slot-scope="scope">
-              <span >{{ scope.row.roleName || '-'}}</span>
+              <span >{{ scope.row.gmtModified || '-'}}</span>
             </template>
         </el-table-column>
          <el-table-column

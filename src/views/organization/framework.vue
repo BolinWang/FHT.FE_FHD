@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: 
- * @Last Modified time: 2018-09-13 19:44:55
+ * @Last Modified time: 2018-09-13 20:57:11
  */
 <template>
   <div class="layout-container">
@@ -605,6 +605,7 @@ export default {
   methods: {
     exportExcel() {
       this.formData.type = this.formData.type || ''
+      this.formData.isDelete = this.formData.isDelete || ''
       console.log(this.formData.type)
       const href = `${process.env.BASE_API}/user/exportExcel?isDelete=${this.formData.isDelete}&type=${this.formData.type}&nameOrMobile=${this.formData.nameOrMobile}&depId=${this.formData.depId}`
       var elink = document.createElement('a')

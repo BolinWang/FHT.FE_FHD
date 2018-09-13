@@ -146,12 +146,12 @@ export default {
       })
     },
     submitLeave(formName) {
-      if (!this.formback.gmtLeave) {
+      if (!this.formleave.gmtLeave) {
         this.$message({
           message: '请选择离职时间',
           type: 'success'
         })
-        return
+        return false
       }
       this.formleave.gmtLeave = parseTime(this.formleave.gmtLeave)
       this.$refs[formName].validate((valid) => {
