@@ -69,6 +69,7 @@ import {
 import { parseTime, delObjectItem} from '@/utils'
 import { validateMobile } from '@/utils/validate'
 export default {
+  name: 'Incumbency',
   data() {
     const validatePhone = (rule, value, callback) => {
       if (!validateMobile(value)) {

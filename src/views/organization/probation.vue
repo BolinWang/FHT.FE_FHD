@@ -46,10 +46,18 @@
               @click="editAccount(scope.row)">
               编辑
             </el-button>
-            <el-button type="danger" icon="el-icon-delete" size="small"
+            <!-- <el-button type="danger" icon="el-icon-delete" size="small"
               @click="delAccount(scope.row)">
               删除
-            </el-button>
+            </el-button> -->
+             <el-button v-if="scope.row.isDelete==1" type="danger"  size="small"
+                @click="backAccount(scope.row)">
+                复职
+              </el-button>
+               <el-button v-else type="danger"  size="small"
+                @click="leaveAccount(scope.row)">
+                离职
+              </el-button>
           </template>
           <template slot="roleTmp" slot-scope="scope">
             {{scope.row.role | roleStr}}
@@ -157,7 +165,8 @@
         </div>
       </el-dialog>
     </div>
-
+     <!-- 离职／复职弹窗 -->
+    <Incumbency ref="incumbency" v-on:searchStart = "searchParam"></Incumbency>
   </div>
 </template>
 <script>
@@ -165,6 +174,7 @@ import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
+import Incumbency from './commpents/Incumbency'
 import { queryDepartmentByLogin, createManager, updateManager, deleteManager } from '@/api/organization'
 const roleList = [
   {
@@ -181,7 +191,8 @@ export default {
     waves
   },
   components: {
-    GridUnit
+    GridUnit,
+    Incumbency
   },
   created() {
     /* 表格高度控制 */
@@ -326,6 +337,12 @@ export default {
     }
   },
   methods: {
+    backAccount(row) { // 复职
+      this.$refs.incumbency.open(row)
+    },
+    leaveAccount(row) { // 离职
+      this.$refs.incumbency.open(row)
+    },
     getList() {
     },
     getTree(id) {
