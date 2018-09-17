@@ -69,11 +69,11 @@
                 @click="editAccount(scope.row)">
                 编辑
               </el-button>
-              <el-button type="primary" icon="el-icon-refresh" size="small"
+              <el-button type="warning" icon="el-icon-refresh" size="small"
                 @click="resetPsd(scope.row)">
                 密码重置
               </el-button>
-              <el-button v-if="scope.row.isDelete==1" type="danger"  size="small"
+              <el-button v-if="scope.row.isDelete==1" type="success"  size="small"
                 @click="backAccount(scope.row)">
                 复职
               </el-button>
