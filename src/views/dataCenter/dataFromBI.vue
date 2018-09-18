@@ -20,10 +20,12 @@
 
 <script>
 import axios from 'axios'
+import { queryByDepIdApi } from '@/api/organization'
 export default {
   name: 'dataFromBI',
   data() {
     return {
+      depLevel: '',
       dataList: [
         {
           title: '基础数据',
@@ -48,6 +50,20 @@ export default {
       ]
     }
   },
+  mounted() {
+    console.log(this.depId)
+    let userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+    if (!userInfo.mobile || !userInfo.password) {
+      this.$message.error('用户信息丢失，请重新登录后重试')
+      return false
+    }
+    let params = {
+      depId: userInfo.depId
+    }
+    queryByDepIdApi(params).then(res => {
+      this.depLevel = res.data.level
+    })
+  },
   methods: {
     routerToBI(url) {
       if (!url) {
@@ -65,7 +81,9 @@ export default {
         withCredentials: true,
         params: {
           fr_username: userInfo.mobile,
-          fr_password: userInfo.password
+          fr_password: userInfo.password,
+          depLevel: this.depLevel,
+          depId: userInfo.depId
         }
       }).then((response) => {
         console.log(response)

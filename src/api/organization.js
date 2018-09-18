@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-07-02 16:44:05
  * @Last Modified by:
- * @Last Modified time: 2018-09-06 21:25:59
+ * @Last Modified time: 2018-09-18 12:55:51
  */
 
 import { fetch } from '@/utils/fetch'
@@ -162,6 +162,14 @@ export function roleSaveApi(params = {}) {
 // 查看路由
 export function roleMenusListApi(params = {}) {
   return fetch('/role/roleMenusList', {
+    method: 'method',
+    params
+  })
+}
+
+// 查询 level
+export function queryByDepIdApi(params = {}) {
+  return fetch('/department/queryByDepId', {
     method: 'method',
     params
   })

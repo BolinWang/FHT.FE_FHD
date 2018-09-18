@@ -170,6 +170,7 @@
   </div>
 </template>
 <script>
+
 import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
 import { validateMobile, validateisCard } from '@/utils/validate'
@@ -206,6 +207,8 @@ export default {
     }
     this.defaultAccount = deepClone(this.accountForm)
     this.getTree()
+    console.log('12345')
+    console.log(this.depId)
   },
   computed: {
     treeHeight() {
@@ -213,6 +216,7 @@ export default {
         height: this.tableHeight + 104 + 'px'
       }
     }
+
   },
   data() {
     const validatePhone = (rule, value, callback) => {

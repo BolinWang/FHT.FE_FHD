@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by:
- * @Last Modified time: 2018-09-06 21:20:28
+ * @Last Modified time: 2018-09-18 13:01:47
  */
 
 import { login, logout, getInfo } from '@/api/login'
@@ -15,6 +15,7 @@ const user = {
     sessionId: getSessionId(),
     name: '',
     avatar: '',
+    depId: '',
     roles: []
   },
 
@@ -27,6 +28,9 @@ const user = {
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
+    },
+    SET_DEPID: (state, depId) => {
+      state.depId = depId
     },
     SET_ROLES: (state, roles) => {
       const rolesMap = {
@@ -53,11 +57,13 @@ const user = {
       return new Promise((resolve, reject) => {
         login(mobile, password).then(response => {
           const data = response.data
+          commit('SET_DEPID', data.depId)
           setSessionId(data.sessionId)
           // 存储账号密码供BI鉴权使用
           localStorage.setItem('userInfo', JSON.stringify({
             mobile,
-            password: userInfo.password
+            password: userInfo.password,
+            depId: data.depId
           }))
           commit('SET_SESSIONID', data.sessionId)
           resolve()
@@ -72,6 +78,7 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo(state.sessionId).then(response => {
           const data = response.data
+          console.log(data)
           commit('SET_ROLES', data.roleId)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.picUrl || defaultAvatar)
