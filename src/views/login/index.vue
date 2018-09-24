@@ -1,32 +1,49 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-08-20 10:40:10
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-24 13:52:43
  */
 
 <template>
-  <div class="login-container">
-    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px" class="card-box login-form">
-      <h3 class="title">飞虎队管理平台</h3>
-      <el-form-item prop="mobile">
-        <span class="svg-container">
-          <i class="iconfont icon-iPhoneX"></i>
-        </span>
-        <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="请输入用户名"></el-input>
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <i class="iconfont icon-mima"></i>
-        </span>
-        <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          登录
-        </el-button>
-      </el-form-item>
-    </el-form>
+  <div class="container">
+    <div class="login-container">
+      <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px" class="card-box login-form">
+        <h3 class="title">飞虎队管理平台</h3>
+        <el-form-item prop="mobile">
+          <span class="svg-container">
+            <i class="iconfont icon-iPhoneX"></i>
+          </span>
+          <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="请输入用户名"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <i class="iconfont icon-mima"></i>
+          </span>
+          <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+            登录
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <!-- 修改密码弹窗 -->
+    <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
+      <el-form :model="formDate" :rules="editPasRules" ref="formDate" >
+        <el-form-item label="新密码" label-width="100px" prop="newPassword">
+          <el-input v-model="formDate.newPassword"  ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" label-width="100px" prop="newPasswordSure">
+           <el-input v-model="formDate.newPasswordSure" @keyup.enter.native="submitLogin"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetFormDate('formDate')">取 消</el-button>
+        <el-button type="primary" @click="submitLogin">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -49,11 +66,35 @@ export default {
         callback()
       }
     }
+    const newPassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
+      } else if (value === '123456') {
+        callback(new Error('密码过于简单请确认后重新输入'))
+      } else {
+        callback()
+      }
+    }
+    const passwordSure = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
+      } else if (value !== this.formDate.newPassword) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
     return {
       loginForm: {
         mobile: '',
         password: ''
       },
+      formDate: {
+        oldPassword: '',
+        newPassword: '',
+        newPasswordSure: ''
+      },
+      dialogFormVisible: false,
       loginRules: {
         mobile: [
           { required: true, trigger: 'blur', validator: validatePhone }
@@ -61,6 +102,14 @@ export default {
         password: [
           { required: true, trigger: 'blur', validator: validatePass }
         ]
+      },
+      editPasRules: {
+        newPassword: [{
+          required: true, trigger: 'blur', validator: newPassword
+        }],
+        newPasswordSure: {
+          required: true, trigger: 'blur', validator: passwordSure
+        }
       },
       loading: false
     }
@@ -72,7 +121,9 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: '/' })
+            this.loginForm.password === '123456'
+              ? this.changePassword()
+              : this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false
           })
@@ -81,6 +132,21 @@ export default {
           return false
         }
       })
+    },
+    submitLogin() {
+      this.$refs.formDate.validate(valid => {
+        if (valid) {
+
+        }
+      })
+    },
+    resetFormDate(formDate) {
+      this.dialogFormVisible = false
+      this.$refs[formDate].resetFields()
+    },
+    changePassword() {
+      this.$message.error('该账号密码过于简单，请重置您的密码')
+      this.dialogFormVisible = true
     }
   }
 }

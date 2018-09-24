@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 16:30:55 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-06-25 16:09:50
+ * @Last Modified by: 
+ * @Last Modified time: 2018-09-20 13:35:08
  */
 
 const path = require('path') // node path模块
@@ -120,6 +120,9 @@ module.exports = {
         }
       }
     ]
+  },
+  externals: {
+    'AMap': 'AMap'
   },
   /* 
   https://doc.webpack-china.org/configuration/node/#node

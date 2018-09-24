@@ -61,23 +61,19 @@
   </div>
 </template>
 <script>
-import {
-  personnelBack,
-  personnelLeave,
-  queryOnTheJob }
-  from '@/api/organization'
-import { parseTime, delObjectItem} from '@/utils'
-import { validateMobile } from '@/utils/validate'
+import { personnelBack, personnelLeave, queryOnTheJob } from '@/api/organization';
+import { parseTime, delObjectItem } from '@/utils';
+import { validateMobile } from '@/utils/validate';
 export default {
   name: 'Incumbency',
   data() {
     const validatePhone = (rule, value, callback) => {
       if (!validateMobile(value)) {
-        callback(new Error('请输入正确的手机号'))
+        callback(new Error('请输入正确的手机号'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       leaverule: {
         gmtLeave: [
@@ -112,103 +108,103 @@ export default {
         mobile: '',
         imei: ''
       }
-    }
+    };
   },
   methods: {
     cancelBack(formName) {
-      this.backFormVisible = false
-      delObjectItem(this.formback)
-      this.$refs[formName].resetFields()
+      this.backFormVisible = false;
+      delObjectItem(this.formback);
+      this.$refs[formName].resetFields();
     },
     submitBack(formName) {
       if (!this.formback.gmtBack) {
         this.$message({
           message: '请选择复职时间',
           type: 'success'
-        })
-        return
+        });
+        return;
       }
-      this.formback.gmtBack = parseTime(this.formback.gmtBack)
+      this.formback.gmtBack = parseTime(this.formback.gmtBack);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           personnelBack(this.formback).then(res => {
-            delObjectItem(this.formback)
-            this.backFormVisible = false
-            this.$emit('searchStart')
+            delObjectItem(this.formback);
+            this.backFormVisible = false;
+            this.$emit('searchStart');
             this.$message({
               message: '操作成功',
               type: 'success'
-            })
-          })
+            });
+          });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log('error submit!!');
+          return false;
         }
-      })
+      });
     },
     submitLeave(formName) {
       if (!this.formleave.gmtLeave) {
         this.$message({
           message: '请选择离职时间',
           type: 'success'
-        })
-        return false
+        });
+        return false;
       }
-      this.formleave.gmtLeave = parseTime(this.formleave.gmtLeave)
+      this.formleave.gmtLeave = parseTime(this.formleave.gmtLeave);
       this.$refs[formName].validate((valid) => {
         if (valid) {
           if (this.formleave.transferId === '') {
             this.$message({
               message: '请选择交接人',
               type: 'success'
-            })
-            return
+            });
+            return;
           }
-          this.leaveFormVisible = false
+          this.leaveFormVisible = false;
           personnelLeave(this.formleave).then(res => {
-            delObjectItem(this.formleave)
-            this.$emit('searchStart')
+            delObjectItem(this.formleave);
+            this.$emit('searchStart');
             this.$message({
               message: '操作成功',
               type: 'success'
-            })
-          })
+            });
+          });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log('error submit!!');
+          return false;
         }
-      })
+      });
     },
     cancelLeave(formName) {
-      this.leaveFormVisible = false
-      delObjectItem(this.formleave)
-      this.$refs[formName].resetFields()
+      this.leaveFormVisible = false;
+      delObjectItem(this.formleave);
+      this.$refs[formName].resetFields();
     },
     open(row) {
-      row.isDelete === 1 ? this.back(row) : this.leave(row)
+      row.isDelete === 1 ? this.back(row) : this.leave(row);
     },
     leave(row) {
-      this.leaveFormVisible = true
-      this.formleave.oldManagerId = row.id
+      this.leaveFormVisible = true;
+      this.formleave.oldManagerId = row.id;
     },
     back(row) {
-      this.backFormVisible = true
-      this.formback.managerId = row.id
+      this.backFormVisible = true;
+      this.formback.managerId = row.id;
     },
     remoteMethod(query) {
       if (query !== '') {
         let param = {
           keyword: query
-        }
+        };
         queryOnTheJob(param).then(res => {
-          this.onJobList = res.data
-        })
+          this.onJobList = res.data;
+        });
       } else {
-        this.onJobList = []
+        this.onJobList = [];
       }
     }
   }
-}
+};
 </script>
 <style scoped>
   .title-text{

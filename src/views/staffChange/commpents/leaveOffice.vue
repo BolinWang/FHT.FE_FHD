@@ -36,32 +36,31 @@ export default {
   data() {
     return {
       tableHeight: null
-    }
+    };
   },
   mounted() {
     /* 表格高度控制 */
-    let temp_height = document.body.clientHeight - 280
-    this.tableHeight = temp_height > 400 ? temp_height : 400
-
+    let tempHeight = document.body.clientHeight - 280;
+    this.tableHeight = tempHeight > 400 ? tempHeight : 400;
     window.onresize = () => {
       return (() => {
-        temp_height = document.body.clientHeight - 280
-        this.tableHeight = temp_height > 400 ? temp_height : 400
-      })()
-    }
+        tempHeight = document.body.clientHeight - 280;
+        this.tableHeight = tempHeight > 400 ? tempHeight : 400;
+      })();
+    };
   },
   computed: {
-    tableStyle: function() {
+    tableStyle: function () {
       return {
         width: '100%',
         height: this.tableHeight + 'px'
-      }
+      };
     }
   },
   methods: {
 
   }
-}
+};
 </script>
 <style scoped>
   .table-box{

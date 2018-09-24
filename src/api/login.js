@@ -1,10 +1,9 @@
 /*
- * @Author: FT.FE.Bolin
- * @Date: 2018-04-11 16:33:06
- * @Last Modified by: ghost
- * @Last Modified time: 2018-09-04 11:31:51
+ * @Author: ghost
+ * @Date: 2018-09-24 14:04:19
+ * @Last Modified by:
+ * @Last Modified time: 2018-09-24 14:04:19
  */
-
 import { fetch } from '@/utils/fetch'
 
 /* 登录获取sessionId */
@@ -35,3 +34,5 @@ export function logout(params = {}) {
     params
   })
 }
+
+// 修改密码

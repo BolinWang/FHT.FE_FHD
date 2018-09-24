@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:07:11
  * @Last Modified by:
- * @Last Modified time: 2018-09-06 21:41:57
+ * @Last Modified time: 2018-09-20 10:24:32
 
  */
 
@@ -85,6 +85,30 @@ export const asyncRouterMap = [{
     meta: {
       role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
     }
+  }]
+},
+{
+  path: '/achievementCenter',
+  component: Layout,
+  noDropdown: true,
+  name: '业绩中心',
+  icon: 'el-icon-tickets',
+  children: [{
+    path: 'amapText',
+    component: _import('achievementCenter/amapText'),
+    name: '地图测试'
+  }, {
+    path: 'dealLease',
+    component: _import('achievementCenter/dealLease'),
+    name: '成交租约'
+  }, {
+    path: 'intentionalSource',
+    component: _import('achievementCenter/intentionalSource'),
+    name: '意向客源'
+  }, {
+    path: 'behaviorTrace',
+    component: _import('achievementCenter/behaviorTrace'),
+    name: '行为轨迹'
   }]
 },
 {
