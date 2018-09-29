@@ -1,8 +1,8 @@
 /*
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
- * @Last Modified by:   ghost 
- * @Last Modified time: 2018-09-24 14:20:34 
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 02:39:41
  */
 
 
@@ -22,7 +22,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
- 
+
 </style>
-
-

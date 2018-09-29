@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
- * @Last Modified by: 
- * @Last Modified time: 2018-09-14 00:34:00
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:34:17
  */
 <template>
   <div class="layout-container">
@@ -579,14 +579,14 @@ export default {
       isEditAccount: false,
       layer_account: false,
       colModels: [
-        {prop: 'name', label: '姓名', width: 100},
-        {prop: 'depName', label: '部门'},
-        {prop: 'roleName', label: '权限角色', slotName: 'roleTmp', width: 100},
-        {prop: 'mobile', label: '手机号码', width: 100},
-        {prop: 'imei', label: '手机编码'},
-        {prop: 'type', label: '类型', slotName: 'accountType', width: 80},
-        {label: '操作', slotName: 'handle', width: 320},
-        {prop: 'gmtCreate', label: '创建时间'}
+        { prop: 'name', label: '姓名', width: 100 },
+        { prop: 'depName', label: '部门' },
+        { prop: 'roleName', label: '权限角色', slotName: 'roleTmp', width: 100 },
+        { prop: 'mobile', label: '手机号码', width: 100 },
+        { prop: 'imei', label: '手机编码' },
+        { prop: 'type', label: '类型', slotName: 'accountType', width: 80 },
+        { label: '操作', slotName: 'handle', width: 320 },
+        { prop: 'gmtCreate', label: '创建时间' }
       ],
       url: '/user/managerList',
       method: 'managerList'
@@ -610,8 +610,8 @@ export default {
       })
     },
     exportExcel() {
-      let type = this.formData.type !== null ? this.formData.type : ''
-      let isDelete = this.formData.isDelete !== null ? this.formData.isDelete : ''
+      const type = this.formData.type !== null ? this.formData.type : ''
+      const isDelete = this.formData.isDelete !== null ? this.formData.isDelete : ''
       const href = `${process.env.BASE_API}/user/exportExcel?isDelete=${isDelete}&type=${type}&nameOrMobile=${this.formData.nameOrMobile}&depId=${this.formData.depId}`
       var elink = document.createElement('a')
       elink.style.display = 'none'
@@ -633,7 +633,7 @@ export default {
         if (res.data && res.data instanceof Array) {
           console.log(res.data)
           this.treeData = res.data
-          let nowId = id || this.treeData[0].id
+          const nowId = id || this.treeData[0].id
           this.getFirstNode(nowId)
           if (fn) {
             this.$nextTick(() => {
@@ -645,10 +645,10 @@ export default {
     },
     dataFomart() { // 遍历数据判断checked（是否全选）和indeterminate（是否部分选中）
       this.cityData.map(cityList => { // 遍历城市
-        let areaCheckList = []
-        let areaIndeterminate = []
+        const areaCheckList = []
+        const areaIndeterminate = []
         cityList.childrens.map(areaList => { // 遍历区域
-          let zoneCheckList = []
+          const zoneCheckList = []
           areaList.childrens.map(zoneList => { // 遍历板块
             if (zoneList.checked) {
               zoneCheckList.push(zoneList)
@@ -736,7 +736,7 @@ export default {
     submitOrg() {
       this.$refs['orgForm'].validate((valid) => {
         if (valid) {
-          let param = deepClone(this.orgForm)
+          const param = deepClone(this.orgForm)
           let postFn = createDepartment
           if (this.isEditOrg) { // 编辑
             param.depId = this.nowOrgObj.id
@@ -781,7 +781,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let param = {
+        const param = {
           depId: this.nowOrgObj.id
         }
         delDepartment(param).then(res => {
@@ -820,7 +820,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let param = deepClone(this.accountForm)
+          const param = deepClone(this.accountForm)
           let postFn = createManager
           if (this.isEditAccount) { // 编辑
             postFn = updateManager
@@ -903,7 +903,7 @@ export default {
     },
     accountTypeSub() { // 账号类型提交 0：试用 1：正式 2：失效
       if (this.accoutTypeStatus === 2) { // 失效账号
-        let param = {
+        const param = {
           type: 2
         }
         this.postType(param)
@@ -911,7 +911,7 @@ export default {
         const nowForm = this.accoutTypeStatus === 1 ? 'typeForm' : 'typeForm2'
         this.$refs[nowForm].validate((valid) => {
           if (valid) {
-            let param = this.accoutTypeStatus === 1 ? this.typeForm : this.typeForm2
+            const param = this.accoutTypeStatus === 1 ? this.typeForm : this.typeForm2
             param.type = this.accoutTypeStatus
             this.postType(param)
           } else {
@@ -933,7 +933,7 @@ export default {
       this.$refs['typeForm2'].resetFields()
     },
     allocateHouse() { // 房源分配提交
-      let paramList = []
+      const paramList = []
       this.cityData.map(cityList => {
         cityList.childrens.map(areaList => {
           areaList.childrens.map(zone => {

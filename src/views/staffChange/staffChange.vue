@@ -2,7 +2,7 @@
  * @Author: ghost
  * @Date: 2018-09-04 20:08:01
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-24 15:09:46
+ * @Last Modified time: 2018-09-30 01:32:29
  */
 <template>
   <div class="container">
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import leaveOffice from './commpents/leaveOffice';
+import leaveOffice from './commpents/leaveOffice'
 import {
   queryModifyRecord
-} from '@/api/organization';
+} from '@/api/organization'
 const typedata = [{
   prop: 'name',
   label: '姓名'
@@ -67,7 +67,7 @@ const typedata = [{
   prop: 'transferName',
   label: '业务交接人'
 }
-];
+]
 const typedata2 = [{
   prop: 'name',
   label: '姓名'
@@ -88,7 +88,7 @@ const typedata2 = [{
   prop: 'gmtCreate',
   label: '操作时间'
 }
-];
+]
 export default {
   components: {
     leaveOffice
@@ -112,46 +112,46 @@ export default {
       colModels: typedata,
       keyword: null,
       type: '1'
-    };
+    }
   },
   mounted() {
-    this.searchParam();
+    this.searchParam()
   },
   methods: {
     clearForm() {
-      this.keyword = '';
+      this.keyword = ''
     },
     handleSizeChange(val) {
-      this.pageItems.pageSize = val;
-      this.searchParam();
+      this.pageItems.pageSize = val
+      this.searchParam()
     },
     handleCurrentChange(val) {
-      this.pageItems.pageNo = val;
-      this.searchParam();
+      this.pageItems.pageNo = val
+      this.searchParam()
     },
     searchParam() {
       let params = {
         keyword: this.keyword,
         type: parseInt(this.type)
-      };
-      params = Object.assign(params, this.pageItems);
+      }
+      params = Object.assign(params, this.pageItems)
       queryModifyRecord(params).then(res => {
-        console.log(res);
-        this.staffList = res.data.result;
-        this.total = res.data.total;
-      });
+        console.log(res)
+        this.staffList = res.data.result
+        this.total = res.data.total
+      })
     },
     chooseTab(targetName) {
-      this.staffList = [];
-      this.total = null;
-      this.type = targetName.name;
-      console.log(targetName.name);
-      targetName.name === '1' ? this.colModels = typedata : this.colModels = typedata2;
-      console.log(this.colModels);
-      this.searchParam();
+      this.staffList = []
+      this.total = null
+      this.type = targetName.name
+      console.log(targetName.name)
+      targetName.name === '1' ? this.colModels = typedata : this.colModels = typedata2
+      console.log(this.colModels)
+      this.searchParam()
     }
   }
-};
+}
 </script>
 
 <style scoped>
@@ -163,4 +163,3 @@ export default {
     text-align: right;
   }
 </style>
-

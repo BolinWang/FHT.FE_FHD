@@ -4,4 +4,4 @@ src/assets
 src/icons
 src/components/AreaSelect
 src/vendor
-
+/src/router/*.js

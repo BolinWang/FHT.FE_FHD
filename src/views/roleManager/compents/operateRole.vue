@@ -111,7 +111,7 @@ export default {
     dataFomart() {
       this.form.menuIds = []
       this.allList.map(allListItem => {
-        let allListItemnum = []
+        const allListItemnum = []
         allListItem.children.map(twoList => {
           if (twoList.isFlag === true) {
             allListItemnum.push(twoList)
@@ -164,7 +164,7 @@ export default {
       this.dialogFormVisible = false
     },
     getList() {
-      let params = {
+      const params = {
         roleId: this.editOradd !== null && this.editOradd !== undefined ? this.editOradd.roleId : -1
       }
       showRoleMenusApi(params).then(res => {

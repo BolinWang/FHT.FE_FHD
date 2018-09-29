@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:24:18
- * @Last Modified by:
- * @Last Modified time: 2018-09-20 13:35:07
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:35:13
  */
 
 import Vue from 'vue'
@@ -20,7 +20,7 @@ import lazyLoadPic from '@/assets/lazyLoad@3x.png'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'nprogress/nprogress.css'
 import 'normalize.css/normalize.css'
-
+import Storage from '@/utils/local-plugin'
 Vue.config.productionTip = false
 // process.env.MOCK && require('./mock')
 Vue.use(ElementUI)
@@ -42,10 +42,10 @@ router.beforeEach((to, from, next) => {
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
-      if (store.getters.roles.length === 0) {
-        store.dispatch('GetInfo').then(res => {
-          const roles = [store.getters.roles]
-          store.dispatch('GenerateRoutes', { roles }).then(() => {
+      if (!store.getters.permission_routers) {
+        store.dispatch('GetInfo').then(res => { // 获取用户信息
+          const routes = store.getters.permission_routers || Storage.get('permission_routers') // 当前身份的搜有页面权限
+          store.dispatch('GenerateRoutes', { routes }).then(() => {
             router.addRoutes(store.getters.addRouters)
             next({ ...to })
           })

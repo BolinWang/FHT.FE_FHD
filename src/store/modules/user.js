@@ -1,11 +1,12 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
- * @Last Modified by:
- * @Last Modified time: 2018-09-18 13:01:47
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:35:45
  */
-
+import { roleMenusListApi } from '@/api/organization'
 import { login, logout, getInfo } from '@/api/login'
+import Storage from '@/utils/local-plugin'
 import SHA1 from 'js-sha1'
 import { getSessionId, setSessionId, removeSessionId } from '@/utils/auth'
 import defaultAvatar from '@/assets/defaultAvatar.png'
@@ -16,6 +17,7 @@ const user = {
     name: '',
     avatar: '',
     depId: '',
+    permission_routers: Storage.get('permission_routers') || [],
     roles: []
   },
 
@@ -24,6 +26,7 @@ const user = {
       state.sessionId = sessionId
     },
     SET_NAME: (state, name) => {
+      console.log(name)
       state.name = name
     },
     SET_AVATAR: (state, avatar) => {
@@ -32,26 +35,15 @@ const user = {
     SET_DEPID: (state, depId) => {
       state.depId = depId
     },
-    SET_ROLES: (state, roles) => {
-      const rolesMap = {
-        '1': 'citySecretary', // 城市内勤
-        '2': 'citySteward', // 城市管家
-        '3': 'headman', // 组长
-        '4': 'webmaster', // 站长
-        '5': 'plateManage', // 板块经理
-        '6': 'areaManage', // 区域经理
-        '7': 'cityDirector', // 城市总
-        '8': 'personnel', // 人事
-        '9': 'operation', // 运营
-        '10': 'admin' // 系统管理员
-      }
-      state.roles = rolesMap[roles.toString()] || 'citySecretary'
+    SET_ROUTER: (state, routes) => {
+      Storage.set('permission_routers', routes)
+      state.permission_routers = routes
     }
   },
 
   actions: {
     // 登录
-    Login({ commit }, userInfo) {
+    Login({ commit, dispatch }, userInfo) {
       const mobile = userInfo.mobile.trim()
       const password = SHA1(userInfo.password)
       return new Promise((resolve, reject) => {
@@ -65,6 +57,7 @@ const user = {
             password: userInfo.password,
             depId: data.depId
           }))
+          dispatch('GetRouterInfo', data.roleId)
           commit('SET_SESSIONID', data.sessionId)
           resolve()
         }).catch(error => {
@@ -72,14 +65,24 @@ const user = {
         })
       })
     },
-
+    // 获取路由
+    GetRouterInfo({
+      commit
+    }, roleId) {
+      return new Promise((resolve, reject) => {
+        roleMenusListApi({ roleId: roleId }).then(res => {
+          commit('SET_ROUTER', res.data)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.sessionId).then(response => {
           const data = response.data
-          console.log(data)
-          commit('SET_ROLES', data.roleId)
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.picUrl || defaultAvatar)
           resolve(response)
@@ -95,7 +98,7 @@ const user = {
         logout({ sessionId: state.sessionId }).then(() => {
           removeSessionId()
           commit('SET_SESSIONID', '')
-          commit('SET_ROLES', [])
+          // commit('SET_ROLES', [])
           resolve()
         }).catch(error => {
           reject(error)
@@ -108,6 +111,7 @@ const user = {
       return new Promise(resolve => {
         removeSessionId()
         commit('SET_SESSIONID', '')
+        Storage.remove('permission_routers')
         resolve()
       })
     }

@@ -1,12 +1,21 @@
 /*
  * @Author: ghost 
- * @Date: 2018-09-24 14:00:22 
+ * @Date: 2018-09-30 02:00:54 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-24 14:17:52
+ * @Last Modified time: 2018-09-30 02:26:43
  */
+
 <template>
   <div id="map" style="width:100%; height:100%">
     <div id="container" style="width:100%; height:90%"></div>
+    <div class="input">
+       tid: <el-input  type="text" v-model="tid" autoComplete="on" placeholder="请输入用户名tid"></el-input>
+       sid: <el-input  type="text" v-model="sid" autoComplete="on" placeholder="请输入sid"></el-input>
+       trid: <el-input  type="text" v-model="trid" autoComplete="on" placeholder="请输入trid"></el-input>
+       <el-button type="primary" style="width:100%;"  @click.native.prevent="handleLogin">
+            查
+      </el-button>
+    </div>
     <div class="button-group">
       <input type="button" class="button" value="开始动画" id="start"/>
       <input type="button" class="button" value="暂停动画" id="pause"/>
@@ -22,16 +31,19 @@
   // import { getClass } from '@/utils'
   let map
   let marker = []
-  let lineArr = []
+  const lineArr = []
 export default {
     components: {},
     mounted: function() {
-      this.getLineArr()
-      console.log(AMap)
+      //  this.getLineArr()
+      this.init()
     },
     data() {
       return {
-        lineList: []
+        lineList: [],
+        trid: 1343764,
+        sid: 8018,
+        tid: 1697
       }
     },
     methods: {
@@ -51,28 +63,20 @@ export default {
         })
         map.plugin(['AMap.ToolBar', 'AMap.MapType'], function() {
           map.addControl(new AMap.ToolBar())
-          map.addControl(new AMap.MapType({showTraffic: false, showRoad: false}))
+          map.addControl(new AMap.MapType({ showTraffic: false, showRoad: false }))
         })
-        let lngX = 120.111267
-        let latY = 30.268943
-        lineArr.push(new AMap.LngLat(lngX, latY))
-        // for (let i = 1; i < 4; i++) {
-        //   lngX = lngX + Math.random() * 0.05
-        //   if (i % 2) {
-        //     latY = latY + Math.random() * 0.0001
-        //   } else {
-        //     latY = latY + Math.random() * 0.06
-        //   }
-        //   lineArr.push(new AMap.LngLat(lngX, latY))
-        // }
-        console.log(this.lineList)
+      },
+      handleLogin() {
+        this.getLineArr()
+      },
+      drawLine() {
         this.lineList.map((listItem) => {
-          let lat = listItem.location.split(',')
+          const lat = listItem.location.split(',')
           lineArr.push(new AMap.LngLat(lat[0], lat[1]))
         })
         console.log(lineArr)
         // 绘制轨迹
-        var polyline = new AMap.Polyline({
+        const polyline = new AMap.Polyline({
           map: map,
           path: lineArr,
           strokeColor: '#00A', // 线颜色
@@ -88,7 +92,6 @@ export default {
           strokeWeight: 3 // 线宽
         // strokeStyle: "solid"  //线样式
         })
-
         marker.on('moving', function(e) {
           passedPolyline.setPath(e.passedPath)
         })
@@ -108,20 +111,21 @@ export default {
         }, false)
       },
       getLineArr() {
-        let params = {
+        const params = {
           // startTime: '',
           // endTime: '',
           page: 1,
           gap: 1000,
           pagesize: 800,
-          tid: 1339185,
-          sid: 8018,
-          trid: 497}
-        let self = this
-        axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', {params}).then(res => {
-          console.log(res.data.data)
+          tid: this.tid,
+          sid: this.sid,
+          trid: this.trid }
+        const self = this
+        axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
+          console.log(res)
           self.lineList = res.data.data.tracks[0].points
-          self.init()
+          console.log('1234')
+          self.drawLine()
         })
       }
     }
@@ -212,7 +216,12 @@ export default {
       font-size: 30px;
     }
   }
-
+.input{
+  position: absolute;
+  top:20px;
+  z-index: 10;
+  right:40px;
+}
   .list-button {
     font-size: 12px;
     position: absolute;
@@ -228,3 +237,4 @@ export default {
     }
   }
 </style>
+

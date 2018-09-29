@@ -25,24 +25,6 @@
      // fileHeader插件的配置
 "fileheader.Author": "ghost",
 "fileheader.LastModifiedBy": "ghost",
-"fileHeaderComment.parameter": {
-  "*": {
-    "author": "ghost",
-    "company": "CAICT"
-  }
-},
-"fileHeaderComment.template": {
-  "*": [
-    "/*",
-    "* @Author: ${author}",
-    "* Created on ${datetime24h}",
-    "* Copyright (c) ${year} ${company}",
-    "*/"
-  ],
-  "-": [
-    "<-- Created by ${author} on ${date} -->"
-  ]
-},
 "eslint.options": {
   "configFile": ".eslintrc.js"
 },

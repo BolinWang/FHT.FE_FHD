@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:11:31 
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-04-12 16:20:29
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:32:40
  */
 
 <template>
@@ -20,6 +20,9 @@ export default {
     ...mapGetters([
       'permission_routers'
     ])
+  },
+  mounted() {
+    console.log(this.permission_routers)
   }
 }
 </script>

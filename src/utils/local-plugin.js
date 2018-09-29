@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Ghost
  * @Date: 2018-08-03 10:10:05
- * @Last Modified by: FT.FE.Ghost
- * @Last Modified time: 2018-08-03 15:38:05
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:35:23
  */
 
 const Storage = { }
@@ -16,13 +16,13 @@ Storage.set = function(keyname, val) {
 }
 
 Storage.add = function(keyname, addVal) {
-  let oldVal = Storage.get(keyname)
-  let newVal = oldVal.concat(addVal)
+  const oldVal = Storage.get(keyname)
+  const newVal = oldVal.concat(addVal)
   Storage.set(keyname, newVal)
 }
 
 Storage.removeItem = function(keyname, i) {
-  let val = Storage.get(keyname)
+  const val = Storage.get(keyname)
   val.splice(i, 1)
   Storage.set(keyname, val)
 }

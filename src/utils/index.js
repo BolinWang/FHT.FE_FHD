@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:26
- * @Last Modified by:
- * @Last Modified time: 2018-09-20 13:56:17
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:36:06
  */
 
 export function parseTime(time, cFormat) {
@@ -88,8 +88,8 @@ export function cleanArray(actual) {
 
 /* 去除对象空值 */
 export function ObjectMap(obj = {}) {
-  let newObject = {}
-  for (let key of Object.keys(obj)) {
+  const newObject = {}
+  for (const key of Object.keys(obj)) {
     const value = obj[key]
     if (typeof value !== 'undefined' && value !== '' && value !== null && !Number.isNaN(value) && value !== -1) {
       newObject[key] = value
@@ -262,7 +262,7 @@ export function deepClone(source) {
 
 /* *号隐藏 */
 export function plusXing(str, frontLen, endLen) {
-  let len = str.length - frontLen - endLen
+  const len = str.length - frontLen - endLen
   return str.substring(0, frontLen) + '*'.repeat(len) + str.substring(str.length - endLen)
 }
 

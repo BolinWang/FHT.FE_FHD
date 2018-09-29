@@ -1,10 +1,9 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:35
- * @Last Modified by: 
- * @Last Modified time: 2018-09-17 14:38:47
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:35:51
  */
-
 const getters = {
   sidebar: state => state.app.sidebar,
   sessionId: state => state.user.sessionId,
@@ -12,8 +11,8 @@ const getters = {
   name: state => state.user.name,
   depId: state => state.user.depId,
   roles: state => state.user.roles,
-  permission_routers: state => state.permission.routers,
-  addRouters: state => state.permission.addRouters,
+  permission_routers: state => state.permission.routers, // 现有路由
+  addRouters: state => state.permission.addRouters, // 添加路由
   visitedViews: state => state.tagsView.visitedViews
 }
 export default getters

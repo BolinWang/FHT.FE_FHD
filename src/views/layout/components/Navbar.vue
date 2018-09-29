@@ -1,15 +1,15 @@
 /*
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:22:27 
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-04 16:22:29
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:31:38
  */
 
 <template>
   <div class="clearfix">
     <el-menu class="navbar" mode="horizontal">
       <hamburger class="hamburger-container" :toggleClick="toggleSideBar" :isActive="sidebar.opened"></hamburger>
-      <tags-view></tags-view>
+      <tags-view></tags-view> 
       <div class="right-menu">
         <el-tooltip effect="dark" content="全屏" placement="bottom">
           <screenfull class="screenfull right-menu-item"></screenfull>
@@ -41,11 +41,18 @@
     </el-menu>
     <!-- 个人信息 -->
     <el-dialog title="个人信息" :visible.sync="layer_showUserInfo" width="600px" @close="dialogClose">
-      <el-form :model="ruleForm" status-icon ref="ruleForm" label-width="100px">
+      <el-form :model="ruleForm" status-icon ref="ruleForm" :rules="ruleFormRules" label-width="100px">
         <el-form-item label="用户名" prop="name">
           <el-input v-model="ruleForm.name" disabled></el-input>
         </el-form-item>
+         <el-form-item  label="修改密码" prop="newPassword">
+          <el-input type="password" v-model="ruleForm.newPassword" ></el-input>
+        </el-form-item>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="resetFormDate('ruleForm')">取 消</el-button>
+        <el-button type="primary" @click="submitLogin">确定并重新登录</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -55,7 +62,8 @@ import Hamburger from '@/components/Hamburger'
 import ThemePicker from '@/components/ThemePicker'
 import Screenfull from '@/components/Screenfull'
 import { default as TagsView } from './TagsView'
-
+import SHA1 from 'js-sha1'
+import { loginChangeApi } from '@/api/login'
 export default {
   components: {
     Hamburger,
@@ -63,11 +71,27 @@ export default {
     Screenfull,
     TagsView
   },
+
   data() {
+    const newPassword = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
+      } else if (value === '123456') {
+        callback(new Error('密码过于简单请确认后重新输入'))
+      } else {
+        callback()
+      }
+    }
     return {
       layer_showUserInfo: false,
+      ruleFormRules: {
+        newPassword: [
+          { required: true, trigger: 'blur', validator: newPassword }
+        ]
+      },
       ruleForm: {
-        name: this.$store.state.user.name
+        name: this.$store.state.user.name,
+        newPassword: ''
       }
     }
   },
@@ -82,6 +106,32 @@ export default {
     ])
   },
   methods: {
+    submitLogin() {
+      const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
+      if (!userInfo.mobile || !userInfo.password) {
+        this.$message.error('用户信息丢失，请重新登录后重试')
+        return false
+      }
+      const params = {
+        mobile: userInfo.mobile,
+        oldPassword: SHA1(userInfo.password),
+        newPassword: SHA1(this.ruleForm.newPassword)
+      }
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+          loginChangeApi(params).then(res => {
+            this.$message.success('密码修改成功')
+            this.$store.dispatch('FedLogOut').then(() => {
+              location.reload() // 为了重新实例化vue-router对象 避免bug
+            })
+          })
+        }
+      })
+    },
+    resetFormDate() {
+      this.$refs.ruleForm.resetFields()
+      this.layer_showUserInfo = false
+    },
     toggleSideBar() {
       this.$store.dispatch('ToggleSideBar')
     },

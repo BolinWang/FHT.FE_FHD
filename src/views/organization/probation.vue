@@ -1,8 +1,8 @@
 /*
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
- * @Last Modified by: 
- * @Last Modified time: 2018-09-14 00:24:24
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:31:58
  */
 <template>
   <div class="layout-container con-f">
@@ -207,8 +207,6 @@ export default {
     }
     this.defaultAccount = deepClone(this.accountForm)
     this.getTree()
-    console.log('12345')
-    console.log(this.depId)
   },
   computed: {
     treeHeight() {
@@ -286,6 +284,7 @@ export default {
       formData: {
         nameOrMobile: '',
         depId: '',
+        isDelete: 0,
         type: 0
       },
       nowOrgObj: {
@@ -309,15 +308,15 @@ export default {
       isEditAccount: false,
       layer_account: false,
       colModels: [
-        {prop: 'name', label: '姓名'},
-        {prop: 'depName', label: '部门'},
-        {prop: 'role', label: '权限角色', slotName: 'roleTmp'},
-        {prop: 'mobile', label: '手机号码'},
-        {prop: 'imei', label: '手机编码'},
-        {prop: 'gmtExpire', label: '失效时间'},
-        {label: '操作', slotName: 'handle', width: 200},
-        {prop: 'createName', label: '创建人'},
-        {prop: 'gmtCreate', label: '创建时间'}
+        { prop: 'name', label: '姓名' },
+        { prop: 'depName', label: '部门' },
+        { prop: 'role', label: '权限角色', slotName: 'roleTmp' },
+        { prop: 'mobile', label: '手机号码' },
+        { prop: 'imei', label: '手机编码' },
+        { prop: 'gmtExpire', label: '失效时间' },
+        { label: '操作', slotName: 'handle', width: 200 },
+        { prop: 'createName', label: '创建人' },
+        { prop: 'gmtCreate', label: '创建时间' }
       ],
       url: '/user/managerList',
       method: 'managerList'
@@ -353,7 +352,7 @@ export default {
       queryDepartmentByLogin().then(res => {
         if (res.data && res.data instanceof Array) {
           this.treeData = res.data
-          let nowId = id || this.treeData[0].id
+          const nowId = id || this.treeData[0].id
           this.getFirstNode(nowId)
         }
       }).catch(rej => {})
@@ -398,7 +397,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let param = deepClone(this.accountForm)
+          const param = deepClone(this.accountForm)
           let postFn = createManager
           if (this.isEditAccount) { // 编辑
             postFn = updateManager

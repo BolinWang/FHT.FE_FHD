@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
- * @Last Modified by:
- * @Last Modified time: 2018-09-13 23:42:39
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 02:06:06
  */
 
 import {
@@ -15,24 +15,23 @@ import {
  * @param roles
  * @param route
  */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.role) {
-    return roles.some(role => route.meta.role.indexOf(role) >= 0)
-  } else {
-    return true
-  }
+function hasPermission(route, routes) {
+  const temp = routes.filter(item => {
+    return item.menuName === route.name && route.name
+  })
+  return temp
 }
-
 /**
- * 递归过滤异步路由表，返回符合用户角色权限的路由表
- * @param asyncRouterMap
+ * 获取当前页面的路由，过滤挂载
  * @param roles
+ * @param route
  */
-function filterAsyncRouter(asyncRouterMap, roles) {
+
+function getfilterAsyncRouter(asyncRouterMap, routes) {
   const accessedRouters = asyncRouterMap.filter(route => {
-    if (hasPermission(roles, route)) {
+    if (hasPermission(route, routes) && hasPermission(route, routes).length) {
       if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children, roles)
+        getfilterAsyncRouter(route.children, routes)
       }
       return true
     }
@@ -40,6 +39,24 @@ function filterAsyncRouter(asyncRouterMap, roles) {
   })
   return accessedRouters
 }
+
+/**
+ * 递归过滤异步路由表，返回符合用户角色权限的路由表
+ * @param asyncRouterMap
+ * @param roles
+ */
+// function filterAsyncRouter(asyncRouterMap, roles) {
+//   const accessedRouters = asyncRouterMap.filter(route => {
+//     if (hasPermission(roles, route)) {
+//       if (route.children && route.children.length) {
+//         route.children = filterAsyncRouter(route.children, roles)
+//       }
+//       return true
+//     }
+//     return false
+//   })
+//   return accessedRouters
+// }
 
 const permission = {
   state: {
@@ -57,15 +74,11 @@ const permission = {
       commit
     }, data) {
       return new Promise(resolve => {
-        const { roles } = data
-        console.log(roles)
-
-        let accessedRouters
-        // if (roles.indexOf('admin') >= 0) {
-        accessedRouters = asyncRouterMap
-        // } else {
-        // accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        // }
+        const { routes } = data
+        let accessedRouters = []
+        if (routes) {
+          accessedRouters = getfilterAsyncRouter(asyncRouterMap, routes)
+        }
         commit('SET_ROUTERS', accessedRouters)
         resolve()
       })

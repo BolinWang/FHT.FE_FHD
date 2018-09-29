@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:07:11
- * @Last Modified by:
- * @Last Modified time: 2018-09-20 10:24:32
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-29 23:18:56
 
  */
 
@@ -61,36 +61,23 @@ export const asyncRouterMap = [{
     path: 'framework',
     component: _import('organization/framework'),
     name: '组织架构',
-    meta: {
-      role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector']
-    }
   }, {
     path: 'probation',
     component: _import('organization/probation'),
     name: '试岗账号',
-    meta: {
-      role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
-    }
   }, {
     path: 'staffChange',
     component: _import('staffChange/staffChange'),
     name: '人员变动',
-    meta: {
-      role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
-    }
   }, {
     path: 'roleManager',
     component: _import('roleManager/roleManager'),
     name: '角色管理',
-    meta: {
-      role: ['admin', 'personnel', 'operation', 'areaManage', 'cityDirector', 'citySecretary']
-    }
   }]
 },
 {
   path: '/achievementCenter',
   component: Layout,
-  noDropdown: true,
   name: '业绩中心',
   icon: 'el-icon-tickets',
   children: [{
@@ -114,15 +101,12 @@ export const asyncRouterMap = [{
 {
   path: '/dataCenter',
   component: Layout,
-  noDropdown: true,
+  name: '数据中心',
   icon: 'icon-fangyuan',
   children: [{
     path: '',
     component: _import('dataCenter/dataFromBI'),
-    name: '数据中心',
-    meta: {
-      role: ['admin', 'cityDirector', 'operation']
-    }
+    name: '数据中心'
   }]
 },
 {

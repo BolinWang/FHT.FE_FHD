@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
- * @Last Modified by: 
- * @Last Modified time: 2018-09-24 13:52:43
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-09-30 01:31:44
  */
 
 <template>
@@ -32,11 +32,11 @@
     <!-- 修改密码弹窗 -->
     <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
       <el-form :model="formDate" :rules="editPasRules" ref="formDate" >
-        <el-form-item label="新密码" label-width="100px" prop="newPassword">
-          <el-input v-model="formDate.newPassword"  ></el-input>
+        <el-form-item  label="新密码" label-width="100px" prop="newPassword">
+          <el-input type="password"  v-model="formDate.newPassword"  ></el-input>
         </el-form-item>
-        <el-form-item label="确认密码" label-width="100px" prop="newPasswordSure">
-           <el-input v-model="formDate.newPasswordSure" @keyup.enter.native="submitLogin"></el-input>
+        <el-form-item  label="确认密码" label-width="100px" prop="newPasswordSure">
+           <el-input type="password" v-model="formDate.newPasswordSure" @keyup.enter.native="submitLogin"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -48,7 +48,8 @@
 </template>
 <script>
 import { validateMobile } from '@/utils/validate'
-
+import SHA1 from 'js-sha1'
+import { loginChangeApi } from '@/api/login'
 export default {
   name: 'login',
   data() {
@@ -134,9 +135,18 @@ export default {
       })
     },
     submitLogin() {
+      const params = {
+        mobile: this.loginForm.mobile,
+        oldPassword: SHA1(this.loginForm.password),
+        newPassword: SHA1(this.formDate.newPassword)
+      }
+      console.log(params)
       this.$refs.formDate.validate(valid => {
         if (valid) {
-
+          loginChangeApi(params).then(res => {
+            this.$message.success('密码修改成功')
+            this.$router.push({ path: '/' })
+          })
         }
       })
     },
