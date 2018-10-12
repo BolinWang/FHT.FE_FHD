@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:26
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:36:06
+ * @Last Modified time: 2018-10-10 11:41:43
  */
 
 export function parseTime(time, cFormat) {
@@ -58,6 +58,17 @@ export function formatTime(time, option) {
   } else {
     return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
+}
+
+export function fmtDate(obj) {
+  const date = new Date(obj)
+  let h = date.getHours()
+  h = h < 10 ? ('0' + h) : h
+  let minute = date.getMinutes()
+  let second = date.getSeconds()
+  minute = minute < 10 ? ('0' + minute) : minute
+  second = second < 10 ? ('0' + second) : second
+  return h + ':' + minute + ':' + second
 }
 
 export function getQueryObject(url) {

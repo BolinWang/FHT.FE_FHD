@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:00:54 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 02:26:43
+ * @Last Modified time: 2018-10-10 09:36:07
  */
 
 <template>
@@ -41,9 +41,9 @@ export default {
     data() {
       return {
         lineList: [],
-        trid: 1343764,
+        trid: 692,
         sid: 8018,
-        tid: 1697
+        tid: 1566181
       }
     },
     methods: {

@@ -1,11 +1,11 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 16:49:14
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-10 17:33:23
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-10-08 13:41:17
  */
 
-let props = {
+const props = {
   // Element UI table配置
   height: [String, Number],
   maxHeight: [String, Number],
@@ -96,6 +96,8 @@ let props = {
     type: String,
     default: 'data.total'
   },
+  /* 传参  单独 */
+
   /* 传参  基本上使用formOptions就好啦 */
   params: {
     type: Object,

@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:24:18
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:35:13
+ * @Last Modified time: 2018-10-12 15:18:35
  */
 
 import Vue from 'vue'
@@ -44,7 +44,7 @@ router.beforeEach((to, from, next) => {
     } else {
       if (!store.getters.permission_routers) {
         store.dispatch('GetInfo').then(res => { // 获取用户信息
-          const routes = store.getters.permission_routers || Storage.get('permission_routers') // 当前身份的搜有页面权限
+          const routes = store.getters.permission_routers || Storage.get('permission_routers') // 当前身份页面权限
           store.dispatch('GenerateRoutes', { routes }).then(() => {
             router.addRoutes(store.getters.addRouters)
             next({ ...to })

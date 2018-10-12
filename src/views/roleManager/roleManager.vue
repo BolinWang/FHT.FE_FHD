@@ -73,7 +73,7 @@ export default {
       this.$refs.operateRole.open(row)
     },
     handleDelete(row) { // 删除
-      let param = {
+      const param = {
         roleId: row.roleId
       }
       deleteRoleApi(param).then(res => {

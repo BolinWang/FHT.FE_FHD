@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:35:45
+ * @Last Modified time: 2018-10-12 09:56:58
  */
 import { roleMenusListApi } from '@/api/organization'
 import { login, logout, getInfo } from '@/api/login'
@@ -26,7 +26,6 @@ const user = {
       state.sessionId = sessionId
     },
     SET_NAME: (state, name) => {
-      console.log(name)
       state.name = name
     },
     SET_AVATAR: (state, avatar) => {

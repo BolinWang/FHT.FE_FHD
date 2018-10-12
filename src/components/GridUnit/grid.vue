@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 16:47:22
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-01 17:21:19
+ * @Last Modified time: 2018-10-09 09:31:30
  */
 <template>
   <div class="model-table-pagenation">
@@ -155,6 +155,7 @@
         total: 0,
         loading: false,
         tableData: [],
+        countNum: {}, // 单独为业绩中心改动
         searchParams: {}
       }
     },
@@ -167,8 +168,8 @@
         if (!imageUrl) {
           return false
         }
-        let previewObj = {src: imageUrl}
-        let _img = new Image()
+        const previewObj = { src: imageUrl }
+        const _img = new Image()
         _img.src = imageUrl
         _img.onload = function() {
           previewObj.w = _img.width || 800
@@ -247,6 +248,9 @@
             }
           } else {
             totalValue = 0
+          }
+          if (listField === 'data.result.0.flyOrderInfoDTOs' || listField === 'data.result.0.customerSourceDTOs') {
+            this.emitEventHandler('selcetDate', response)
           }
           this.total = totalValue
           this.loading = false

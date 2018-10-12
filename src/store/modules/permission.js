@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 02:06:06
+ * @Last Modified time: 2018-10-12 15:34:42
  */
 
 import {
@@ -11,8 +11,8 @@ import {
 } from '@/router/index'
 
 /**
- * 通过meta.role判断是否与当前用户权限匹配
- * @param roles
+ * 通过menuName判断是否与当前用户权限匹配
+ * @param menuName
  * @param route
  */
 function hasPermission(route, routes) {
@@ -23,7 +23,7 @@ function hasPermission(route, routes) {
 }
 /**
  * 获取当前页面的路由，过滤挂载
- * @param roles
+ * @param menuName
  * @param route
  */
 
@@ -41,27 +41,29 @@ function getfilterAsyncRouter(asyncRouterMap, routes) {
 }
 
 /**
- * 递归过滤异步路由表，返回符合用户角色权限的路由表
+ * 递归过滤异步路由表，重组，返回当前页面的权限按钮
  * @param asyncRouterMap
  * @param roles
  */
-// function filterAsyncRouter(asyncRouterMap, roles) {
-//   const accessedRouters = asyncRouterMap.filter(route => {
-//     if (hasPermission(roles, route)) {
-//       if (route.children && route.children.length) {
-//         route.children = filterAsyncRouter(route.children, roles)
-//       }
-//       return true
-//     }
-//     return false
-//   })
-//   return accessedRouters
-// }
-
+function traverseTree(node) {
+  if (!node) {
+    return
+  }
+  let buttomList = []
+  node.map(res => {
+    if (res.children && res.children.length > 0) {
+      buttomList = buttomList.push(res.children.filter(buttomListItem => {
+        traverseTree(buttomListItem)
+      }))
+    }
+    return buttomList
+  })
+}
 const permission = {
   state: {
     routers: constantRouterMap,
-    addRouters: []
+    addRouters: [],
+    powerButton: []
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
@@ -81,6 +83,15 @@ const permission = {
         }
         commit('SET_ROUTERS', accessedRouters)
         resolve()
+      })
+    },
+    ButtonPowerArray({
+      commit
+    }, data) {
+      return new Promise(resolve => {
+        if (data) {
+          console.log(traverseTree(data))
+        }
       })
     }
   }

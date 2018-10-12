@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:53
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-08-16 16:22:02
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-10-11 14:38:23
  */
 
 @import './element-ui.scss';
@@ -169,4 +169,14 @@ a:hover {
 }
 .iconfont {
   color: #fff;
+}
+
+//地图样式
+.amap-marker-label{
+  background:rgba(17, 34, 51, 0.63);
+  padding:0 10px 10px 10px;
+  color: #fff;
+  .info{
+    padding-top:10px;
+  }
 }

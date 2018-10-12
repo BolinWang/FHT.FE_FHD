@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:31:44
+ * @Last Modified time: 2018-10-07 21:36:09
  */
 
 <template>
@@ -140,7 +140,6 @@ export default {
         oldPassword: SHA1(this.loginForm.password),
         newPassword: SHA1(this.formDate.newPassword)
       }
-      console.log(params)
       this.$refs.formDate.validate(valid => {
         if (valid) {
           loginChangeApi(params).then(res => {

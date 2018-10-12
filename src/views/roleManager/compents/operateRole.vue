@@ -40,13 +40,29 @@
               </ul>
             </div>
           </el-col>
-          <el-col :span="16" >
+          <el-col :span="8" >
             <div class="grid-content">
               <div class="topTitle">
                 二级菜单
               </div>
               <ul class="contentNav">
-                  <li  v-for="(item, index) in (allList.length > 0 ? allList[operaIndex].children : [])" :key="index" >
+                  <li  v-for="(item, index) in (allList.length > 0 ? allList[operaIndex].children : [])" :key="index" @click="actionIndex = index">
+                    <el-checkbox
+                      v-model="item.isFlag"
+                      @change="checkChange(item.isFlag, item.children)">
+                    </el-checkbox>
+                    <span :class="{ checkblue: item.isFlag==true }">{{item.menuName}}</span>
+                  </li>
+              </ul>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="grid-content">
+              <div class="topTitle">
+                操作按钮
+              </div>
+              <ul class="contentNav">
+                  <li  v-for="(item, index) in (allList.length > 0 ? allList[operaIndex].children[actionIndex].children : [])" :key="index" >
                     <el-checkbox
                       v-model="item.isFlag"
                       @change="checkChange(item.isFlag, item.children)">
@@ -76,6 +92,7 @@ export default {
       allList: [],
       allListNow: [],
       operaIndex: 0,
+      actionIndex: 0,
       rules: {
         roleName: [
           { min: 0, max: 10, message: '长度在 10 个字符以内', trigger: 'blur' }
@@ -110,7 +127,7 @@ export default {
     },
     dataFomart() {
       this.form.menuIds = []
-      this.allList.map(allListItem => {
+      this.allList.map((allListItem, index) => {
         const allListItemnum = []
         allListItem.children.map(twoList => {
           if (twoList.isFlag === true) {
@@ -118,6 +135,13 @@ export default {
             this.form.menuIds.push(twoList.menuId)
             allListItem.isIndeterminat = true
           }
+          twoList.children.map(threeList => {
+            if (threeList.isFlag === true) {
+              allListItemnum.push(threeList)
+              this.form.menuIds.push(threeList.menuId)
+              twoList.isIndeterminat = true
+            }
+          })
         })
         if (allListItemnum.length > 0) {
           this.form.menuIds.push(allListItem.menuId)
@@ -129,17 +153,6 @@ export default {
           allListItem.isFlag = false
         }
       })
-    },
-    traverseTree(node, index) {
-      if (!node) {
-        return
-      }
-      if (node.children && node.children.length > 0) {
-        for (let i = 0; i < node.children.length; i++) {
-          this.allListNow.push(node)
-          this.traverseTree(node.children[i])
-        }
-      }
     },
     saveSub() {
       this.form.backLogin === true ? this.form.backLogin = 1 : this.form.backLogin = 0
@@ -174,6 +187,7 @@ export default {
     },
     open(row) {
       this.operaIndex = 0
+      this.actionIndex = 0
       this.dialogFormVisible = true
       if (row) {
         this.editOradd = row
