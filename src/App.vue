@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:24:12 
- * @Last Modified by:   FT.FE.Bolin 
- * @Last Modified time: 2018-04-11 17:24:12 
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-10-15 14:56:51
  */
 
 <template>
@@ -18,5 +18,4 @@ export default {
 </script>
 <style lang="scss">
 @import './styles/index.scss';
-
 </style>

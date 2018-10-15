@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-11 14:20:58
+ * @Last Modified time: 2018-10-15 14:32:05
  */
 
 
@@ -33,6 +33,7 @@
                <el-tabs v-model="searchFrom.isDelete" @tab-click="handleClick">
                 <el-tab-pane :label="IncumbencyListItem.label" 
                  :key='index'
+                 :name="IncumbencyListItem.value"
                  v-for='(IncumbencyListItem,index) in IncumbencyList'>
                   <div class="table-box">
                     <scrollLoad 
@@ -276,13 +277,13 @@ export default {
       dialogFormVisible: false,
       IncumbencyList: [
         {
-          value: null,
+          value: 'null',
           label: '全部'
         }, {
-          value: 0,
+          value: '0',
           label: '在职'
         }, {
-          value: 1,
+          value: '1',
           label: '离职'
         }
       ],
@@ -294,7 +295,7 @@ export default {
       pageNumber: 0,
       searchFrom: {
         depId: '',
-        isDelete: '',
+        isDelete: 'null',
         keyword: '',
         startTime: '',
         endTime: '',
@@ -356,6 +357,7 @@ export default {
     },
     nowManagerId(item) {
       this.searchFrom.managerId = item.id
+      this.searchParam()
     },
     handleNodeClick(node, data) { // 点击tree节点函数
       this.$nextTick(() => {
@@ -388,6 +390,7 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
+      console.log(parms)
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)

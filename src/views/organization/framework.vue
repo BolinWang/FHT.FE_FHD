@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:34:17
+ * @Last Modified time: 2018-10-15 11:29:30
  */
 <template>
   <div class="layout-container">
@@ -24,10 +24,10 @@
         <el-row class="topBanner">
           <el-col :span="24">
             <span class="blue">当前选择：{{nowOrgObj.depName}}</span>
-            <el-button type="danger" class="right filter-item" size="mini" @click="delOrg" icon="el-icon-delete" v-show="nowOrgObj.id !== 1">删除</el-button>
-            <el-button type="primary" class="right filter-item" size="mini" @click="editOrg" icon="el-icon-edit">编辑</el-button>
+            <el-button type="danger" class="right filter-item" v-if="powerButton.delUser" size="mini" @click="delOrg" icon="el-icon-delete" v-show="nowOrgObj.id !== 1">删除</el-button>
+            <el-button type="primary" class="right filter-item" v-if="powerButton.editDepartment" size="mini" @click="editOrg" icon="el-icon-edit">编辑</el-button>
             <el-button type="primary" class="right filter-item" size="mini" @click="assignHouse" icon="el-icon-menu" v-show="nowOrgObj.id !== 1">房源分配</el-button>
-            <el-button type="primary" class="right filter-item" size="mini" @click="addOrg" icon="el-icon-circle-plus-outline">添加旗下部门</el-button>
+            <el-button type="primary" class="right filter-item" v-if="powerButton.addDepartment" size="mini" @click="addOrg" icon="el-icon-circle-plus-outline">添加旗下部门</el-button>
           </el-col>
         </el-row>
         <div class="model-search clearfix">
@@ -51,8 +51,8 @@
           </el-select>
           <el-button type="primary" size="small" icon="el-icon-search" @click.native="searchParam" v-waves class="filter-item">查询</el-button>
           <el-button plain size="small" icon="el-icon-remove-outline" @click.native="clearForm">清空</el-button>
-          <el-button type="primary" size="small" icon="el-icon-upload" @click.native="exportExcel">导出</el-button>
-          <el-button class="right" type="primary" size="small" icon="el-icon-circle-plus-outline" @click.native="handleApply">新增账号</el-button>
+          <el-button type="primary" size="small" icon="el-icon-upload" v-if="powerButton.export"  @click.native="exportExcel">导出</el-button>
+          <el-button class="right" type="primary" size="small" v-if="powerButton.addUser" icon="el-icon-circle-plus-outline" @click.native="handleApply">新增账号</el-button>
         </div>
         <GridUnit
           ref="refGridUnit"
@@ -66,22 +66,26 @@
           <template slot="handle" slot-scope="scope">
             <div v-if="scope.row.role !== 10">
               <el-button type="primary" icon="el-icon-edit" size="small"
+                v-if="powerButton.editUser"
                 @click="editAccount(scope.row)">
                 编辑
               </el-button>
               <el-button type="warning" icon="el-icon-refresh" size="small"
+                v-if="powerButton.repwd"  
                 @click="resetPsd(scope.row)">
                 密码重置
               </el-button>
-              <el-button v-if="scope.row.isDelete==1" type="success"  size="small"
-                @click="backAccount(scope.row)">
-                复职
-              </el-button>
-               <el-button v-else type="danger"  size="small"
-                @click="leaveAccount(scope.row)">
-                离职
-              </el-button>
-            </div>
+              <div v-if="powerButton.blUser" >
+                <el-button v-if="scope.row.isDelete==1" type="success"  size="small"
+                  @click="backAccount(scope.row)">
+                  复职
+                </el-button>
+                <el-button v-else type="danger"  size="small"
+                  @click="leaveAccount(scope.row)">
+                  离职
+                </el-button>
+              </div>
+             </div>
 
           </template>
           <template slot="roleTmp" slot-scope="scope">
@@ -89,7 +93,7 @@
           </template>
           <template slot="accountType" slot-scope="scope">
             <el-tag v-if="scope.row.type == 1">正式</el-tag>
-            <div class="underline colorRed" v-else-if="scope.row.type == 0" @click="changeAccountType(scope.row)">试用中</div>
+            <div class="underline colorRed" v-else-if="scope.row.type == 0&&powerButton.tryoutUser" @click="changeAccountType(scope.row)">试用中</div>
             <div class="underline colorInfo" @click="changeAccountType(scope.row)" v-else>已失效</div>
           </template>
         </GridUnit>
@@ -363,6 +367,7 @@
 <script>
 import waves from '@/directive/waves' // 水波纹指令
 import GridUnit from '@/components/GridUnit/grid'
+import { mapGetters } from 'vuex'
 import { validateMobile, validateisCard } from '@/utils/validate'
 import { deepClone } from '@/utils'
 import Incumbency from './commpents/Incumbency'
@@ -421,14 +426,23 @@ export default {
     }
     this.defaultAccount = deepClone(this.accountForm)
     this.getTree()
+    const paramRoute = {
+      parentsRouter: this.$route.matched[0].path,
+      nowRouter: this.$route.path
+    }
+    this.$store.dispatch('ButtonPowerArray', { paramRoute })
     this.getroleOptsList()
+    console.log(this.powerButton)
   },
   computed: {
     treeHeight() {
       return {
         height: this.tableHeight + 104 + 'px'
       }
-    }
+    },
+    ...mapGetters([
+      'powerButton'
+    ])
   },
   data() {
     const validatePhone = (rule, value, callback) => {
@@ -631,7 +645,6 @@ export default {
     getTree(id, fn) {
       queryDepartmentByLogin().then(res => {
         if (res.data && res.data instanceof Array) {
-          console.log(res.data)
           this.treeData = res.data
           const nowId = id || this.treeData[0].id
           this.getFirstNode(nowId)

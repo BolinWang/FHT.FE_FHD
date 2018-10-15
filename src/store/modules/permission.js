@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-12 15:34:42
+ * @Last Modified time: 2018-10-15 11:50:13
  */
 
 import {
@@ -41,27 +41,29 @@ function getfilterAsyncRouter(asyncRouterMap, routes) {
 }
 
 /**
- * 递归过滤异步路由表，重组，返回当前页面的权限按钮
+ * 过滤路由表，返回当前页面的权限按钮
  * @param asyncRouterMap
  * @param roles
  */
-function traverseTree(node) {
+function traverseTree(node, data, path) {
   if (!node) {
     return
   }
   let buttomList = []
   node.map(res => {
-    if (res.children && res.children.length > 0) {
-      buttomList = buttomList.push(res.children.filter(buttomListItem => {
-        traverseTree(buttomListItem)
-      }))
+    if (res.children && res.children.length > 0 && res.path === data) {
+      buttomList = res.children.filter(buttomListItem => {
+        return buttomListItem.path === path
+      })
     }
-    return buttomList
   })
+  console.log(buttomList)
+  return buttomList[0].children
 }
 const permission = {
   state: {
     routers: constantRouterMap,
+    buttomList: [],
     addRouters: [],
     powerButton: []
   },
@@ -69,6 +71,12 @@ const permission = {
     SET_ROUTERS: (state, routers) => {
       state.addRouters = routers
       state.routers = constantRouterMap.concat(routers)
+    },
+    SET_BUTTONLIST: (state, data) => {
+      state.buttomList = data
+    },
+    SET_POWERBUTTON: (state, data) => {
+      state.powerButton = data
     }
   },
   actions: {
@@ -82,15 +90,21 @@ const permission = {
           accessedRouters = getfilterAsyncRouter(asyncRouterMap, routes)
         }
         commit('SET_ROUTERS', accessedRouters)
+        commit('SET_BUTTONLIST', routes)
         resolve()
       })
     },
     ButtonPowerArray({
-      commit
+      state, commit
     }, data) {
       return new Promise(resolve => {
-        if (data) {
-          console.log(traverseTree(data))
+        if (state.buttomList) {
+          // console.log(traverseTree(state.buttomList, data, path))
+          let powerList = {}
+          powerList = traverseTree(state.buttomList, data.paramRoute.parentsRouter, data.paramRoute.nowRouter)
+          console.log(powerList)
+          commit('SET_POWERBUTTON', powerList)
+          resolve()
         }
       })
     }

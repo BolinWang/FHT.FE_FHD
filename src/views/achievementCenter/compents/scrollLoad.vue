@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-12 09:54:12
+ * @Last Modified time: 2018-10-15 14:48:46
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -20,13 +20,13 @@
         <el-col :span="10">
           <span class="mobile">{{butlerListItem.mobile}}</span>
         </el-col>
-        <el-col :span="5" v-if="butlerListItem.isDelete">
+        <el-col :span="5" v-if="butlerListItem.isDelete || butlerListItem.isDelete==0">
           <span class="name">{{butlerListItem.isDelete | deleteFilter }}</span>
         </el-col>
         <el-col :span="4" v-if="butlerListItem.type">
           <span class="mobile">{{butlerListItem.type | typeFilter}}</span>
         </el-col>
-        <el-col :span="5" v-if="butlerListItem.status">
+        <el-col :span="5" v-if="butlerListItem.status||butlerListItem.status===false">
           <span class="mobile" v-if="butlerListItem.status">工作中</span>
         </el-col>
       </el-row>
@@ -121,6 +121,7 @@ export default {
       background: #a2a2a2;
       margin-bottom: 15px;
       line-height: 30px;
+      cursor:pointer;
       color: #fff;
       .top{
         padding: 0 10px;

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-11 14:23:12
+ * @Last Modified time: 2018-10-15 14:33:33
  */
 
 <template>
@@ -30,19 +30,23 @@
             </el-form-item>
             <el-form-item>
                <el-tabs v-model="searchFrom.isDelete" @tab-click="handleClick">
-                <el-tab-pane :label="IncumbencyListItem.label" 
+                <el-tab-pane 
+                 v-for='(IncumbencyListItem,index) in IncumbencyList'
+                 :label="IncumbencyListItem.label" 
                  :key='index'
-                 v-for='(IncumbencyListItem,index) in IncumbencyList'>
-                  <div class="table-box">
-                    <scrollLoad 
-                      :listHeight='listHeight'
-                      :butlerList ="butlerList"
-                      @getManagerId='nowManagerId'
-                      :getBulter ='getisDeleteList'
-                    ></scrollLoad>
-                  </div>
+                 :name='IncumbencyListItem.value'>
                  </el-tab-pane>
               </el-tabs>
+            </el-form-item>
+            <el-form-item>
+              <div class="table-box">
+                <scrollLoad 
+                  :listHeight='listHeight'
+                  :butlerList ="butlerList"
+                  @getManagerId='nowManagerId'
+                  :getBulter ='getisDeleteList'
+                ></scrollLoad>
+              </div>
             </el-form-item>
           </el-form>
       </el-aside >
@@ -170,13 +174,13 @@ export default {
       dialogFormVisible: false,
       IncumbencyList: [
         {
-          value: null,
+          value: 'null',
           label: '全部'
         }, {
-          value: 0,
+          value: '0',
           label: '在职'
         }, {
-          value: 1,
+          value: '1',
           label: '离职'
         }
       ],
@@ -189,7 +193,7 @@ export default {
       keyword: '',
       searchFrom: {
         depId: '',
-        isDelete: '',
+        isDelete: 'null',
         customerId: '',
         startTime: '',
         endTime: '',
@@ -250,6 +254,7 @@ export default {
     },
     nowManagerId(item) {
       this.searchFrom.managerId = item.id
+      this.searchParam()
     },
     handleNodeClick(node, data) { // 点击tree节点函数
       this.$nextTick(() => {
@@ -276,6 +281,7 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
+      console.log(parms)
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)
@@ -294,6 +300,7 @@ export default {
     },
     handleClick() { // 在职情况
       this.butlerList = []
+      this.pageNumber = 0
       this.getisDeleteList()
     },
     getTree(id, name) {

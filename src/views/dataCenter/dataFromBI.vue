@@ -20,6 +20,7 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 import { queryByDepIdApi } from '@/api/organization'
 export default {
   name: 'dataFromBI',
@@ -49,6 +50,19 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters([
+      'powerButton'
+    ])
+  },
+  created() {
+    const paramRoute = {
+      parentsRouter: this.$route.matched[0].path,
+      nowRouter: this.$route.path
+    }
+    this.$store.dispatch('ButtonPowerArray', { paramRoute })
+    console.log(this.powerButton)
   },
   mounted() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}

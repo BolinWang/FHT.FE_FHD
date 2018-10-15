@@ -1,15 +1,15 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 16:31:28
- * @Last Modified by: 
- * @Last Modified time: 2018-09-12 11:13:07
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-10-15 14:58:14
  */
 
 let path = require('path')
 /* 本地联调后端IP地址 */
 let proxyIPs = {
   // HOUTAI: 'http://192.168.5.115:8080/back'
-    ChenSheng: 'http://192.168.5.152:8080/back'
+    ChenSheng: 'http://192.168.0.145:8080/back'
 }
 module.exports = {
   dev: {
