@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 11:27:49
+ * @Last Modified time: 2018-10-16 14:31:28
  */
 <template>
   <div class="container" v-loading="loading">
@@ -25,7 +25,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @keydown.native.enter="searchIsDeleteList">
+              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @input="searchIsDeleteList">
               </el-input>
             </el-form-item>
             <el-form-item>
@@ -119,7 +119,7 @@ export default {
   methods: {
     nowManagerId(item) {
       this.searchFrom.managerId = item.id
-      map.setZoomAndCenter(18, item.data.location.split(','))
+      map.setZoomAndCenter(20, item.data.location.split(','))
     },
     addClickHandler(item, markerDia) { // 聚合点点击事件
       // markerDia.on('mouseover', function(e) {
@@ -139,7 +139,10 @@ export default {
         if (item.data.location !== '') {
           const markerDia = new AMap.Marker({ // 添加聚合点
             map: map,
-            icon: '//webapi.amap.com/theme/v1.2/m3.png',
+            icon: new AMap.Icon({
+              image: item.status === true ? '//webapi.amap.com/theme/v1.2/m3.png' : '//webapi.amap.com/theme/v1.2/m1.png',
+              imageSize: new AMap.Size(24, 24)
+            }),
             offset: new AMap.Pixel(-26, -13),
             position: item.data.location.split(',')
           })
@@ -148,7 +151,7 @@ export default {
             offset: new AMap.Pixel(20, 20),
             content: `<div class="content-amap">
                        <div class='info'>${item.name}</div>
-                       <div class='info'>工作状态：${item.status === true ? '工作中' : ''}</div>
+                       <div class='info'>工作状态：${item.status === true ? '工作中' : '休息'}</div>
                        <div class='info'>时间：${item.data.locatetime}</div>
                       </div>`
           })
@@ -161,19 +164,12 @@ export default {
           offset: new AMap.Pixel(100, 10), // 相对于地图容器左上角的偏移量，正数代表向右下偏移。默认为AMap.Pixel(10,10)
           position: 'RT',
           ruler: true, // 标尺键盘是否可见，默认为true
-          noIpLocate: false, // 定位失败后，是否开启IP定位，默认为false
+          noIpLocate: true, // 定位失败后，是否开启IP定位，默认为false
           locate: true, // 是否显示定位按钮，默认为false
           liteStyle: false, // 是否使用精简模式，默认为false
           direction: true, // 方向键盘是否可见，默认为true
-          autoPosition: true, // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
+          autoPosition: false, // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
           locationMarker: AMap.Marker({ map: map }),
-          /**
-                     *是否使用高德定位sdk用来辅助优化定位效果，默认：false.
-                     *仅供在使用了高德定位sdk的APP中，嵌入webview页面时使用
-                     *注：如果要使用辅助定位的功能，除了需要将useNative属性设置为true以外，
-                     *还需要调用高德定位idk中，AMapLocationClient类的startAssistantLocation()方法开启辅助H5定位功能；
-                     *不用时，可以调用stopAssistantLocation()方法停止辅助H5定位功能。具体用法可参考定位SDK的参考手册
-                     */
           useNative: false
         }
         map.addControl(new AMap.ToolBar(toolopt))

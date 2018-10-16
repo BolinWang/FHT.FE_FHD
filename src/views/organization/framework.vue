@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 16:30:56
+ * @Last Modified time: 2018-10-16 11:47:04
  */
 <template>
   <div class="layout-container">
@@ -627,11 +627,9 @@ export default {
       const href = `${process.env.BASE_API}/user/exportExcel?isDelete=${isDelete}&type=${type}&nameOrMobile=${this.formData.nameOrMobile}&depId=${this.formData.depId}`
       var elink = document.createElement('a')
       elink.style.display = 'none'
-      console.log(href)
       elink.href = encodeURI(href)
       document.body.appendChild(elink)
       elink.click()
-
       document.body.removeChild(elink)
     },
     backAccount(row) { // 复职

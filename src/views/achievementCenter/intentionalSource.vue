@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 17:19:26
+ * @Last Modified time: 2018-10-16 14:40:12
  */
 
 <template>
@@ -19,13 +19,13 @@
                   node-key="id"
                   :highlight-current="true"
                   :expand-on-click-node="false"
-                  @node-click="handleNodeClick">
+                  @node-click="overlayNodeClick">
                 </el-tree>
                 <el-option style="display:none" value=""></el-option>
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input size="small" v-model="keyword" placeholder="业务员姓名/手机号码"  @keydown.native.enter="searchIsDeleteList">
+              <el-input size="small" v-model="keyword" placeholder="业务员姓名/手机号码"  @input="searchIsDeleteList">
               </el-input>
             </el-form-item>
             <el-form-item>
@@ -256,9 +256,13 @@ export default {
       this.searchFrom.managerId = item.id
       this.searchParam()
     },
-    handleNodeClick(node, data) { // 点击tree节点函数
+    overlayNodeClick(node, data) { // 弹框tree点击
       this.$nextTick(() => {
-        this.searchParam()
+        this.searchFrom.depName = data.data.depName
+        this.searchFrom.depId = data.data.id
+        this.pageNumber = 0
+        this.getisDeleteList()
+        this.butlerList = []
       })
     },
     searchIsDeleteList() {
@@ -292,10 +296,6 @@ export default {
     },
     delOrg() {
       delObjectItem(this.searchFrom)
-    },
-    overlayNodeClick(node, data) { // 弹框tree点击
-      this.searchFrom.depName = data.data.depName
-      this.searchFrom.depId = data.data.id
     },
     handleClick() { // 在职情况
       this.butlerList = []

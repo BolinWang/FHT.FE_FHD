@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 11:27:24
+ * @Last Modified time: 2018-10-16 14:31:27
  */
 <template>
   <div class="container">
@@ -24,7 +24,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @keydown.native.enter="searchIsDeleteList">
+              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @input="searchIsDeleteList">
               </el-input>
             </el-form-item>
             <el-form-item>

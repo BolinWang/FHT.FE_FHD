@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 16:33:26
+ * @Last Modified time: 2018-10-16 14:42:28
  */
 
 
@@ -26,7 +26,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @keydown.native.enter="searchIsDeleteList">
+              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @input="searchIsDeleteList">
               </el-input>
             </el-form-item>
             <el-form-item>
@@ -104,7 +104,7 @@
       </el-main>
      </el-container>
      <!-- 弹窗查看详情 -->
-     <el-dialog title="收货地址" width="600px" :visible.sync="dialogFormVisible" >
+     <el-dialog title="订单租约详情" width="600px" :visible.sync="dialogFormVisible" >
       <el-row :gutter="20">
         <el-col :span="5">
           <div class="text-left">订单</div>
@@ -156,7 +156,7 @@
         <el-col :span="5">
            <div class="text-left">租期</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.monthNum}}</el-col>
+        <el-col :span="19">{{orderDetail.monthNum}}个月</el-col>
       </el-row>
       <el-row  :gutter="20">
         <el-col :span="5">
@@ -168,38 +168,38 @@
         <el-col :span="5">
            <div class="text-left">房价</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.rentFee}}</el-col>
+        <el-col :span="19">{{orderDetail.rentFee}}元</el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">
            <div class="text-left">押金</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.depositFee}}</el-col>
+        <el-col :span="19">{{orderDetail.depositFee}}元</el-col>
       </el-row>
 
       <el-row :gutter="20">
         <el-col :span="5">
            <div class="text-left">每期固定费用</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.serviceChargePrice}}</el-col>
+        <el-col :span="19">{{orderDetail.serviceChargePrice}}元</el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">
            <div class="text-left">一次性费用</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.onceFee}}</el-col>
+        <el-col :span="19">{{orderDetail.onceFee}}元</el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">
            <div class="text-left">出房费率</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.splitFee}}</el-col>
+        <el-col :span="19">{{orderDetail.splitFee}}%</el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">
            <div class="text-left">出房收入</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.splitMoney}}</el-col>
+        <el-col :span="19">{{orderDetail.splitMoney}}元</el-col>
       </el-row>
       <el-row :gutter="20" >
         <el-col :span="5">
@@ -350,7 +350,7 @@ export default {
       this.$router.push({ path: '/achievementCenter/intentionalSource', query: { customerId: id }})
     },
     lookcontract(url) {
-      window.location.href = url
+      window.open(url)
     },
     searchParam() {
       this.$refs.refGridUnit.searchHandler()

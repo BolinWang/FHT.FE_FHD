@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 11:04:16
+ * @Last Modified time: 2018-10-16 14:15:31
  */
 
 import {
@@ -31,9 +31,8 @@ function getfilterAsyncRouter(asyncRouterMap, routes) {
   const accessedRouters = asyncRouterMap.filter(route => {
     if (hasPermission(route, routes) && hasPermission(route, routes).length) {
       if (route.children && route.children.length) {
-        getfilterAsyncRouter(route.children, routes)
+        return getfilterAsyncRouter(route.children, routes)
       }
-      return true
     }
     return false
   })

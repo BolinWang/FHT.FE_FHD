@@ -2,10 +2,10 @@
  * @Author: ghost 
  * @Date: 2018-10-09 10:39:52 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-09 23:19:10
+ * @Last Modified time: 2018-10-16 14:44:42
  */
 <template>
-     <el-dialog title="收货地址" width="700px" :visible.sync="dialogFormVisible" >
+     <el-dialog title="客源详情" width="700px" :visible.sync="dialogFormVisible" >
        <div>
           <el-row  :gutter="20" class="pad-t">
           <el-col :span="5">
