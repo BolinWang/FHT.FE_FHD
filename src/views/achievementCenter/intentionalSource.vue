@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 14:40:12
+ * @Last Modified time: 2018-10-16 19:30:02
  */
 
 <template>
@@ -234,6 +234,11 @@ export default {
         this.tableHeight = temp_height > 300 ? temp_height : 300
       })()
     }
+    const date_ = new Date()
+    const year = date_.getFullYear()
+    const month = date_.getMonth() + 1
+    const day = new Date(year, month, 0)
+    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()}`]
   },
   watch: {
     searchTime(val) {
@@ -261,6 +266,7 @@ export default {
         this.searchFrom.depName = data.data.depName
         this.searchFrom.depId = data.data.id
         this.pageNumber = 0
+        this.searchParam()
         this.getisDeleteList()
         this.butlerList = []
       })

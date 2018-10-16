@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:00:54 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-10 09:36:07
+ * @Last Modified time: 2018-10-16 16:35:49
  */
 
 <template>
@@ -35,7 +35,6 @@
 export default {
     components: {},
     mounted: function() {
-      //  this.getLineArr()
       this.init()
     },
     data() {
@@ -65,9 +64,10 @@ export default {
           map.addControl(new AMap.ToolBar())
           map.addControl(new AMap.MapType({ showTraffic: false, showRoad: false }))
         })
+        this.getLineArr()
       },
       handleLogin() {
-        this.getLineArr()
+  
       },
       drawLine() {
         this.lineList.map((listItem) => {
@@ -117,11 +117,11 @@ export default {
           page: 1,
           gap: 1000,
           pagesize: 800,
-          tid: this.tid,
-          sid: this.sid,
-          trid: this.trid }
+          tid: 1617709,
+          sid: 11117,
+          trid: 1397 }
         const self = this
-        axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
+        axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=9bff4d717994dafc8f613efc64221c21', { params }).then(res => {
           console.log(res)
           self.lineList = res.data.data.tracks[0].points
           console.log('1234')

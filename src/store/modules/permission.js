@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 14:15:31
+ * @Last Modified time: 2018-10-16 17:06:56
  */
 
 import {
@@ -16,9 +16,13 @@ import {
  * @param route
  */
 function hasPermission(route, routes) {
-  const temp = routes.filter(item => {
-    return item.menuName === route.name && route.name
-  })
+  let temp = []
+  if (route.hasOwnProperty('children')) {
+    temp = route.children.filter((item, index) => {
+      return item.name
+    })
+  }
+
   return temp
 }
 /**
@@ -26,15 +30,18 @@ function hasPermission(route, routes) {
  * @param menuName
  * @param route
  */
-
-function getfilterAsyncRouter(asyncRouterMap, routes) {
-  const accessedRouters = asyncRouterMap.filter(route => {
-    if (hasPermission(route, routes) && hasPermission(route, routes).length) {
-      if (route.children && route.children.length) {
-        return getfilterAsyncRouter(route.children, routes)
-      }
-    }
-    return false
+function getfilterAsyncRouter(asyncRouter, routes) {
+  // const accessedRouters = asyncRouter.filter(route => {
+  //   if (hasPermission(route, routes) && hasPermission(route, routes).length > 0) {
+  //     if (route.children && route.children.length) {
+  //       route.children = getfilterAsyncRouter(route.children, routes)
+  //     }
+  //     return true
+  //   }
+  //   return false
+  // })
+  const accessedRouters = asyncRouter.filter(route => {
+    return !route.hasOwnProperty('children') || route.children.length > 0
   })
   return accessedRouters
 }
@@ -83,6 +90,7 @@ const permission = {
     }, data) {
       return new Promise(resolve => {
         const { routes } = data
+        console.log(data)
         let accessedRouters = []
         if (routes) {
           accessedRouters = getfilterAsyncRouter(asyncRouterMap, routes)

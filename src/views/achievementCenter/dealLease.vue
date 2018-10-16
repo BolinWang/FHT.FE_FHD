@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 14:42:28
+ * @Last Modified time: 2018-10-16 19:29:32
  */
 
 
@@ -35,7 +35,12 @@
                  :key='index'
                  :name="IncumbencyListItem.value"
                  v-for='(IncumbencyListItem,index) in IncumbencyList'>
-                  <div class="table-box">
+                  
+                 </el-tab-pane>
+              </el-tabs>
+            </el-form-item>
+            <el-form-item>
+              <div class="table-box">
                     <scrollLoad 
                       :listHeight='listHeight'
                       :butlerList ="butlerList"
@@ -43,8 +48,6 @@
                       :getBulter ='getisDeleteList'
                     ></scrollLoad>
                   </div>
-                 </el-tab-pane>
-              </el-tabs>
             </el-form-item>
           </el-form>
       </el-aside >
@@ -253,7 +256,7 @@ export default {
           label: '未付款'
         }, {
           value: 1,
-          label: '成功'
+          label: '生效'
         }, {
           value: 2,
           label: '失败'
@@ -304,7 +307,7 @@ export default {
       },
       colModels: [
         { prop: 'createTime', label: '出单时间' },
-        { prop: 'orderNo', label: '订单号' },
+        { prop: 'orderNo', label: '订单号', width: 200 },
         { prop: 'roomName', label: '房间名称', width: 200 },
         { prop: 'status', label: '租约状态', slotName: 'leaseType', width: 100 },
         { prop: 'rentFee', label: '月租金流水' },
@@ -326,6 +329,11 @@ export default {
     if (this.$route.query.orderNo) {
       this.getOrderDetail(this.$route.query.orderNo)
     }
+    const date_ = new Date()
+    const year = date_.getFullYear()
+    const month = date_.getMonth() + 1
+    const day = new Date(year, month, 0)
+    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()}`]
     this.getTree()
   },
   created() {
@@ -390,8 +398,10 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
+      console.log(parms)
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
+          console.log(res)
           this.butlerList = this.butlerList.concat(res.data.result)
         }
       })
@@ -406,12 +416,14 @@ export default {
       this.searchFrom.depName = data.data.depName
       this.searchFrom.depId = data.data.id
       this.pageNumber = 0
+      this.searchParam()
       this.getisDeleteList()
       this.butlerList = []
     },
     handleClick() { // 在职情况
       this.butlerList = []
       this.pageNumber = 0
+      this.searchParam()
       this.getisDeleteList()
     },
     getTree(id, name) {

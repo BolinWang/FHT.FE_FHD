@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 14:31:28
+ * @Last Modified time: 2018-10-16 18:41:18
  */
 <template>
   <div class="container" v-loading="loading">
@@ -192,6 +192,7 @@ export default {
       this.searchFrom.depName = data.data.depName
       this.searchFrom.depId = data.data.id
       this.pageNumber = 0
+      this.searchParam()
       this.getisDeleteList()
       this.butlerList = []
     },
@@ -208,10 +209,9 @@ export default {
       const parms = {
         depId: this.searchFrom.depId,
         keyword: this.searchFrom.keyword,
-        pageSize: 10,
+        pageSize: 20,
         pageNo: ++this.pageNumber
       }
-      console.log(parms)
       managerRTPApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)

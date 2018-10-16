@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 14:31:27
+ * @Last Modified time: 2018-10-16 18:41:24
  */
 <template>
   <div class="container">
@@ -321,6 +321,7 @@ export default {
       this.searchFrom.depName = data.data.depName
       this.searchFrom.depId = data.data.id
       this.pageNumber = 0
+      this.searchParam()
       this.getisDeleteList()
       this.butlerList = []
     },
