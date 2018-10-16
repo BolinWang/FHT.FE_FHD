@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 23:52:39 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-11 19:46:49
+ * @Last Modified time: 2018-10-15 17:56:50
  */
 <template>
   <div class="container-box">
@@ -146,8 +146,11 @@ export default {
         this.lookRecordList[this.chooseActive].allocationInfoDTOs.map(item => {
           new AMap.Marker({ // 添加聚合点
             map: map,
-            icon: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
-            offset: new AMap.Pixel(-26, -13),
+            icon: new AMap.Icon({
+              image: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
+              imageSize: new AMap.Size(24, 24)
+            }),
+            offset: new AMap.Pixel(0, 0),
             position: [item.lookLongitude, item.lookLatitude]
           })
         })
@@ -198,7 +201,7 @@ export default {
           path: this.lineArr,
           strokeColor: '#fe4a4a', // 线颜色
           strokeOpacity: 1, // 线透明度
-          strokeWeight: 3, // 线宽
+          strokeWeight: 6, // 线宽
           strokeStyle: 'solid' // 线样式
         })
         const passedPolyline = new AMap.Polyline({
@@ -206,7 +209,7 @@ export default {
           path: this.lineArr,
           strokeColor: '#000', // 线颜色
           strokeOpacity: 1, // 线透明度
-          strokeWeight: 3, // 线宽
+          strokeWeight: 6, // 线宽
           strokeStyle: 'solid' // 线样式
         })
         marker.on('moving', function(e) {

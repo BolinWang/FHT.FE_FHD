@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 14:33:33
+ * @Last Modified time: 2018-10-15 17:19:26
  */
 
 <template>
@@ -281,7 +281,6 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
-      console.log(parms)
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)

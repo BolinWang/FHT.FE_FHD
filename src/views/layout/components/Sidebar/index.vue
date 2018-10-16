@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:11:31 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:32:40
+ * @Last Modified time: 2018-10-16 11:05:59
  */
 
 <template>
@@ -22,7 +22,6 @@ export default {
     ])
   },
   mounted() {
-    console.log(this.permission_routers)
   }
 }
 </script>

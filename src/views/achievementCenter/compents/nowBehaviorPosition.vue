@@ -2,10 +2,10 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 14:53:43
+ * @Last Modified time: 2018-10-16 11:27:49
  */
 <template>
-  <div class="container">
+  <div class="container" v-loading="loading">
      <el-container>
       <el-aside  class="leftSidebar" width="260px">
           <el-form  >
@@ -25,7 +25,7 @@
               </el-select>
             </el-form-item>
             <el-form-item>
-              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @keydown.native.enter="getisDeleteList">
+              <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @keydown.native.enter="searchIsDeleteList">
               </el-input>
             </el-form-item>
             <el-form-item>
@@ -41,7 +41,7 @@
           </el-form>
       </el-aside >
       <el-main class="pageMain">
-        <div id="map" style="width:100%;">
+        <div id="map" :style="mapHeight">
           
         </div>
       </el-main>
@@ -61,7 +61,12 @@ export default {
   computed: {
     listHeight() {
       return {
-        height: this.tableHeight - 80 + 'px'
+        height: this.tableHeight - 49 + 'px'
+      }
+    },
+    mapHeight() {
+      return {
+        height: this.tableHeight + 28 + 'px'
       }
     }
   },
@@ -70,6 +75,7 @@ export default {
       butlerList: [], // 管家列表
       pageNumber: 0,
       treeData: [],
+      loading: true,
       defaultProps: {
         children: 'child',
         label: 'depName'
@@ -197,6 +203,11 @@ export default {
       this.pageNumber = 0
       this.getisDeleteList()
     },
+    searchIsDeleteList() {
+      this.butlerList = []
+      this.pageNumber = 0
+      this.getisDeleteList()
+    },
     getisDeleteList() { // 获取管家列表
       const parms = {
         depId: this.searchFrom.depId,
@@ -204,10 +215,14 @@ export default {
         pageSize: 10,
         pageNo: ++this.pageNumber
       }
+      console.log(parms)
       managerRTPApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)
           this.init()
+          this.$nextTick(res => {
+            this.loading = false
+          })
         }
       })
     }
@@ -219,7 +234,6 @@ export default {
     margin:-20px 0;
   }
   #map{
-    height:540px;
     padding: 0;
     width: 100%;
     background: #FFFFFF;

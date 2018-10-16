@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 01:24:32 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-11 16:31:39
+ * @Last Modified time: 2018-10-15 18:08:20
  */
 
 <template>
@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       type: '1'
+
     }
   },
   mounted() {

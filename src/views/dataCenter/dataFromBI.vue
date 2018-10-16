@@ -9,6 +9,7 @@
           <el-button type="primary"
             v-for="item in data.btnList" :key="item.name"
             :disabled="!item.link"
+            v-if="item.buttonSHow||!item.hasOwnProperty('buttonSHow')"
             @click="routerToBI(item.link)">
             {{item.name}}
           </el-button>
@@ -26,8 +27,15 @@ export default {
   name: 'dataFromBI',
   data() {
     return {
-      depLevel: '',
-      dataList: [
+      depLevel: ''
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'powerButton'
+    ]),
+    dataList() {
+      return [
         {
           title: '基础数据',
           btnList: [
@@ -42,19 +50,13 @@ export default {
         },
         {
           title: '统计数据',
-          btnList: [
-            { name: '业务统计数据·每月', link: '//bi.mdguanjia.com/fh/ReportServer?reportlet=fh%2FftData%2F%5B98de%5D%5B864e%5D%5B961f%5D%5B4e1a%5D%5B7ee9%5D%5B6570%5D%5B636e%5D%5B7edf%5D%5B8ba1%5D--%5B6309%5D%5B6708%5D%5B7ef4%5D%5B5ea6%5D.cpt' },
-            { name: '业务统计数据·每日', link: '//bi.mdguanjia.com/fh/ReportServer?reportlet=fh%2FftData%2F%5B98de%5D%5B864e%5D%5B961f%5D%5B4e1a%5D%5B7ee9%5D%5B6570%5D%5B636e%5D%5B7edf%5D%5B8ba1%5D--%5B6309%5D%5B65e5%5D%5B7ef4%5D%5B5ea6%5D.cpt' },
-            { name: '业绩统计数据·每周', link: '//bi.mdguanjia.com/fh/ReportServer?reportlet=fh%2FftData%2F%5B98de%5D%5B864e%5D%5B961f%5D%5B4e1a%5D%5B7ee9%5D%5B7edf%5D%5B8ba1%5D--%5B7edf%5D%5B8ba1%5D%5B5468%5D%5B671f%5D.cpt' }
+          btnList: [{ name: '业务统计数据·每月', link: '//bi.mdguanjia.com/fh/ReportServer?reportlet=fh%2FftData%2F%5B98de%5D%5B864e%5D%5B961f%5D%5B4e1a%5D%5B7ee9%5D%5B6570%5D%5B636e%5D%5B7edf%5D%5B8ba1%5D--%5B6309%5D%5B6708%5D%5B7ef4%5D%5B5ea6%5D.cpt', buttonSHow: this.powerButton.bds_month },
+            { name: '业务统计数据·每日', link: '//bi.mdguanjia.com/fh/ReportServer?reportlet=fh%2FftData%2F%5B98de%5D%5B864e%5D%5B961f%5D%5B4e1a%5D%5B7ee9%5D%5B6570%5D%5B636e%5D%5B7edf%5D%5B8ba1%5D--%5B6309%5D%5B65e5%5D%5B7ef4%5D%5B5ea6%5D.cpt', buttonSHow: this.powerButton.bds_day },
+            { name: '业绩统计数据·每周', link: '//bi.mdguanjia.com/fh/ReportServer?reportlet=fh%2FftData%2F%5B98de%5D%5B864e%5D%5B961f%5D%5B4e1a%5D%5B7ee9%5D%5B7edf%5D%5B8ba1%5D--%5B7edf%5D%5B8ba1%5D%5B5468%5D%5B671f%5D.cpt', buttonSHow: this.powerButton.bds_week }
           ]
         }
       ]
     }
-  },
-  computed: {
-    ...mapGetters([
-      'powerButton'
-    ])
   },
   created() {
     const paramRoute = {
@@ -62,7 +64,6 @@ export default {
       nowRouter: this.$route.path
     }
     this.$store.dispatch('ButtonPowerArray', { paramRoute })
-    console.log(this.powerButton)
   },
   mounted() {
     const userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}

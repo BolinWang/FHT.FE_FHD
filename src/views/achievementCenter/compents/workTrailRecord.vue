@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-12 09:53:37
+ * @Last Modified time: 2018-10-16 11:27:24
  */
 <template>
   <div class="container">
@@ -51,7 +51,8 @@
                  </div>
                  <div class="choose-active" :style="listHeight">
                    <div class="tabItem"
-                   :key='index'
+                    :key='index'
+                    v-if="searchList.length>0"
                     @click='chooseManagerId(searchListItem,index)'
                     :class="{'active':chooseIndex === index}"
                     v-for='(searchListItem,index) in searchList'>
@@ -64,13 +65,18 @@
                         </el-col>
                       </el-row>
                    </div>
+                   <div 
+                     v-else
+                     class="tab-Item">
+                     暂无数据～～
+                   </div>
                   </div>
                </div>
             </el-form-item>
           </el-form>
       </el-aside >
       <el-main class="pageMain">
-        <div id="map" style="width:100%;">
+        <div id="map" :style="mapHeight">
         </div>
         <div class="block">
           <span class="demonstration">开始</span>
@@ -104,6 +110,11 @@ export default {
     listHeight() {
       return {
         height: (this.tableHeight - 50) / 2 + 'px'
+      }
+    },
+    mapHeight() {
+      return {
+        height: this.tableHeight + 110 + 'px'
       }
     }
   },
@@ -267,9 +278,12 @@ export default {
     getworkTrailRecord() {
       if (this.searchFrom.managerId !== '') {
         this.searchFrom.date = parseTime(this.searchFrom.date)
+        console.log(this.searchFrom)
         workTrailRecordApi(this.searchFrom).then(res => {
-          this.searchList = res.data
-          this.getLineArr()
+          if (res.data.length > 0) {
+            this.searchList = res.data
+            this.getLineArr()
+          }
         })
       } else {
         this.$message({

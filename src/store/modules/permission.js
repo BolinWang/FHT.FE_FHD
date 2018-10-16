@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 11:50:13
+ * @Last Modified time: 2018-10-16 11:04:16
  */
 
 import {
@@ -57,7 +57,6 @@ function traverseTree(node, data, path) {
       })
     }
   })
-  console.log(buttomList)
   return buttomList[0].children
 }
 const permission = {
@@ -99,10 +98,8 @@ const permission = {
     }, data) {
       return new Promise(resolve => {
         if (state.buttomList) {
-          // console.log(traverseTree(state.buttomList, data, path))
           let powerList = {}
           powerList = traverseTree(state.buttomList, data.paramRoute.parentsRouter, data.paramRoute.nowRouter)
-          console.log(powerList)
           commit('SET_POWERBUTTON', powerList)
           resolve()
         }

@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 11:29:30
+ * @Last Modified time: 2018-10-15 16:30:56
  */
 <template>
   <div class="layout-container">
@@ -75,16 +75,14 @@
                 @click="resetPsd(scope.row)">
                 密码重置
               </el-button>
-              <div v-if="powerButton.blUser" >
-                <el-button v-if="scope.row.isDelete==1" type="success"  size="small"
+                <el-button v-if="scope.row.isDelete===1&&powerButton.blUser" type="success"  size="small"
                   @click="backAccount(scope.row)">
                   复职
                 </el-button>
-                <el-button v-else type="danger"  size="small"
+                <el-button v-if="scope.row.isDelete!==1&&powerButton.blUser" type="danger"  size="small"
                   @click="leaveAccount(scope.row)">
                   离职
-                </el-button>
-              </div>
+               </el-button>
              </div>
 
           </template>
@@ -993,6 +991,10 @@ export default {
 <style rel="stylesheet/scss" lang="scss">
 .checkblue{
   color: #409eff;
+}
+.fl-right{
+  padding-left: 10px;
+  float: right;
 }
 .layout-container .pageMain{
     padding:0 20px;

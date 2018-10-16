@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 14:48:46
+ * @Last Modified time: 2018-10-15 16:39:06
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -118,15 +118,15 @@ export default {
   text-overflow: ellipsis;
 }
 .tab-Item{
-      background: #a2a2a2;
-      margin-bottom: 15px;
-      line-height: 30px;
-      cursor:pointer;
-      color: #fff;
-      .top{
-        padding: 0 10px;
-      }
+  background: rgba(3, 56, 93, 0.4);
+  margin-bottom: 15px;
+  line-height: 30px;
+  cursor:pointer;
+  color: #fff;
+  .top{
+    padding: 0 10px;
   }
+}
 .active{
   background: #1e97fa;
 }

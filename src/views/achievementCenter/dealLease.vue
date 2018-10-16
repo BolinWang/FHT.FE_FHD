@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 14:32:05
+ * @Last Modified time: 2018-10-15 16:33:26
  */
 
 
@@ -390,7 +390,6 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
-      console.log(parms)
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)
@@ -412,6 +411,7 @@ export default {
     },
     handleClick() { // 在职情况
       this.butlerList = []
+      this.pageNumber = 0
       this.getisDeleteList()
     },
     getTree(id, name) {
