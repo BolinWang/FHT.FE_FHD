@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 19:30:02
+ * @Last Modified time: 2018-10-16 19:45:56
  */
 
 <template>
@@ -238,7 +238,7 @@ export default {
     const year = date_.getFullYear()
     const month = date_.getMonth() + 1
     const day = new Date(year, month, 0)
-    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()}`]
+    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()} 00:00:00`]
   },
   watch: {
     searchTime(val) {

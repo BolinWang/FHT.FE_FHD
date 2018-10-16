@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 19:29:32
+ * @Last Modified time: 2018-10-16 19:46:00
  */
 
 
@@ -333,7 +333,7 @@ export default {
     const year = date_.getFullYear()
     const month = date_.getMonth() + 1
     const day = new Date(year, month, 0)
-    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()}`]
+    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()} 00:00:00`]
     this.getTree()
   },
   created() {
