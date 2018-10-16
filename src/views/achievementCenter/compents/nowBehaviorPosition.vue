@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 18:41:18
+ * @Last Modified time: 2018-10-16 20:38:41
  */
 <template>
   <div class="container" v-loading="loading">
@@ -33,6 +33,7 @@
                 <scrollLoad 
                   :listHeight='listHeight'
                   :butlerList ="butlerList"
+                  :chooseIndex='chooseIndex'
                   @getManagerId='nowManagerId'
                   :getBulter ='getisDeleteList'
                   ></scrollLoad>
@@ -74,6 +75,7 @@ export default {
     return {
       butlerList: [], // 管家列表
       pageNumber: 0,
+      chooseIndex: '',
       treeData: [],
       loading: true,
       defaultProps: {
@@ -119,7 +121,11 @@ export default {
   methods: {
     nowManagerId(item) {
       this.searchFrom.managerId = item.id
-      map.setZoomAndCenter(20, item.data.location.split(','))
+      this.chooseIndex = ''
+      console.log(item)
+      if (item.data.location !== '') {
+        map.setZoomAndCenter(20, item.data.location.split(','))
+      }
     },
     addClickHandler(item, markerDia) { // 聚合点点击事件
       // markerDia.on('mouseover', function(e) {
@@ -192,7 +198,6 @@ export default {
       this.searchFrom.depName = data.data.depName
       this.searchFrom.depId = data.data.id
       this.pageNumber = 0
-      this.searchParam()
       this.getisDeleteList()
       this.butlerList = []
     },
@@ -212,6 +217,7 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
+      this.chooseIndex = ''
       managerRTPApi(parms).then(res => {
         if (res.data.result) {
           this.butlerList = this.butlerList.concat(res.data.result)

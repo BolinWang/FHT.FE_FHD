@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 16:39:06
+ * @Last Modified time: 2018-10-16 20:35:39
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -44,12 +44,12 @@ export default {
     },
     getBulter: {
       type: Function
-    }
+    },
+    chooseIndex: null
   },
   data() {
     return {
-      loading: true,
-      chooseIndex: ''
+      loading: true
     }
   },
   filters: {
@@ -95,8 +95,7 @@ export default {
   },
   methods: {
     chooseManagerId(item, index) {
-      this.$emit('getManagerId', item)
-      this.chooseIndex = index
+      this.$emit('getManagerId', item, index)
     },
     loadMore() {
       if (this.getBulter) {

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 19:46:00
+ * @Last Modified time: 2018-10-16 20:28:24
  */
 
 
@@ -44,6 +44,7 @@
                     <scrollLoad 
                       :listHeight='listHeight'
                       :butlerList ="butlerList"
+                      :chooseIndex='chooseIndex'
                       @getManagerId='nowManagerId'
                       :getBulter ='getisDeleteList'
                     ></scrollLoad>
@@ -296,6 +297,7 @@ export default {
       tableHeight: 300,
       searchTime: [],
       pageNumber: 0,
+      chooseIndex: '',
       searchFrom: {
         depId: '',
         isDelete: 'null',
@@ -363,8 +365,9 @@ export default {
     searchParam() {
       this.$refs.refGridUnit.searchHandler()
     },
-    nowManagerId(item) {
+    nowManagerId(item, index) {
       this.searchFrom.managerId = item.id
+      this.chooseIndex = index
       this.searchParam()
     },
     handleNodeClick(node, data) { // 点击tree节点函数
@@ -375,6 +378,9 @@ export default {
     searchIsDeleteList() {
       this.butlerList = []
       this.pageNumber = 0
+      if (this.searchFrom.keyword === '') {
+        this.searchFrom.managerId = ''
+      }
       this.getisDeleteList()
     },
     getOrderDetail(id) {
@@ -398,10 +404,9 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
-      console.log(parms)
+      this.chooseIndex = ''
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
-          console.log(res)
           this.butlerList = this.butlerList.concat(res.data.result)
         }
       })

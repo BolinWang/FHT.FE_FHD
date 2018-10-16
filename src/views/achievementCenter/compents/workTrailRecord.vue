@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 18:41:24
+ * @Last Modified time: 2018-10-16 20:34:46
  */
 <template>
   <div class="container">
@@ -32,6 +32,7 @@
                 <scrollLoad 
                   :listHeight='listHeight'
                   :butlerList ="butlerList"
+                  :chooseIndex='chooseIndex'
                   @getManagerId='nowManagerId'
                   :getBulter ='getisDeleteList'
                 ></scrollLoad>
@@ -295,6 +296,7 @@ export default {
     nowManagerId(item) {
       this.searchFrom.date = ''
       this.searchList = []
+      this.chooseIndex = ''
       this.searchFrom.managerId = item.id
     },
     searchIsDeleteList() {
@@ -310,6 +312,7 @@ export default {
         pageSize: 20,
         pageNo: ++this.pageNumber
       }
+      this.chooseIndex = ''
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
           console.log(res)
@@ -321,7 +324,6 @@ export default {
       this.searchFrom.depName = data.data.depName
       this.searchFrom.depId = data.data.id
       this.pageNumber = 0
-      this.searchParam()
       this.getisDeleteList()
       this.butlerList = []
     },
