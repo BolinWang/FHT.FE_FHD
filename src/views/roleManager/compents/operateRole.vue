@@ -156,7 +156,7 @@ export default {
           OneList.isFlag = false
           // 只要某个区域勾选了或者部分勾选了，城市都处于部分选中状态
           OneList.isIndeterminat = OneCheckList.length > 0 || OneIndeterminate.length > 0
-          if (OneIndeterminate.length > 0) {
+          if (OneIndeterminate.length > 0 || OneCheckList.length > 0) {
             this.form.menuIds.push(OneList.menuId)
           }
         }
