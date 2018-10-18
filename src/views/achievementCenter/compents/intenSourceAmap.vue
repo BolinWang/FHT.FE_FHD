@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 23:52:39 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 15:51:11
+ * @Last Modified time: 2018-10-18 18:47:28
  */
 <template>
   <div class="container-box">
@@ -137,17 +137,7 @@ export default {
       },
       addClickHandler(item, markerDia) { // 聚合点点击事件
         markerDia.on('mouseover', function(e) {
-          markerDia.setLabel({
-            // 修改label相对于maker的位置
-            offset: new AMap.Pixel(20, 20),
-            content: `<div class="content-amap">
-                       <div class='info'>房间地点：${item.roomName}(${item.roomCode})</div>
-                       <div class='info'>带看时间：${item.lookTime}</div>
-                      </div>`
-          })
-        })
-        markerDia.on('mouseout', function(e) {
-          markerDia.setLabel()
+          e.target.info.open(map, e.target.getPosition())
         })
       },
       init: function() {
@@ -165,6 +155,13 @@ export default {
             }),
             offset: new AMap.Pixel(0, 0),
             position: [item.lookLongitude, item.lookLatitude]
+          })
+          markerDia.info = new AMap.InfoWindow({
+            content: `<div class="content-amap">
+                          <div class='info'>房间地点：${item.roomName}(${item.roomCode})</div>
+                          <div class='info'>带看时间：${item.lookTime}</div>
+                          </div>`,
+            offset: new AMap.Pixel(0, 0)
           })
           this.addClickHandler(item, markerDia)
         })

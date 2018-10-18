@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 09:42:00
+ * @Last Modified time: 2018-10-18 18:43:51
  */
 <template>
   <div class="container">
@@ -258,7 +258,6 @@ export default {
         sid: 8018,
         trid: this.searchList[this.chooseIndex].trid }
       const self = this
-      console.log(params)
       axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
         if (res.data.data.tracks) {
           self.lineList = res.data.data.tracks[0].points
@@ -293,10 +292,10 @@ export default {
         })
       }
     },
-    nowManagerId(item) {
+    nowManagerId(item, index) {
       this.searchFrom.date = ''
       this.searchList = []
-      this.chooseIndex = ''
+      this.chooseIndex = index
       this.searchFrom.managerId = item.id
     },
     searchIsDeleteList() {

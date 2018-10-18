@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 14:45:18
+ * @Last Modified time: 2018-10-18 18:47:37
  */
 <template>
   <div class="container" v-loading="loading">
@@ -119,28 +119,35 @@ export default {
     }
   },
   methods: {
-    nowManagerId(item) {
+    nowManagerId(item, index) {
       this.searchFrom.managerId = item.id
-      this.chooseIndex = ''
-      console.log(item)
+      this.chooseIndex = index
       if (item.data.location !== '') {
-        map.setZoomAndCenter(20, item.data.location.split(','))
-      }
-    },
-    addClickHandler(item, markerDia) { // 聚合点点击事件
-      markerDia.on('mouseover', function(e) {
-        markerDia.setLabel({
-          // 修改label相对于maker的位置
-          offset: new AMap.Pixel(20, 20),
+        map.setZoomAndCenter(14, item.data.location.split(','))
+        const markerDia = new AMap.Marker({ // 添加聚合点
+          map: map,
+          icon: new AMap.Icon({
+            image: item.status === true ? '//webapi.amap.com/theme/v1.2/m3.png' : '//webapi.amap.com/theme/v1.2/m1.png',
+            imageSize: new AMap.Size(24, 24)
+          }),
+          offset: new AMap.Pixel(-26, -13),
+          position: item.data.location.split(',')
+        })
+        markerDia.info = new AMap.InfoWindow({
           content: `<div class="content-amap">
                        <div class='info'>${item.name}</div>
                        <div class='info'>工作状态：${item.status === true ? '工作中' : '休息'}</div>
                        <div class='info'>时间：${item.data.locatetime}</div>
-                      </div>`
+                      </div>`,
+          offset: new AMap.Pixel(0, 0)
         })
-      })
-      markerDia.on('mouseout', function(e) {
-        markerDia.setLabel()
+        markerDia.info.open(map, item.data.location.split(','))
+        this.addClickHandler(item, markerDia)
+      }
+    },
+    addClickHandler(item, markerDia) { // 聚合点点击事件
+      markerDia.on('mouseover', function(e) {
+        e.target.info.open(map, e.target.getPosition())
       })
     },
     init: function() {
@@ -160,7 +167,14 @@ export default {
             offset: new AMap.Pixel(-26, -13),
             position: item.data.location.split(',')
           })
-
+          markerDia.info = new AMap.InfoWindow({
+            content: `<div class="content-amap">
+                       <div class='info'>${item.name}</div>
+                       <div class='info'>工作状态：${item.status === true ? '工作中' : '休息'}</div>
+                       <div class='info'>时间：${item.data.locatetime}</div>
+                      </div>`,
+            offset: new AMap.Pixel(0, 0)
+          })
           this.addClickHandler(item, markerDia)
         }
       })

@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 14:00:07
+ * @Last Modified time: 2018-10-18 18:05:35
  */
 import { roleMenusListApi } from '@/api/organization'
 import { login, logout, getInfo } from '@/api/login'
@@ -60,11 +60,11 @@ const user = {
               depId: data.depId,
               department: data.department
             }))
-            dispatch('GetRouterInfo', data.roleId)
             commit('SET_SESSIONID', data.sessionId)
+            dispatch('GetRouterInfo', data.roleId).then(res => {
+              resolve()
+            })
           }
-
-          resolve()
         }).catch(error => {
           reject(error)
         })
