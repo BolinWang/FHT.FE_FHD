@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 21:03:12
+ * @Last Modified time: 2018-10-18 09:42:06
  */
 <template>
   <div class="container" v-loading="loading">
@@ -137,7 +137,7 @@ export default {
     init: function() {
       map = new AMap.Map('map', {
         resizeEnable: true,
-        zoom: 5
+        zoom: 12
       })
 
       this.butlerList.map(item => {

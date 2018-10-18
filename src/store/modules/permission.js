@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 20:04:23
+ * @Last Modified time: 2018-10-18 09:50:55
  */
 
 import {
@@ -88,7 +88,7 @@ function traverseTree(node, data, path) {
       })
     }
   })
-  return buttomList
+  return buttomList[0].children
 }
 const permission = {
   state: {

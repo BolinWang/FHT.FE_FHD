@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 10:39:52 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 20:28:29
+ * @Last Modified time: 2018-10-18 10:09:00
  */
 <template>
      <el-dialog title="客源详情" width="700px" :visible.sync="dialogFormVisible" >
@@ -171,6 +171,7 @@ export default {
     },
     getOrderDetil(id) {
       this.dialogFormVisible = true
+      this.houseFeature = []
       getBackCustomerInfoApi({ customerId: id }).then(res => {
         this.orderDetail = res.data
         this.orderDetail.houseFeatureList && this.houseFeatureFilter(this.orderDetail.houseFeatureList)

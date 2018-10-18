@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 20:34:46
+ * @Last Modified time: 2018-10-18 09:42:00
  */
 <template>
   <div class="container">
@@ -178,7 +178,7 @@ export default {
     init: function() {
       map = new AMap.Map('map', {
         resizeEnable: true,
-        zoom: 17
+        zoom: 12
       })
       let lat = []
       if (this.lineList.length > 0) {
