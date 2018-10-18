@@ -142,13 +142,13 @@
         <el-col :span="5">
            <div class="text-left">房东</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.orgAdminName}}</el-col>
+        <el-col :span="19">{{orderDetail.orgAdminName}} {{orderDetail.orgAdminMobile}}</el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">
             <div class="text-left">签约人</div>
         </el-col>
-        <el-col :span="19">{{orderDetail.contactName}}</el-col>
+        <el-col :span="19">{{orderDetail.contactName}} {{orderDetail.contactGender===1?'男':'女'}} {{orderDetail.contactMobile}}</el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="5">

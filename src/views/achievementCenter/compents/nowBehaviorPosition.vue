@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 20:38:41
+ * @Last Modified time: 2018-10-17 21:03:12
  */
 <template>
   <div class="container" v-loading="loading">
@@ -133,12 +133,11 @@ export default {
       //   // marker.setLabel({ content: e.data.name })
 
       // })
-
     },
     init: function() {
       map = new AMap.Map('map', {
         resizeEnable: true,
-        zoom: 17
+        zoom: 5
       })
 
       this.butlerList.map(item => {
@@ -174,7 +173,7 @@ export default {
           locate: true, // 是否显示定位按钮，默认为false
           liteStyle: false, // 是否使用精简模式，默认为false
           direction: true, // 方向键盘是否可见，默认为true
-          autoPosition: false, // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
+          autoPosition: true, // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
           locationMarker: AMap.Marker({ map: map }),
           useNative: false
         }

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 23:52:39 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 17:56:50
+ * @Last Modified time: 2018-10-17 20:58:50
  */
 <template>
   <div class="container-box">
@@ -103,7 +103,6 @@ export default {
         } else {
           lineNeed = this.lineArr.slice(val, oldval).reverse()
         }
-        console.log(lineNeed)
         marker.moveAlong(lineNeed, 90000, () => {
         })
       }
@@ -125,7 +124,6 @@ export default {
         this.$nextTick(() => {
           customerLookRecordApi({ customerId: id }).then(res => {
             this.lookRecordList = res.data
-            console.log(res)
             this.getLineArr(this.lookRecordList)
           })
         })
@@ -144,7 +142,7 @@ export default {
         })
         const lat = this.lineList[0].location.split(',')
         this.lookRecordList[this.chooseActive].allocationInfoDTOs.map(item => {
-          new AMap.Marker({ // 添加聚合点
+          const markerDia = new AMap.Marker({ // 添加聚合点
             map: map,
             icon: new AMap.Icon({
               image: '//a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png',
@@ -152,6 +150,15 @@ export default {
             }),
             offset: new AMap.Pixel(0, 0),
             position: [item.lookLongitude, item.lookLatitude]
+          })
+          console.log(item)
+          markerDia.setLabel({
+            // 修改label相对于maker的位置
+            offset: new AMap.Pixel(20, 20),
+            content: `<div class="content-amap">
+                       <div class='info'>房间地点：${item.roomName}</div>
+                       <div class='info'>带看时间：${item.lookTime}</div>
+                      </div>`
           })
         })
         marker = new AMap.Marker({
@@ -228,7 +235,6 @@ export default {
           sid: 8018,
           trid: this.lookRecordList[this.chooseActive].trid }
         const self = this
-        console.log(params)
         axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
           if (res.data.data.tracks) {
             self.lineList = res.data.data.tracks[0].points
@@ -273,7 +279,9 @@ export default {
    box-shadow: 4px 4px 5px #888888;
    .map-liner{
      background: #fff; 
-     overflow: hidden; 
+     height:440px;
+     padding-bottom: 4px;
+     overflow: auto; 
    }
    .active{
      background: #909399 !important;

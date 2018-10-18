@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 20:18:19
+ * @Last Modified time: 2018-10-17 16:29:37
  */
 
 <template>
@@ -30,7 +30,7 @@
       </el-form>
     </div>
     <!-- 修改密码弹窗 -->
-    <el-dialog title="修改密码" :visible.sync="dialogFormVisible">
+    <el-dialog title="修改密码" :before-close="handleClose" :visible.sync="dialogFormVisible">
       <el-form :model="formDate" :rules="editPasRules" ref="formDate" >
         <el-form-item  label="新密码" label-width="100px" prop="newPassword">
           <el-input type="password"  v-model="formDate.newPassword"  ></el-input>
@@ -47,7 +47,7 @@
   </div>
 </template>
 <script>
-import { validateMobile } from '@/utils/validate'
+import { validateMobile, validateisPassWord } from '@/utils/validate'
 import SHA1 from 'js-sha1'
 import { loginChangeApi } from '@/api/login'
 export default {
@@ -72,6 +72,8 @@ export default {
         callback(new Error('密码不能小于6位'))
       } else if (value === '123456') {
         callback(new Error('密码过于简单请确认后重新输入'))
+      } else if (!validateisPassWord(value.trim())) {
+        callback(new Error('密码格式不正确,只能输入6-20个字母、数字、下划线 '))
       } else {
         callback()
       }
@@ -134,6 +136,9 @@ export default {
         }
       })
     },
+    handleClose() {
+      this.dialogFormVisible = false
+    },
     submitLogin() {
       const params = {
         mobile: this.loginForm.mobile,
@@ -154,7 +159,6 @@ export default {
       this.$refs[formDate].resetFields()
     },
     changePassword() {
-      this.$message.error('该账号密码过于简单，请重置您的密码')
       this.dialogFormVisible = true
     }
   }

@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:13
- * @Last Modified by: chenxing
- * @Last Modified time: 2018-07-16 10:46:22
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-10-18 00:49:19
  */
 
 import axios from 'axios'
@@ -12,23 +12,23 @@ import { getSessionId } from '@/utils/auth'
 
 /* 防止重复提交，利用axios的cancelToken */
 let pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
-let CancelToken = axios.CancelToken
+const CancelToken = axios.CancelToken
 // 拼接当前请求的url
-let formatUrl = (config) => {
+const formatUrl = (config) => {
   let typeData = config.method.toUpperCase() === 'POST'
     ? config.data
     : config.params
   // response返回的是string格式 需要转成对象
   typeData = typeof typeData === 'string' ? JSON.parse(typeData) : typeData
   // response返回的url是已经和baseURL拼接过的，而request过去的没有，需要处理一下否则导致接口完成无法删除一直都是重复提交
-  let postUrl = config.url.indexOf(process.env.BASE_API) === -1
+  const postUrl = config.url.indexOf(process.env.BASE_API) === -1
     ? `${process.env.BASE_API}${config.url}`
     : config.url
   const returnUrl = (postUrl.endsWith('/') ? postUrl : `${postUrl}/`) + typeData.method
   return returnUrl
 }
-let removePending = (config, f) => {
-  let flagUrl = formatUrl(config)
+const removePending = (config, f) => {
+  const flagUrl = formatUrl(config)
   if (pending.indexOf(flagUrl) !== -1) {
     if (f) {
       f('取消重复请求') // 执行取消操作
@@ -123,7 +123,7 @@ const responseMehod = (response, resolve, reject) => {
   Message({
     message: res.message || '未知错误，请联系管理员',
     type: 'error',
-    duration: 5 * 1000
+    duration: 2 * 1000
   })
   // sessionId 失效
   if (res.code * 1 === 1016) {

@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:36
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-04 17:18:04
+ * @Last Modified time: 2018-10-17 16:25:51
  */
 
 /* 是否是公司邮箱*/
@@ -44,5 +44,9 @@ export function validatAlphabets(str) {
 /* 验证身份证号码*/
 export function validateisCard(str) {
   const reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+  return reg.test(str)
+}
+export function validateisPassWord(str) {
+  const reg = /^(\w){6,20}$/
   return reg.test(str)
 }

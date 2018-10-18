@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 11:47:04
+ * @Last Modified time: 2018-10-17 20:14:17
  */
 <template>
   <div class="layout-container">
@@ -426,7 +426,7 @@ export default {
     this.getTree()
     const paramRoute = {
       parentsRouter: this.$route.matched[0].path,
-      nowRouter: this.$route.path
+      nowRouter: this.$route.path.split('/')[this.$route.path.split('/').length - 1]
     }
     this.$store.dispatch('ButtonPowerArray', { paramRoute })
     this.getroleOptsList()

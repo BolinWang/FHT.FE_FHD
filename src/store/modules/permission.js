@@ -2,48 +2,72 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 17:06:56
+ * @Last Modified time: 2018-10-17 20:04:23
  */
 
 import {
   asyncRouterMap,
   constantRouterMap
 } from '@/router/index'
-
+const path = []
 /**
- * 通过menuName判断是否与当前用户权限匹配
+ * 通过path判断是否与当前用户权限匹配
  * @param menuName
  * @param route
  */
-function hasPermission(route, routes) {
-  let temp = []
-  if (route.hasOwnProperty('children')) {
-    temp = route.children.filter((item, index) => {
-      return item.name
-    })
-  }
-
-  return temp
+function hasPermission(route) {
+  const nowRoute = route
+  const temp = path.filter(item => {
+    if (nowRoute.path === item) {
+      if (nowRoute.hasOwnProperty('children') && nowRoute.children instanceof Array) {
+        nowRoute.children = nowRoute.children.filter(v => {
+          const routesNow = path.filter(vrouter => {
+            return v.path === vrouter
+          })
+          if (routesNow.length > 0) {
+            return v
+          }
+          return false
+        })
+      }
+      return true
+    } else {
+      return false
+    }
+  })
+  return temp.length > 0 ? nowRoute : ''
 }
 /**
  * 获取当前页面的路由，过滤挂载
  * @param menuName
  * @param route
  */
-function getfilterAsyncRouter(asyncRouter, routes) {
-  // const accessedRouters = asyncRouter.filter(route => {
-  //   if (hasPermission(route, routes) && hasPermission(route, routes).length > 0) {
-  //     if (route.children && route.children.length) {
-  //       route.children = getfilterAsyncRouter(route.children, routes)
-  //     }
-  //     return true
-  //   }
-  //   return false
-  // })
+function getfilterAsyncRouter(asyncRouter) {
+  // routes 配置的路由
   const accessedRouters = asyncRouter.filter(route => {
-    return !route.hasOwnProperty('children') || route.children.length > 0
+    if (route.path === '*') {
+      return route
+    }
+    route = hasPermission(route)
+    return route
   })
   return accessedRouters
+}
+// 遍历当前权限，重组path
+function traverseNode(node) {
+  path.push(node.path)
+}
+function traverseRouter(node) {
+  if (!node) {
+    return
+  }
+  traverseNode(node)
+  if (node.children && node.children.length > 0) {
+    var i = 0
+    for (i = 0; i < node.children.length; i++) {
+      traverseRouter(node.children[i])
+    }
+  }
 }
 
 /**
@@ -55,6 +79,7 @@ function traverseTree(node, data, path) {
   if (!node) {
     return
   }
+  console.log(path)
   let buttomList = []
   node.map(res => {
     if (res.children && res.children.length > 0 && res.path === data) {
@@ -63,14 +88,14 @@ function traverseTree(node, data, path) {
       })
     }
   })
-  return buttomList[0].children
+  return buttomList
 }
 const permission = {
   state: {
-    routers: constantRouterMap,
-    buttomList: [],
-    addRouters: [],
-    powerButton: []
+    routers: constantRouterMap, // 默认页面
+    buttomList: [], // 按钮列表
+    addRouters: [], // 自有页面
+    powerButton: [] // 当前页面 按钮
   },
   mutations: {
     SET_ROUTERS: (state, routers) => {
@@ -90,10 +115,12 @@ const permission = {
     }, data) {
       return new Promise(resolve => {
         const { routes } = data
-        console.log(data)
         let accessedRouters = []
         if (routes) {
-          accessedRouters = getfilterAsyncRouter(asyncRouterMap, routes)
+          routes.map(v => {
+            traverseRouter(v)
+          })
+          accessedRouters = getfilterAsyncRouter(asyncRouterMap)
         }
         commit('SET_ROUTERS', accessedRouters)
         commit('SET_BUTTONLIST', routes)

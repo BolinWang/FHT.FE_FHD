@@ -61,7 +61,7 @@ export default {
   created() {
     const paramRoute = {
       parentsRouter: this.$route.matched[0].path,
-      nowRouter: this.$route.path
+      nowRouter: this.$route.path.split('/')[this.$route.path.split('/').length - 1]
     }
     this.$store.dispatch('ButtonPowerArray', { paramRoute })
   },
