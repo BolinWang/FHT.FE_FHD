@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 20:35:39
+ * @Last Modified time: 2018-10-18 14:41:38
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -17,10 +17,10 @@
             <span class="name">{{butlerListItem.name}}</span>
           </el-tooltip>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="11">
           <span class="mobile">{{butlerListItem.mobile}}</span>
         </el-col>
-        <el-col :span="5" v-if="butlerListItem.isDelete || butlerListItem.isDelete==0">
+        <el-col :span="4" v-if="butlerListItem.isDelete || butlerListItem.isDelete==0">
           <span class="name">{{butlerListItem.isDelete | deleteFilter }}</span>
         </el-col>
         <el-col :span="4" v-if="butlerListItem.type">

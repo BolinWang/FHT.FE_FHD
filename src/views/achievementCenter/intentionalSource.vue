@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 14:05:18
+ * @Last Modified time: 2018-10-18 14:50:35
  */
 
 <template>
@@ -57,6 +57,7 @@
             <el-date-picker
               type="datetimerange"
               size="small"
+              style="width: 350px"
               v-model="searchTime"
               range-separator="至"
               :default-time="['00:00:00']"
@@ -64,7 +65,9 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
-            <el-input size="small" style="width:240px;" v-model="searchFrom.customerId"   placeholder='客源号'  @keydown.native.enter="searchParam">
+            <el-input size="small"  style="width:140px;" v-model="searchFrom.customerId"   placeholder='客源号'  @keydown.native.enter="searchParam">
+            </el-input>
+            <el-input size="small" style="width:140px;" v-model="searchFrom.name"   placeholder='租客姓名'  @keydown.native.enter="searchParam">
             </el-input>
             <el-button type="danger" class="right filter-item" size="mini" @click="delOrg" >清空</el-button>
             <el-button type="primary" class="right filter-item" size="mini" @click="searchParam" icon="el-icon-search">查询</el-button>
@@ -195,6 +198,7 @@ export default {
       keyword: '',
       searchFrom: {
         depId: '',
+        name: '',
         isDelete: 'null',
         customerId: '',
         startTime: '',

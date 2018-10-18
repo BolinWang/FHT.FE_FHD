@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 09:42:06
+ * @Last Modified time: 2018-10-18 14:45:18
  */
 <template>
   <div class="container" v-loading="loading">
@@ -128,11 +128,20 @@ export default {
       }
     },
     addClickHandler(item, markerDia) { // 聚合点点击事件
-      // markerDia.on('mouseover', function(e) {
-      //   // marker.setPosition(e.data.lnglat)
-      //   // marker.setLabel({ content: e.data.name })
-
-      // })
+      markerDia.on('mouseover', function(e) {
+        markerDia.setLabel({
+          // 修改label相对于maker的位置
+          offset: new AMap.Pixel(20, 20),
+          content: `<div class="content-amap">
+                       <div class='info'>${item.name}</div>
+                       <div class='info'>工作状态：${item.status === true ? '工作中' : '休息'}</div>
+                       <div class='info'>时间：${item.data.locatetime}</div>
+                      </div>`
+        })
+      })
+      markerDia.on('mouseout', function(e) {
+        markerDia.setLabel()
+      })
     },
     init: function() {
       map = new AMap.Map('map', {
@@ -151,15 +160,7 @@ export default {
             offset: new AMap.Pixel(-26, -13),
             position: item.data.location.split(',')
           })
-          markerDia.setLabel({
-            // 修改label相对于maker的位置
-            offset: new AMap.Pixel(20, 20),
-            content: `<div class="content-amap">
-                       <div class='info'>${item.name}</div>
-                       <div class='info'>工作状态：${item.status === true ? '工作中' : '休息'}</div>
-                       <div class='info'>时间：${item.data.locatetime}</div>
-                      </div>`
-          })
+
           this.addClickHandler(item, markerDia)
         }
       })
