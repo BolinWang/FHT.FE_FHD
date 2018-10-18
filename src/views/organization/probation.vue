@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:31:58
+ * @Last Modified time: 2018-10-18 17:19:03
  */
 <template>
   <div class="layout-container con-f">
@@ -285,7 +285,8 @@ export default {
         nameOrMobile: '',
         depId: '',
         isDelete: 0,
-        type: 0
+        type: 0,
+        key: 'informal'
       },
       nowOrgObj: {
         depName: '',

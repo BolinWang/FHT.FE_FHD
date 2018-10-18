@@ -2,17 +2,17 @@
  * @Author: FT.FE.Ghost
  * @Date: 2018-08-03 10:10:05
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 01:35:23
+ * @Last Modified time: 2018-10-18 17:21:57
  */
 
 const Storage = { }
 
 Storage.get = function(keyname) {
-  return JSON.parse(sessionStorage.getItem(keyname))
+  return JSON.parse(localStorage.getItem(keyname))
 }
 
 Storage.set = function(keyname, val) {
-  sessionStorage.setItem(keyname, JSON.stringify(val))
+  localStorage.setItem(keyname, JSON.stringify(val))
 }
 
 Storage.add = function(keyname, addVal) {
@@ -28,7 +28,7 @@ Storage.removeItem = function(keyname, i) {
 }
 
 Storage.remove = function(keyname) {
-  sessionStorage.removeItem(keyname)
+  localStorage.removeItem(keyname)
 }
 
 export default Storage

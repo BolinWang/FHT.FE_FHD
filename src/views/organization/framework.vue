@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 20:14:17
+ * @Last Modified time: 2018-10-18 17:18:22
  */
 <template>
   <div class="layout-container">
@@ -545,6 +545,7 @@ export default {
       formData: {
         nameOrMobile: '',
         depId: '',
+        key: 'formal',
         type: null,
         isDelete: 0
       },
