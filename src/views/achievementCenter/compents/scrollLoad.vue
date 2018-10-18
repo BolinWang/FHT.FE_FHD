@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 14:41:38
+ * @Last Modified time: 2018-10-18 21:03:43
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -23,7 +23,7 @@
         <el-col :span="4" v-if="butlerListItem.isDelete || butlerListItem.isDelete==0">
           <span class="name">{{butlerListItem.isDelete | deleteFilter }}</span>
         </el-col>
-        <el-col :span="4" v-if="butlerListItem.type">
+        <el-col :span="4" v-if="butlerListItem.type||butlerListItem.type===0">
           <span class="mobile">{{butlerListItem.type | typeFilter}}</span>
         </el-col>
         <el-col :span="5" v-if="butlerListItem.status||butlerListItem.status===false">
