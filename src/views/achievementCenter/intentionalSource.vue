@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 14:50:35
+ * @Last Modified time: 2018-10-18 15:19:50
  */
 
 <template>
@@ -199,6 +199,7 @@ export default {
       searchFrom: {
         depId: '',
         name: '',
+        depName: '',
         isDelete: 'null',
         customerId: '',
         startTime: '',
@@ -313,6 +314,7 @@ export default {
     },
     delOrg() {
       delObjectItem(this.searchFrom)
+      this.searchTime = []
     },
     handleClick() { // 在职情况
       this.butlerList = []

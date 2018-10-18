@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 11:00:15
+ * @Last Modified time: 2018-10-18 15:18:57
  */
 
 
@@ -300,6 +300,7 @@ export default {
       chooseIndex: '',
       searchFrom: {
         depId: '',
+        depName: '',
         isDelete: 'null',
         keyword: '',
         startTime: '',
@@ -416,6 +417,7 @@ export default {
     },
     delOrg() {
       delObjectItem(this.searchFrom)
+      this.searchTime = []
     },
     overlayNodeClick(node, data) { // 弹框tree点击
       this.searchFrom.depName = data.data.depName
