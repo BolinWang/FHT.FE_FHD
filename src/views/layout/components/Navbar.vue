@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:22:27 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 12:46:11
+ * @Last Modified time: 2018-10-18 15:54:55
  */
 
 <template>
@@ -45,8 +45,11 @@
         <el-form-item label="用户名" prop="name">
           <el-input v-model="ruleForm.name" disabled></el-input>
         </el-form-item>
-         <el-form-item  label="修改密码" prop="newPassword">
-          <el-input type="password" v-model="ruleForm.newPassword" ></el-input>
+        <el-form-item  label="密码" prop="newPassword">
+          <el-input maxlength="12" type="password" v-model="ruleForm.newPassword" ></el-input>
+        </el-form-item>
+        <el-form-item  label="确认密码" prop="newPasswordSure">
+          <el-input maxlength="12" type="password" v-model="ruleForm.newPasswordSure" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -64,6 +67,7 @@ import Screenfull from '@/components/Screenfull'
 import { default as TagsView } from './TagsView'
 import SHA1 from 'js-sha1'
 import { loginChangeApi } from '@/api/login'
+import { validateisPassWord } from '@/utils/validate'
 export default {
   components: {
     Hamburger,
@@ -78,6 +82,17 @@ export default {
         callback(new Error('密码不能小于6位'))
       } else if (value === '123456') {
         callback(new Error('密码过于简单请确认后重新输入'))
+      } else if (!validateisPassWord(value.trim())) {
+        callback(new Error('密码格式不正确,只能输入6-20个字母、数字、下划线 '))
+      } else {
+        callback()
+      }
+    }
+    const passwordSure = (rule, value, callback) => {
+      if (value.length < 6) {
+        callback(new Error('密码不能小于6位'))
+      } else if (value !== this.formDate.newPassword) {
+        callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
       }
@@ -87,11 +102,15 @@ export default {
       ruleFormRules: {
         newPassword: [
           { required: true, trigger: 'blur', validator: newPassword }
+        ],
+        newPasswordSure: [
+          { required: true, trigger: 'blur', validator: passwordSure }
         ]
       },
       ruleForm: {
         name: this.$store.state.user.name,
-        newPassword: ''
+        newPassword: '',
+        newPasswordSure: ''
       }
     }
   },

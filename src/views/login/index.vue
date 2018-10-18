@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 12:49:07
+ * @Last Modified time: 2018-10-18 15:37:18
  */
 
 <template>
@@ -20,7 +20,7 @@
           <span class="svg-container">
             <i class="iconfont icon-mima"></i>
           </span>
-          <el-input name="password" type="text" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
+          <el-input name="password" :maxlength='12' type="text" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
@@ -33,10 +33,10 @@
     <el-dialog title="修改密码" :before-close="handleClose" :visible.sync="dialogFormVisible">
       <el-form :model="formDate" :rules="editPasRules" ref="formDate" >
         <el-form-item  label="新密码" label-width="100px" prop="newPassword">
-          <el-input type="password"  v-model="formDate.newPassword"  ></el-input>
+          <el-input :maxlength='12' type="password"  v-model="formDate.newPassword"  ></el-input>
         </el-form-item>
         <el-form-item  label="确认密码" label-width="100px" prop="newPasswordSure">
-           <el-input type="password" v-model="formDate.newPasswordSure" @keyup.enter.native="submitLogin"></el-input>
+           <el-input :maxlength='12' type="password" v-model="formDate.newPasswordSure" @keyup.enter.native="submitLogin"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

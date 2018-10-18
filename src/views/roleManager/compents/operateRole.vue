@@ -1,19 +1,9 @@
 <template>
    <div class="container">
-     <el-dialog :title="editOradd?'编辑角色':'新建角色'" :visible.sync="dialogFormVisible">
+     <el-dialog :before-close="cancelRole" :title="editOradd?'编辑角色':'新建角色'" :visible.sync="dialogFormVisible">
        <div class="text-box">
          <el-form  :inline="true" ref="form" :rules="rules"  :model="form" label-width="80px" size="small">
            <el-form-item label="角色名称" prop='roleName'>
-              <!-- <el-form-item label="权限角色" prop="role">
-                <el-select v-model="accountForm.role" style="width: 100%">
-                  <el-option
-                    v-for="item in roleOpts"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-form-item> -->
             <el-input v-model="form.roleName" :maxlength="10"  placeholder="请输入"></el-input>
            </el-form-item>
            <el-form-item class="right">
@@ -158,6 +148,14 @@ export default {
       this.form.backLogin === true ? this.form.backLogin = 1 : this.form.backLogin = 0
       // this.form.menuIds = this.allListNow.filter(v => v.isFlag).map(v => v.menuId)
       this.dataFomart()
+      if (this.form.roleName === '') {
+        this.$message({
+          message: '没做任何操作，请确认数据',
+          type: 'error'
+        })
+        return false
+      }
+
       roleSaveApi(this.form).then(res => {
         delObjectItem(this.form)
         this.allListNow = []

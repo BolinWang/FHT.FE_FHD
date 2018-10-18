@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:36
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 16:25:51
+ * @Last Modified time: 2018-10-18 15:34:38
  */
 
 /* 是否是公司邮箱*/
@@ -47,6 +47,6 @@ export function validateisCard(str) {
   return reg.test(str)
 }
 export function validateisPassWord(str) {
-  const reg = /^(\w){6,20}$/
+  const reg = /^(\w){6,12}$/
   return reg.test(str)
 }
