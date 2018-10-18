@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 16:29:37
+ * @Last Modified time: 2018-10-18 12:49:07
  */
 
 <template>
@@ -20,7 +20,7 @@
           <span class="svg-container">
             <i class="iconfont icon-mima"></i>
           </span>
-          <el-input name="password" type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
+          <el-input name="password" type="text" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
@@ -122,6 +122,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          console.log(this.loginForm)
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
             this.loginForm.password === '123456'
@@ -138,6 +139,7 @@ export default {
     },
     handleClose() {
       this.dialogFormVisible = false
+      this.$refs['formDate'].resetFields()
     },
     submitLogin() {
       const params = {
@@ -149,7 +151,8 @@ export default {
         if (valid) {
           loginChangeApi(params).then(res => {
             this.$message.success('密码修改成功')
-            this.$router.push({ path: '/' })
+            this.loginForm.password = this.formDate.newPassword
+            this.handleLogin()
           })
         }
       })

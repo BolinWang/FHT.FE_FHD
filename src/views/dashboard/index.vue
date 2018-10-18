@@ -2,12 +2,12 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:11:02 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-09-30 02:00:21
+ * @Last Modified time: 2018-10-18 14:02:37
  */
 
 <template>
   <div class="dashboard-container">
-    <p style="margin-top: 0;">{{roles | rolesFilter}}{{name}}</p>
+    <p style="margin-top: 0;">{{department}} - {{name}}</p>
     <div class="img-banner"></div>
   </div>
 </template>
@@ -35,8 +35,12 @@ export default {
   },
   data() {
     return {
-      bannerPic: bannerPic
+      bannerPic: bannerPic,
+      department: ''
     }
+  },
+  mounted() {
+    this.department = JSON.parse(localStorage.getItem('userInfo')).department
   },
   computed: {
     ...mapGetters([

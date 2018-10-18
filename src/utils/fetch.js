@@ -2,14 +2,14 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:13
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 00:49:19
+ * @Last Modified time: 2018-10-18 12:38:23
  */
 
 import axios from 'axios'
 import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getSessionId } from '@/utils/auth'
-
+import Storage from '@/utils/local-plugin'
 /* 防止重复提交，利用axios的cancelToken */
 let pending = [] // 声明一个数组用于存储每个ajax请求的取消函数和ajax标识
 const CancelToken = axios.CancelToken
@@ -66,6 +66,8 @@ service.interceptors.request.use(config => {
   if (config.method.toUpperCase() === 'POST') {
     if (store.getters.sessionId) {
       config.data['sessionId'] = getSessionId()
+    } else if (config.data.method === 'logout') {
+      config.data['sessionId'] = Storage.get('editSessionID')
     }
     if (!config.noAssign) {
       config.data = Object.assign(config.data, defaultConfig)

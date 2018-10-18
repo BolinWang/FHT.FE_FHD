@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 20:28:24
+ * @Last Modified time: 2018-10-18 11:00:15
  */
 
 
@@ -428,6 +428,7 @@ export default {
     handleClick() { // 在职情况
       this.butlerList = []
       this.pageNumber = 0
+      this.searchFrom.managerId = ''
       this.searchParam()
       this.getisDeleteList()
     },

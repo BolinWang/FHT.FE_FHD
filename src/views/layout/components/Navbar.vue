@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:22:27 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 10:13:28
+ * @Last Modified time: 2018-10-18 12:46:11
  */
 
 <template>
@@ -117,6 +117,7 @@ export default {
         oldPassword: SHA1(userInfo.password),
         newPassword: SHA1(this.ruleForm.newPassword)
       }
+      console.log(params)
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           loginChangeApi(params).then(res => {

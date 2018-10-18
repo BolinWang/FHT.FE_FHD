@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 20:26:28
+ * @Last Modified time: 2018-10-18 14:05:18
  */
 
 <template>
@@ -313,7 +313,9 @@ export default {
     handleClick() { // 在职情况
       this.butlerList = []
       this.pageNumber = 0
+      this.searchFrom.managerId = ''
       this.getisDeleteList()
+      this.searchParam()
     },
     getTree(id, name) {
       queryDepartmentByLogin().then(res => {

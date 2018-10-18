@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 17:06:10
+ * @Last Modified time: 2018-10-18 14:00:07
  */
 import { roleMenusListApi } from '@/api/organization'
 import { login, logout, getInfo } from '@/api/login'
@@ -49,15 +49,21 @@ const user = {
         login(mobile, password).then(response => {
           const data = response.data
           commit('SET_DEPID', data.depId)
-          setSessionId(data.sessionId)
-          // 存储账号密码供BI鉴权使用
-          localStorage.setItem('userInfo', JSON.stringify({
-            mobile,
-            password: userInfo.password,
-            depId: data.depId
-          }))
-          dispatch('GetRouterInfo', data.roleId)
-          commit('SET_SESSIONID', data.sessionId)
+          if (data.ifChange) {
+            Storage.set('editSessionID', data.sessionId)
+          } else {
+            setSessionId(data.sessionId)
+            // 存储账号密码供BI鉴权使用
+            localStorage.setItem('userInfo', JSON.stringify({
+              mobile,
+              password: userInfo.password,
+              depId: data.depId,
+              department: data.department
+            }))
+            dispatch('GetRouterInfo', data.roleId)
+            commit('SET_SESSIONID', data.sessionId)
+          }
+
           resolve()
         }).catch(error => {
           reject(error)
