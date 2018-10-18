@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 15:19:50
+ * @Last Modified time: 2018-10-18 17:09:59
  */
 
 <template>
@@ -126,12 +126,14 @@
          </div>
       </el-main>
      </el-container>
-     <SourceDetail ref='sourceDetail'></SourceDetail>
-     <IntenSourceAmap ref="intenSourceAmap"></IntenSourceAmap>
+     <SourceDetail ref='sourceDetail' @showdeal='getdeal'></SourceDetail>
+     <DealListDetail ref="dealListDetail" ></DealListDetail>
+     <IntenSourceAmap ref="intenSourceAmap" ></IntenSourceAmap>
   </div>
 </template>
 <script>
 import { queryDepartmentByLogin } from '@/api/organization'
+import DealListDetail from './compents/dealListDetail'
 import {
   getButlerAndKeywordApi
 } from '@/api/achievementCenter'
@@ -154,7 +156,8 @@ export default {
     GridUnit,
     ScrollLoad,
     SourceDetail,
-    IntenSourceAmap
+    IntenSourceAmap,
+    DealListDetail
   },
   filters: {
     leaseStatus(val) {
@@ -257,6 +260,9 @@ export default {
   methods: {
     goLookAmap(item) {
       this.$refs.intenSourceAmap.getAmapLinerShow(item)
+    },
+    getdeal(id) {
+      this.$refs.dealListDetail.getOrderDetilShow(id)
     },
     lookcontract(url) {
       window.location.href = url

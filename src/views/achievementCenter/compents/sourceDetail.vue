@@ -2,9 +2,10 @@
  * @Author: ghost 
  * @Date: 2018-10-09 10:39:52 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 10:09:00
+ * @Last Modified time: 2018-10-18 17:09:05
  */
 <template>
+  <div class="container">
      <el-dialog title="客源详情" width="700px" :visible.sync="dialogFormVisible" >
        <div>
           <el-row  :gutter="20" class="pad-t">
@@ -89,6 +90,8 @@
          <el-button type="primary" @click="dialogFormVisible = false">关闭</el-button>
        </div>
      </el-dialog>
+     
+  </div>
 </template>
 <script>
 import {
@@ -167,7 +170,9 @@ export default {
   },
   methods: {
     goDeaLease(orderNo) {
-      this.$router.push({ path: '/achievementCenter/dealLease', query: { orderNo: orderNo }})
+      this.$emit('showdeal', orderNo)
+
+      // this.$router.push({ path: '/achievementCenter/dealLease', query: { orderNo: orderNo }})
     },
     getOrderDetil(id) {
       this.dialogFormVisible = true
