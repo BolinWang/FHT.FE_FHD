@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 16:49:33
+ * @Last Modified time: 2018-10-19 16:21:30
  */
 
 
@@ -243,9 +243,6 @@ export default {
   },
   methods: {
 
-    lookcontract(url) {
-      window.open(url)
-    },
     searchParam() {
       this.$refs.refGridUnit.searchHandler()
     },

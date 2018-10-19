@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:22:27 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 13:42:13
+ * @Last Modified time: 2018-10-19 15:44:14
  */
 
 <template>
@@ -91,7 +91,7 @@ export default {
     const passwordSure = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('密码不能小于6位'))
-      } else if (value !== this.formDate.newPassword) {
+      } else if (value !== this.ruleForm.newPasswordSure) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()

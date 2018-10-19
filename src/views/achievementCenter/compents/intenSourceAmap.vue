@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 23:52:39 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 18:47:28
+ * @Last Modified time: 2018-10-19 15:24:47
  */
 <template>
   <div class="container-box">
@@ -236,7 +236,7 @@ export default {
           gap: 1000,
           pagesize: 800,
           tid: this.lookRecordList[this.chooseActive].gdTid,
-          sid: 8018,
+          sid: 11117,
           trid: this.lookRecordList[this.chooseActive].trid }
         const self = this
         axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {

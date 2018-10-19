@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 13:41:31
+ * @Last Modified time: 2018-10-19 16:20:07
  */
 <template>
   <div class="container">
@@ -26,6 +26,16 @@
             <el-form-item>
               <el-input size="small" v-model="searchFrom.keyword" placeholder="业务员姓名/手机号码"  @input="searchIsDeleteList">
               </el-input>
+            </el-form-item>
+             <el-form-item>
+               <el-tabs v-model="searchFrom.isDelete" @tab-click="handleClick">
+                <el-tab-pane 
+                 v-for='(IncumbencyListItem,index) in IncumbencyList'
+                 :label="IncumbencyListItem.label" 
+                 :key='index'
+                 :name='IncumbencyListItem.value'>
+                 </el-tab-pane>
+              </el-tabs>
             </el-form-item>
             <el-form-item>
               <div class="table-box table-frist">
@@ -110,7 +120,7 @@ export default {
   computed: {
     listHeight() {
       return {
-        height: (this.tableHeight - 50) / 2 + 'px'
+        height: (this.tableHeight - 100) / 2 + 'px'
       }
     },
     mapHeight() {
@@ -132,13 +142,26 @@ export default {
       tableHeight: 300,
       pageNumber: 0,
       chooseIndex: 0,
+      nowDate: '',
       searchFrom: {
         depId: '',
-        isDelete: '',
+        isDelete: 'null',
         keyword: '',
         date: '',
         managerId: ''
       },
+      IncumbencyList: [
+        {
+          value: 'null',
+          label: '全部'
+        }, {
+          value: '0',
+          label: '在职'
+        }, {
+          value: '1',
+          label: '离职'
+        }
+      ],
       searchList: [],
       treeData: [],
       defaultProps: {
@@ -160,6 +183,18 @@ export default {
         this.tableHeight = temp_height > 300 ? temp_height : 300
       })()
     }
+    const date = new Date()
+    let month = date.getMonth() + 1
+    let strDate = date.getDate()
+    if (month >= 1 && month <= 9) {
+      month = '0' + month
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = '0' + strDate
+    }
+    this.nowDate = `${date.getFullYear()}-${month}-${strDate} 
+            ${date.getHours()}:${date.getMinutes()}:
+            ${date.getSeconds()}`
   },
   watch: {
     lineValue(val, oldval) {
@@ -174,6 +209,13 @@ export default {
     }
   },
   methods: {
+    handleClick() { // 在职情况
+      this.butlerList = []
+      this.pageNumber = 0
+      this.searchFrom.managerId = ''
+      this.getisDeleteList()
+      this.searchParam()
+    },
     init: function() {
       map = new AMap.Map('map', {
         resizeEnable: true,
@@ -254,7 +296,7 @@ export default {
         gap: 1000,
         pagesize: 800,
         tid: this.searchList[this.chooseIndex].gdTid,
-        sid: 8018,
+        sid: 11117,
         trid: this.searchList[this.chooseIndex].trid }
       const self = this
       axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
@@ -291,10 +333,11 @@ export default {
       }
     },
     nowManagerId(item, index) {
-      this.searchFrom.date = ''
+      this.searchFrom.date = this.nowDate
       this.searchList = []
       this.chooseIndex = index
       this.searchFrom.managerId = item.id
+      this.getworkTrailRecord()
     },
     searchIsDeleteList() {
       this.butlerList = []

@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 13:41:49
+ * @Last Modified time: 2018-10-19 15:37:23
  */
 <template>
   <div class="layout-container">
@@ -248,7 +248,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="权限角色" prop="role">
-                <el-select v-if="!isEditAccount" v-model="accountForm.role" style="width: 100%">
+                <el-select v-if="accountForm.type!==0" v-model="accountForm.role" style="width: 100%">
                   <el-option
                     v-for="item in roleOpts"
                     :key="item.roleId"

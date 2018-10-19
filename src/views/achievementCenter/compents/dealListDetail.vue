@@ -139,6 +139,9 @@ export default {
       this.$refs.sourceDetail.getOrderDetil(id)
       // this.$router.push({ path: '/achievementCenter/intentionalSource', query: { customerId: id }})
     },
+    lookcontract(url) {
+      window.open(url)
+    },
     getOrderDetilShow(id) {
       const params = {
         orderNo: id
