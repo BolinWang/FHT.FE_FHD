@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:08:54
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 09:50:55
+ * @Last Modified time: 2018-10-19 13:41:18
  */
 
 import {
@@ -79,7 +79,6 @@ function traverseTree(node, data, path) {
   if (!node) {
     return
   }
-  console.log(path)
   let buttomList = []
   node.map(res => {
     if (res.children && res.children.length > 0 && res.path === data) {

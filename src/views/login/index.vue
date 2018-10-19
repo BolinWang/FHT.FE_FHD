@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 11:01:02
+ * @Last Modified time: 2018-10-19 13:42:11
  */
 
 <template>
@@ -122,7 +122,6 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          console.log(this.loginForm)
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
             this.loginForm.password === '123456'

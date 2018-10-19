@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 11:08:29
+ * @Last Modified time: 2018-10-19 13:41:49
  */
 <template>
   <div class="layout-container">
@@ -438,7 +438,6 @@ export default {
     }
     this.$store.dispatch('ButtonPowerArray', { paramRoute })
     this.getroleOptsList()
-    console.log(this.powerButton)
   },
   computed: {
     treeHeight() {
@@ -778,7 +777,6 @@ export default {
           } else { // 新增
             param.parentId = this.nowOrgObj.id
           }
-          console.log(param)
           postFn(param).then(req => {
             this.layer_addOrg = false
             if (this.isEditOrg) {

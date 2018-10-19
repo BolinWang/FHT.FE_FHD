@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:10:26
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-10 11:41:43
+ * @Last Modified time: 2018-10-19 13:41:35
  */
 
 export function parseTime(time, cFormat) {
@@ -154,7 +154,6 @@ export function scrollTo(element, to, duration) {
   const difference = to - element.scrollTop
   const perTick = difference / duration * 10
   setTimeout(() => {
-    console.log(new Date())
     element.scrollTop = element.scrollTop + perTick
     if (element.scrollTop === to) return
     scrollTo(element, to, duration - 10)

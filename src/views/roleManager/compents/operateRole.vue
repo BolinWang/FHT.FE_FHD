@@ -19,13 +19,15 @@
                 一级菜单
               </div>
               <ul class="contentNav">
-                  <li v-for="(item, indexoperaIndex ) in allList" :key="indexoperaIndex" @click="openCLick(indexoperaIndex)">
+                  <li 
+                    v-for="(item, index ) in allList" 
+                    :key="index" @click="openCLick(index)">
                     <el-checkbox
                       v-model="item.isFlag"
                       :indeterminate='item.isIndeterminat'
                       @change="checkChange(item.isFlag, item.children)">
                     </el-checkbox>
-                    <span :class="{ checkblue: item.isFlag==true }">{{item.menuName}}</span>
+                    <span :class="{ checkblue: item.isFlag===true }">{{item.menuName}}</span>
                   </li>
               </ul>
             </div>
@@ -42,12 +44,12 @@
                       :indeterminate='item.isIndeterminat'
                       @change="checkChange(item.isFlag, item.children)">
                     </el-checkbox>
-                    <span :class="{ checkblue: item.isFlag==true }">{{item.menuName}}</span>
+                    <span :class="{ checkblue: item.isFlag===true }">{{item.menuName}}</span>
                   </li>
               </ul>
             </div>
           </el-col>
-          <el-col :span="8">
+           <el-col :span="8">
             <div class="grid-content">
               <div class="topTitle">
                 操作按钮
@@ -58,11 +60,11 @@
                       v-model="item.isFlag"
                       @change="checkChange(item.isFlag, item.children)">
                     </el-checkbox>
-                    <span :class="{ checkblue: item.isFlag==true }">{{item.menuName}}</span>
+                    <span :class="{ checkblue: item.isFlag===true }">{{item.menuName}}</span>
                   </li>
               </ul>
             </div>
-          </el-col>
+          </el-col> 
         </el-row>
        </div>
         <div slot="footer" class="dialog-footer">
@@ -101,13 +103,14 @@ export default {
   },
   methods: {
     openCLick(index) {
+      console.log(index)
       this.operaIndex = index
+      this.actionIndex = 0
     },
-    checkChange(isIndetermina, data) { // checkbox框切换
-      console.log(data)
+    checkChange(checked, data) { // checkbox框切
       function checkFn(list) {
         list.map(v => {
-          v.isFlag = isIndetermina
+          v.isFlag = checked
           if (v.children instanceof Array && v.children.length > 0) {
             checkFn(v.children)
           } else {
@@ -122,93 +125,50 @@ export default {
     },
     dataFomart() { // 遍历数据判断checked（是否全选）和indeterminate（是否部分选中）
       this.form.menuIds = []
-      // this.allList.map(OneList => { // 遍历一级
-      //   const OneCheckList = [] // 一级下面选中的个数
-      //   const OneIndeterminate = []
-      //   OneList.children.map(twoList => { // 遍历二级
-      //   const twoCheckList = [] // 二级下面选中的个数
-      //   console.log(twoList)
-      //   twoList.children.map(threeList => { // 遍历三级
-      //     if (threeList.isFlag) {
-      //       twoCheckList.push(threeList)
-      //       this.form.menuIds.push(threeList.menuId)
-      //     }
-      //   })
-      //   if (twoCheckList.length === twoList.children.length) { // 全选
-      //   if (twoList.children.length === 0 && twoList.isFlag === true) {
-      //     OneCheckList.push(twoList)
-      //     this.form.menuIds.push(twoList.menuId)
-      //   }
-      //   else if (twoList.children.length !== 0) {
-      //     twoList.isFlag = true // 当前二级选中
-      //     twoList.isIndeterminat = false
-      //     this.form.menuIds.push(twoList.menuId)
-      //     OneCheckList.push(twoList) // 一级菜单下面选中的状态
-      //   }
-      //   }
-      //   else {
-      //     twoList.isFlag = false
-      //     twoList.isIndeterminat = twoCheckList.length > 0
-      //     if (twoList.isIndeterminat) { // 将勾选了三级菜单的存入数组
-      //       OneIndeterminate.push(twoList)
-      //       this.form.menuIds.push(twoList.menuId)
-      //     }
-      //   }
-      //   })
-      //   if (OneCheckList.length === OneList.children.length && OneList.children.length > 0) {
-      //     OneList.isFlag = true
-      //     this.form.menuIds.push(OneList.menuId)
-      //     OneList.isIndeterminat = false
-      //   } else {
-      //     OneList.isFlag = false
-      //     // 只要某个区域勾选了或者部分勾选了，城市都处于部分选中状态
-      //     OneList.isIndeterminat = OneCheckList.length > 0 || OneIndeterminate.length > 0
-      //     if (OneIndeterminate.length > 0 || OneCheckList.length > 0) {
-      //       this.form.menuIds.push(OneList.menuId)
-      //     }
-      //   }
-      // })
+      this.allList.map(OneList => { // 遍历一级
+        const OneCheckList = [] // 一级下面选中的个数
+        const OneIndeterminate = []
+        OneList.children.map(twoList => { // 遍历二级
+          const twoCheckList = [] // 二级下面选中的个数
+          twoList.children.map(threeList => { // 遍历三级
+            if (threeList.isFlag) {
+              twoCheckList.push(threeList)
+              this.form.menuIds.push(threeList.menuId)
+            }
+          })
+          if (twoCheckList.length === twoList.children.length) { // 全选
+            if (twoList.children.length === 0 && twoList.isFlag === true) {
+              OneCheckList.push(twoList)
+              this.form.menuIds.push(twoList.menuId)
+            } else if (twoList.children.length !== 0) {
+              twoList.isFlag = true // 当前二级选中
+              twoList.isIndeterminat = false
+              this.form.menuIds.push(twoList.menuId)
+              OneCheckList.push(twoList) // 一级菜单下面选中的状态
+            }
+          } else {
+            twoList.isFlag = false
+            twoList.isIndeterminat = twoCheckList.length > 0
+            if (twoList.isIndeterminat) { // 将勾选了三级菜单的存入数组
+              OneIndeterminate.push(twoList)
+              this.form.menuIds.push(twoList.menuId)
+            }
+          }
+        })
+        if (OneCheckList.length === OneList.children.length && OneList.children.length > 0) {
+          OneList.isFlag = true
+          this.form.menuIds.push(OneList.menuId)
+          OneList.isIndeterminat = false
+        } else {
+          OneList.isFlag = false
+          // 只要某个区域勾选了或者部分勾选了，城市都处于部分选中状态
+          OneList.isIndeterminat = OneCheckList.length > 0 || OneIndeterminate.length > 0
+          if (OneIndeterminate.length > 0 || OneCheckList.length > 0) {
+            this.form.menuIds.push(OneList.menuId)
+          }
+        }
+      })
     },
-    // dataFomart() {
-    //   this.form.menuIds = []
-    //   this.allList.map((allListItem, index) => {
-    //     const allListItemnum = []
-    //     const twoListItemnum = []
-    //     allListItem.children.map(twoList => {
-    //       if (twoList.isFlag === true) {
-    //         allListItemnum.push(twoList)
-    //         this.form.menuIds.push(twoList.menuId)
-    //       }
-    //       twoList.children.map(threeList => { // 遍历二级菜单
-    //         if (threeList.isFlag === true) { // 三级有 选中
-    //           allListItemnum.push(threeList) // 一级子菜单  全部个数
-    //           twoListItemnum.push(threeList) // 二级子菜单全部个数
-    //           allListItem.isIndeterminat = true // 把一级菜单变成横杠
-    //           this.form.menuIds.push(threeList.menuId) // 全部id添加一个
-    //           twoList.isIndeterminat = true // 二级菜单变为横杠
-    //         }
-    //       })
-    //       if (twoListItemnum.length > 0) { // 三级菜单有一个选中，二级菜单id传给后端
-    //         this.form.menuIds.push(twoList.menuId)
-    //       }
-    //       if (twoListItemnum.length === twoList.children.length) {
-    //         twoList.isFlag = true
-    //         twoList.isIndeterminat = false
-    //       } else {
-    //         twoList.isFlag = false
-    //       }
-    //     })
-    //     if (allListItemnum.length > 0) {
-    //       this.form.menuIds.push(allListItem.menuId)
-    //     }
-    //     if (allListItemnum.length === allListItem.children.length) {
-    //       allListItem.isFlag = true
-    //       allListItem.isIndeterminat = false
-    //     } else {
-    //       allListItem.isFlag = false
-    //     }
-    //   })
-    // },
     saveSub() {
       this.form.backLogin === true ? this.form.backLogin = 1 : this.form.backLogin = 0
       // this.form.menuIds = this.allListNow.filter(v => v.isFlag).map(v => v.menuId)

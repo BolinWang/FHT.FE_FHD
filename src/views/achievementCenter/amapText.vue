@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:00:54 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 16:35:49
+ * @Last Modified time: 2018-10-19 13:41:13
  */
 
 <template>
@@ -74,7 +74,6 @@ export default {
           const lat = listItem.location.split(',')
           lineArr.push(new AMap.LngLat(lat[0], lat[1]))
         })
-        console.log(lineArr)
         // 绘制轨迹
         const polyline = new AMap.Polyline({
           map: map,
@@ -122,9 +121,7 @@ export default {
           trid: 1397 }
         const self = this
         axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=9bff4d717994dafc8f613efc64221c21', { params }).then(res => {
-          console.log(res)
           self.lineList = res.data.data.tracks[0].points
-          console.log('1234')
           self.drawLine()
         })
       }

@@ -2,7 +2,7 @@
  * @Author: ghost
  * @Date: 2018-09-04 20:08:01
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-15 14:57:11
+ * @Last Modified time: 2018-10-19 13:41:41
  */
 <template>
   <div class="container">
@@ -145,7 +145,6 @@ export default {
       this.total = null
       this.type = targetName.name
       targetName.name === '1' ? this.colModels = typedata : this.colModels = typedata2
-      console.log(this.colModels)
       this.searchParam()
     }
   }

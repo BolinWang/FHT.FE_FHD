@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 18:43:51
+ * @Last Modified time: 2018-10-19 13:41:31
  */
 <template>
   <div class="container">
@@ -169,7 +169,6 @@ export default {
       } else {
         lineNeed = this.lineArr.slice(val, oldval).reverse()
       }
-      console.log(lineNeed)
       marker.moveAlong(lineNeed, 90000, () => {
       })
     }
@@ -278,7 +277,6 @@ export default {
     getworkTrailRecord() {
       if (this.searchFrom.managerId !== '') {
         this.searchFrom.date = parseTime(this.searchFrom.date)
-        console.log(this.searchFrom)
         workTrailRecordApi(this.searchFrom).then(res => {
           if (res.data.length > 0) {
             this.searchList = res.data
@@ -314,7 +312,6 @@ export default {
       this.chooseIndex = ''
       getButlerAndKeywordApi(parms).then(res => {
         if (res.data.result) {
-          console.log(res)
           this.butlerList = this.butlerList.concat(res.data.result)
         }
       })
