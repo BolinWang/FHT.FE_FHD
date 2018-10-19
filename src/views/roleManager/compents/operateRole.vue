@@ -19,7 +19,7 @@
                 一级菜单
               </div>
               <ul class="contentNav">
-                  <li v-for="(item, index) in allList" :key="index" @click="operaIndex = index">
+                  <li v-for="(item, indexoperaIndex ) in allList" :key="indexoperaIndex" @click="openCLick(indexoperaIndex)">
                     <el-checkbox
                       v-model="item.isFlag"
                       :indeterminate='item.isIndeterminat'
@@ -100,7 +100,11 @@ export default {
   mounted() {
   },
   methods: {
+    openCLick(index) {
+      this.operaIndex = index
+    },
     checkChange(isIndetermina, data) { // checkbox框切换
+      console.log(data)
       function checkFn(list) {
         list.map(v => {
           v.isFlag = isIndetermina
@@ -118,49 +122,52 @@ export default {
     },
     dataFomart() { // 遍历数据判断checked（是否全选）和indeterminate（是否部分选中）
       this.form.menuIds = []
-      this.allList.map(OneList => { // 遍历一级
-        const OneCheckList = [] // 一级下面选中的个数
-        const OneIndeterminate = []
-        OneList.children.map(twoList => { // 遍历二级
-          const twoCheckList = [] // 二级下面选中的个数
-          twoList.children.map(threeList => { // 遍历三级
-            if (threeList.isFlag) {
-              twoCheckList.push(threeList)
-              this.form.menuIds.push(threeList.menuId)
-            }
-          })
-          if (twoCheckList.length === twoList.children.length) { // 全选
-            if (twoList.children.length === 0 && twoList.isFlag === true) {
-              OneCheckList.push(twoList)
-              this.form.menuIds.push(twoList.menuId)
-            } else if (twoList.children.length !== 0) {
-              twoList.isFlag = true // 当前二级选中
-              twoList.isIndeterminat = false
-              this.form.menuIds.push(twoList.menuId)
-              OneCheckList.push(twoList) // 一级菜单下面选中的状态
-            }
-          } else {
-            twoList.isFlag = false
-            twoList.isIndeterminat = twoCheckList.length > 0
-            if (twoList.isIndeterminat) { // 将勾选了三级菜单的存入数组
-              OneIndeterminate.push(twoList)
-              this.form.menuIds.push(twoList.menuId)
-            }
-          }
-        })
-        if (OneCheckList.length === OneList.children.length && OneList.children.length > 0) {
-          OneList.isFlag = true
-          this.form.menuIds.push(OneList.menuId)
-          OneList.isIndeterminat = false
-        } else {
-          OneList.isFlag = false
-          // 只要某个区域勾选了或者部分勾选了，城市都处于部分选中状态
-          OneList.isIndeterminat = OneCheckList.length > 0 || OneIndeterminate.length > 0
-          if (OneIndeterminate.length > 0 || OneCheckList.length > 0) {
-            this.form.menuIds.push(OneList.menuId)
-          }
-        }
-      })
+      // this.allList.map(OneList => { // 遍历一级
+      //   const OneCheckList = [] // 一级下面选中的个数
+      //   const OneIndeterminate = []
+      //   OneList.children.map(twoList => { // 遍历二级
+      //   const twoCheckList = [] // 二级下面选中的个数
+      //   console.log(twoList)
+      //   twoList.children.map(threeList => { // 遍历三级
+      //     if (threeList.isFlag) {
+      //       twoCheckList.push(threeList)
+      //       this.form.menuIds.push(threeList.menuId)
+      //     }
+      //   })
+      //   if (twoCheckList.length === twoList.children.length) { // 全选
+      //   if (twoList.children.length === 0 && twoList.isFlag === true) {
+      //     OneCheckList.push(twoList)
+      //     this.form.menuIds.push(twoList.menuId)
+      //   }
+      //   else if (twoList.children.length !== 0) {
+      //     twoList.isFlag = true // 当前二级选中
+      //     twoList.isIndeterminat = false
+      //     this.form.menuIds.push(twoList.menuId)
+      //     OneCheckList.push(twoList) // 一级菜单下面选中的状态
+      //   }
+      //   }
+      //   else {
+      //     twoList.isFlag = false
+      //     twoList.isIndeterminat = twoCheckList.length > 0
+      //     if (twoList.isIndeterminat) { // 将勾选了三级菜单的存入数组
+      //       OneIndeterminate.push(twoList)
+      //       this.form.menuIds.push(twoList.menuId)
+      //     }
+      //   }
+      //   })
+      //   if (OneCheckList.length === OneList.children.length && OneList.children.length > 0) {
+      //     OneList.isFlag = true
+      //     this.form.menuIds.push(OneList.menuId)
+      //     OneList.isIndeterminat = false
+      //   } else {
+      //     OneList.isFlag = false
+      //     // 只要某个区域勾选了或者部分勾选了，城市都处于部分选中状态
+      //     OneList.isIndeterminat = OneCheckList.length > 0 || OneIndeterminate.length > 0
+      //     if (OneIndeterminate.length > 0 || OneCheckList.length > 0) {
+      //       this.form.menuIds.push(OneList.menuId)
+      //     }
+      //   }
+      // })
     },
     // dataFomart() {
     //   this.form.menuIds = []

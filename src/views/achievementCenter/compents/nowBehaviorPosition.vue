@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 18:47:37
+ * @Last Modified time: 2018-10-19 11:24:46
  */
 <template>
   <div class="container" v-loading="loading">
@@ -42,6 +42,9 @@
           </el-form>
       </el-aside >
       <el-main class="pageMain">
+        <div class="showbox">
+          当前工作人数：{{countDate}}
+        </div>
         <div id="map" :style="mapHeight">
           
         </div>
@@ -52,7 +55,7 @@
 <script>
 let map
 import { queryDepartmentByLogin } from '@/api/organization'
-import { managerRTPApi } from '@/api/achievementCenter'
+import { managerRTPApi, workCountApi } from '@/api/achievementCenter'
 import AMap from 'AMap'
 import ScrollLoad from './scrollLoad'
 export default {
@@ -73,6 +76,7 @@ export default {
   },
   data() {
     return {
+      countDate: '',
       butlerList: [], // 管家列表
       pageNumber: 0,
       chooseIndex: '',
@@ -202,15 +206,22 @@ export default {
           this.treeData = res.data
           this.searchFrom.depId = id || this.treeData[0].id
           this.searchFrom.depName = this.treeData[0].depName
+          this.getworkCount(this.searchFrom.depId)
           this.$nextTick(() => {
             this.getisDeleteList()
           })
         }
       }).catch(rej => {})
     },
+    getworkCount(id) {
+      workCountApi({ depId: id }).then(res => {
+        this.countDate = res.data
+      })
+    },
     overlayNodeClick(node, data) { // 弹框tree点击
       this.searchFrom.depName = data.data.depName
       this.searchFrom.depId = data.data.id
+      this.getworkCount(data.data.id)
       this.pageNumber = 0
       this.getisDeleteList()
       this.butlerList = []
@@ -248,6 +259,22 @@ export default {
 <style lang='scss' scoped>
   .pageMain{
     margin:-20px 0;
+    position: relative;
+  }
+  .showbox{
+    position: absolute;
+    width:160px;
+    top:40px;
+    background: #fff;
+    height:30px;
+    z-index: 10;
+    padding:0 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow:  1px 1px 4px #123;
+    color: #757677;
+    line-height: 30px;
+    left:30px;
   }
   #map{
     padding: 0;

@@ -2,7 +2,7 @@
  * @Author: ghost
  * @Date: 2018-10-07 21:32:46
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-11 17:39:27
+ * @Last Modified time: 2018-10-19 11:23:10
  */
 import { fetch } from '@/utils/fetch'
 
@@ -95,6 +95,21 @@ export function managerRTPApi(params = {}) {
 export function workTrailRecordApi(params = {}) {
   return new Promise((resolve, reject) => {
     fetch('/trail/workTrailRecord', {
+      method: 'method',
+      params
+    }).then(res => {
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 当前工作人数
+
+export function workCountApi(params = {}) {
+  return new Promise((resolve, reject) => {
+    fetch('/trail/workCount', {
       method: 'method',
       params
     }).then(res => {

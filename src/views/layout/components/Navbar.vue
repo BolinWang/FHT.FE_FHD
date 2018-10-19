@@ -45,7 +45,7 @@
         <el-form-item label="用户名" prop="name">
           <el-input v-model="ruleForm.name" disabled></el-input>
         </el-form-item>
-        <el-form-item  label="密码" prop="newPassword">
+        <el-form-item  label="新密码" prop="newPassword">
           <el-input maxlength="12" type="password" v-model="ruleForm.newPassword" ></el-input>
         </el-form-item>
         <el-form-item  label="确认密码" prop="newPasswordSure">

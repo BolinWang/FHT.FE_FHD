@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 15:37:18
+ * @Last Modified time: 2018-10-19 11:01:02
  */
 
 <template>
@@ -20,7 +20,7 @@
           <span class="svg-container">
             <i class="iconfont icon-mima"></i>
           </span>
-          <el-input name="password" :maxlength='12' type="text" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
+          <el-input name="password" :maxlength='12' type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">

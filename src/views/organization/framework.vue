@@ -2,7 +2,7 @@
  * @Author: chenxing
  * @Date: 2018-06-26 11:01:57
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 20:23:12
+ * @Last Modified time: 2018-10-19 11:08:29
  */
 <template>
   <div class="layout-container">
@@ -248,12 +248,20 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="权限角色" prop="role">
-                <el-select v-model="accountForm.role" style="width: 100%">
+                <el-select v-if="!isEditAccount" v-model="accountForm.role" style="width: 100%">
                   <el-option
                     v-for="item in roleOpts"
                     :key="item.roleId"
                     :label="item.roleName"
                     :value="item.roleId">
+                  </el-option>
+                </el-select>
+                <el-select v-else v-model="accountForm.role" style="width: 100%">
+                  <el-option
+                    v-for="item in roleOptsEdit"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -487,6 +495,14 @@ export default {
           value: null,
           label: '全部'
         }
+      ],
+      roleOptsEdit: [{
+        value: 2,
+        label: '城市管家'
+      }, {
+        value: 3,
+        label: '组长'
+      }
       ],
       editAdd: true,
       pickerOptions: {
