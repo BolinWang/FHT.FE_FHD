@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 18:05:35
+ * @Last Modified time: 2018-10-19 14:37:13
  */
 import { roleMenusListApi } from '@/api/organization'
 import { login, logout, getInfo } from '@/api/login'
@@ -51,6 +51,7 @@ const user = {
           commit('SET_DEPID', data.depId)
           if (data.ifChange) {
             Storage.set('editSessionID', data.sessionId)
+            resolve()
           } else {
             setSessionId(data.sessionId)
             // 存储账号密码供BI鉴权使用

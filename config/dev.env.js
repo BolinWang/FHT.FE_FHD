@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 16:29:26
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-16 09:46:26
+ * @Last Modified time: 2018-10-19 14:44:31
  */
 
 module.exports = {
@@ -12,5 +12,5 @@ module.exports = {
   MOCK: 'true',
   /* 本地请求时配置api代理 */
       //  BASE_API: '"http://localhost:9528/back"'
-  BASE_API: '"https://test-flying-api.mdguanjia.com/back"'
+   BASE_API: '"https://test-flying-api.mdguanjia.com/back"'
 }

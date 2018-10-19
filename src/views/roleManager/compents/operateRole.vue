@@ -103,7 +103,6 @@ export default {
   },
   methods: {
     openCLick(index) {
-      console.log(index)
       this.operaIndex = index
       this.actionIndex = 0
     },
@@ -205,7 +204,6 @@ export default {
       }
       showRoleMenusApi(params).then(res => {
         this.allList = res.data
-        console.log(this.allList)
       })
     },
     open(row) {
