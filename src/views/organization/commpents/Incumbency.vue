@@ -1,9 +1,9 @@
 <template>
   <div class="dialog-box">
-    <el-dialog title="离职" :visible.sync="leaveFormVisible" label-width="140px">
-      <el-form :model="formleave" :rules="leaverule" ref='leaveForm'  size="small">
+    <el-dialog title="离职" :visible.sync="leaveFormVisible" >
+      <el-form :model="formleave" label-width="140px"  :rules="leaverule" ref='leaveForm'  size="small">
         <div class="title-text">确定此员工离职么</div>
-        <el-form-item label="请选择离职时间"  prop="gmtLeave" label-width="120px">
+        <el-form-item label="请选择离职时间"  prop="gmtLeave" >
            <el-date-picker
             v-model="formleave.gmtLeave"
             type="date"
@@ -11,7 +11,7 @@
            </el-date-picker>
         </el-form-item>
         <div class="title-text">检测该职员下还有在生效的租约，请分配新的管理者</div>
-        <el-form-item label="业务交接人员" label-width="120px">
+        <el-form-item label="业务交接人员" >
           <el-select
             v-model="formleave.transferId"
             filterable
@@ -38,18 +38,21 @@
     <el-dialog title="复职" :visible.sync="backFormVisible">
       <el-form :model="formback" label-position="left" :rules="rules" ref='formback' size="small" label-width="140px">
         <div class="title-text">确定复职此员工么</div>
-        <el-form-item label="复职时间:" prop="gmtBack" label-width="120px">
+        <el-form-item label="复职时间:" prop="gmtBack" >
           <el-date-picker
             v-model="formback.gmtBack"
             type="date"
             placeholder="选择复职时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="指定手机号码:" prop="mobile" label-width="120px">
+        <el-form-item label="指定手机号码:" prop="mobile" >
           <el-input v-model="formback.mobile"></el-input>
         </el-form-item>
-        <el-form-item label="手机编码:" prop="imei">
-          <el-input v-model="formback.imei"></el-input>
+        <el-form-item label="手机编码1:" prop="imeiFirst">
+          <el-input v-model="formback.imeiFirst"></el-input>
+        </el-form-item>
+        <el-form-item label="手机编码2:" >
+          <el-input v-model="formback.imeiSecond"></el-input>
         </el-form-item>
         <div class="title-text">温馨提示:复职后密码重新为123456</div>
       </el-form>
@@ -90,7 +93,7 @@ export default {
         mobile: [
           { required: true, trigger: 'blur', validator: validatePhone }
         ],
-        imei: [
+        imeiFirst: [
           { required: true, message: '请输入手机编码', trigger: 'blur' }
         ]
       },
@@ -106,7 +109,8 @@ export default {
         gmtBack: '',
         managerId: '',
         mobile: '',
-        imei: ''
+        imeiFirst: '',
+        imeiSecond: ''
       }
     }
   },

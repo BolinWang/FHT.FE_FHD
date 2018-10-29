@@ -2,7 +2,7 @@
  * @Author: ghost
  * @Date: 2018-10-07 21:32:46
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 11:23:10
+ * @Last Modified time: 2018-10-25 18:29:21
  */
 import { fetch } from '@/utils/fetch'
 
@@ -110,6 +110,20 @@ export function workTrailRecordApi(params = {}) {
 export function workCountApi(params = {}) {
   return new Promise((resolve, reject) => {
     fetch('/trail/workCount', {
+      method: 'method',
+      params
+    }).then(res => {
+      resolve(res)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+// 跟进记录
+export function	getcustomerFollowListApi(params = {}) {
+  return new Promise((resolve, reject) => {
+    fetch('/customer/customerFollowList', {
       method: 'method',
       params
     }).then(res => {

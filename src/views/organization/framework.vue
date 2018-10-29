@@ -269,8 +269,8 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="手机编码" prop="imei">
-                <el-input v-model="accountForm.imei"></el-input>
+              <el-form-item label="手机编码1" prop="imeiFirst">
+                <el-input v-model="accountForm.imeiFirst"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -300,6 +300,11 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="12">
+              <el-form-item label="手机编码2">
+                <el-input v-model="accountForm.imeiSecond"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item label="身份证号码" prop="idNo">
                 <el-input v-model="accountForm.idNo" :disabled="editAdd"></el-input>
@@ -332,8 +337,11 @@
           <el-form-item label="指定手机号码" prop="mobile" >
             <el-input v-model="typeForm.mobile"></el-input>
           </el-form-item>
-          <el-form-item label="手机编码" prop="imei">
-            <el-input v-model="typeForm.imei"></el-input>
+          <el-form-item label="手机编码1" prop="imeiFirst">
+            <el-input v-model="typeForm.imeiFirst"></el-input>
+          </el-form-item>
+          <el-form-item label="手机编码2">
+            <el-input v-model="typeForm.imeiSecond"></el-input>
           </el-form-item>
           <el-form-item label="入职时间" prop="gmtHire">
             <el-date-picker
@@ -525,7 +533,7 @@ export default {
         role: [
           { required: true, message: '请选择权限角色', trigger: 'change' }
         ],
-        imei: [
+        imeiFirst: [
           { required: true, message: '请输入手机编码', trigger: 'blur' }
         ],
         gmtExpire: [
@@ -587,7 +595,8 @@ export default {
         depId: '',
         depName: '',
         role: '',
-        imei: '',
+        imeiFirst: '',
+        imeiSecond: '',
         type: 1,
         gmtHire: '',
         idNo: ''
@@ -596,7 +605,8 @@ export default {
       accoutTypeStatus: 1,
       typeForm: {
         mobile: '',
-        imei: '',
+        imeiFirst: '',
+        imeiSecond: '',
         gmtHire: ''
       },
       typeForm2: {
@@ -611,7 +621,7 @@ export default {
         { prop: 'depName', label: '部门' },
         { prop: 'roleName', label: '权限角色', slotName: 'roleTmp', width: 100 },
         { prop: 'mobile', label: '手机号码', width: 100 },
-        { prop: 'imei', label: '手机编码' },
+        { prop: 'imeiFirst', label: '手机编码' },
         { prop: 'type', label: '类型', slotName: 'accountType', width: 80 },
         { label: '操作', slotName: 'handle', width: 320 },
         { prop: 'gmtCreate', label: '创建时间' }

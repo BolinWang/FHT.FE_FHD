@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 17:09:59
+ * @Last Modified time: 2018-10-25 17:54:07
  */
 
 <template>
@@ -121,6 +121,8 @@
               <el-button type="text" class="mar-right" @click="getOrderDetail(scope.row.id)">客源详情</el-button>
               |
               <el-button type="text" :disabled="scope.row.lookCount===0" @click="goLookAmap(scope.row.id)">带看轨迹</el-button>
+              |
+              <el-button type="text"  @click="goFollowUp(scope.row.id)">跟进记录</el-button>
             </template>
           </GridUnit>
          </div>
@@ -129,6 +131,8 @@
      <SourceDetail ref='sourceDetail' @showdeal='getdeal'></SourceDetail>
      <DealListDetail ref="dealListDetail" ></DealListDetail>
      <IntenSourceAmap ref="intenSourceAmap" ></IntenSourceAmap>
+     <!-- 意向客源跟进记录 -->
+     <IntentionalFollowUp ref="intentionalFollowUp"></IntentionalFollowUp>
   </div>
 </template>
 <script>
@@ -141,6 +145,7 @@ import GridUnit from '@/components/GridUnit/grid'
 import SourceDetail from './compents/sourceDetail'
 import ScrollLoad from './compents/scrollLoad'
 import IntenSourceAmap from './compents/intenSourceAmap'
+import IntentionalFollowUp from './compents/intentionalFollowUp'
 import {
   delObjectItem,
   parseTime } from '@/utils'
@@ -157,22 +162,17 @@ export default {
     ScrollLoad,
     SourceDetail,
     IntenSourceAmap,
-    DealListDetail
+    DealListDetail,
+    IntentionalFollowUp
   },
   filters: {
     leaseStatus(val) {
-      const valueMap = [
-        {
-          value: 1,
-          label: '未签约'
-        }, {
-          value: 2,
-          label: '已签约'
-        }
-      ]
-      return valueMap.filter(item => {
-        return item.value === val
-      })[0].label
+      const valueMap = {
+        1: '未签约',
+        2: '已签约',
+        3: '已关闭'
+      }
+      return valueMap[val] || val
     }
   },
   data() {
@@ -218,7 +218,7 @@ export default {
         { prop: 'allocationCount', label: '配房次数', width: 80 },
         { prop: 'lookCount', label: '带看次数' },
         { prop: 'status', label: '状态', slotName: 'leaseType', width: 100 },
-        { label: '操作', slotName: 'goDetail', width: 180 }
+        { prop: '', label: '操作', slotName: 'goDetail', width: 260 }
       ],
       url: '/customer/backCustomerList',
       method: 'method',
@@ -258,6 +258,9 @@ export default {
     }
   },
   methods: {
+    goFollowUp(id) {
+      this.$refs.intentionalFollowUp.showFollowList(id)
+    },
     goLookAmap(item) {
       this.$refs.intenSourceAmap.getAmapLinerShow(item)
     },

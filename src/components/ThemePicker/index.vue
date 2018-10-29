@@ -1,8 +1,8 @@
 /*
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 17:04:21 
- * @Last Modified by: FT.FE.Bolin
- * @Last Modified time: 2018-04-12 10:43:14
+ * @Last Modified by: ghost
+ * @Last Modified time: 2018-10-25 17:48:11
  */
 
 <template>
@@ -63,10 +63,13 @@ export default {
         if (typeof innerText !== 'string') return
         style.innerText = this.updateStyle(innerText, originalCluster, themeCluster)
       })
-      this.$message({
-        message: '换肤成功',
-        type: 'success'
-      })
+      if (localStorage.getItem('ORIGINAL_THEME') !== val) {
+        this.$message({
+          message: '换肤成功',
+          type: 'success'
+        })
+      }
+
       localStorage.setItem('ORIGINAL_THEME', val)
     }
   },

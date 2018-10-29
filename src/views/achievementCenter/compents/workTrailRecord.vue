@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 16:20:07
+ * @Last Modified time: 2018-10-25 18:23:19
  */
 <template>
   <div class="container">
@@ -65,7 +65,7 @@
                     :key='index'
                     v-if="searchList.length>0"
                     @click='chooseManagerId(searchListItem,index)'
-                    :class="{'active':chooseIndex === index}"
+                    :class="{'active':chooseCountIndex === index}"
                     v-for='(searchListItem,index) in searchList'>
                       <el-row class="top" >
                         <el-col :span="6" >
@@ -142,6 +142,7 @@ export default {
       tableHeight: 300,
       pageNumber: 0,
       chooseIndex: 0,
+      chooseCountIndex: 0,
       nowDate: '',
       searchFrom: {
         depId: '',
@@ -217,10 +218,20 @@ export default {
       this.searchParam()
     },
     init: function() {
-      map = new AMap.Map('map', {
-        resizeEnable: true,
-        zoom: 12
-      })
+      if (this.lineList.length > 0) {
+        const lat = this.lineList[0].location.split(',')
+        map = new AMap.Map('map', {
+          resizeEnable: true,
+          zoom: 12,
+          center: [lat[0], lat[1]]
+        })
+      } else {
+        map = new AMap.Map('map', {
+          resizeEnable: true,
+          zoom: 12
+        })
+      }
+
       let lat = []
       if (this.lineList.length > 0) {
         lat = this.lineList[0].location.split(',')
@@ -232,7 +243,7 @@ export default {
           autoRotation: true
         })
       }
-
+      const self = this
       map.plugin(['AMap.ToolBar', 'AMap.MapType'], function() {
         const toolopt = {
           offset: new AMap.Pixel(70, 10), // 相对于地图容器左上角的偏移量，正数代表向右下偏移。默认为AMap.Pixel(10,10)
@@ -242,7 +253,7 @@ export default {
           locate: true, // 是否显示定位按钮，默认为false
           liteStyle: false, // 是否使用精简模式，默认为false
           direction: true, // 方向键盘是否可见，默认为true
-          autoPosition: true, // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
+          autoPosition: !(self.lineList.length > 0), // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
           locationMarker: AMap.Marker({ map: map }),
           /**
                      *是否使用高德定位sdk用来辅助优化定位效果，默认：false.
@@ -290,14 +301,14 @@ export default {
     },
     getLineArr() {
       const params = {
-        starttime: this.searchList[this.chooseIndex].startTime,
-        endtime: this.searchList[this.chooseIndex].endTime,
+        starttime: this.searchList[this.chooseCountIndex].startTime,
+        endtime: this.searchList[this.chooseCountIndex].endTime,
         page: 1,
         gap: 1000,
         pagesize: 800,
-        tid: this.searchList[this.chooseIndex].gdTid,
+        tid: this.searchList[this.chooseCountIndex].gdTid,
         sid: 11117,
-        trid: this.searchList[this.chooseIndex].trid }
+        trid: this.searchList[this.chooseCountIndex].trid }
       const self = this
       axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
         if (res.data.data.tracks) {
@@ -313,7 +324,7 @@ export default {
       }
     },
     chooseManagerId(item, index) {
-      this.chooseIndex = index
+      this.chooseCountIndex = index
       this.getLineArr()
     },
     getworkTrailRecord() {

@@ -132,8 +132,8 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="手机编码" prop="imei">
-                <el-input v-model="accountForm.imei"></el-input>
+              <el-form-item label="手机编码1" prop="imeiFirst">
+                <el-input v-model="accountForm.imeiFirst"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -151,6 +151,11 @@
             </el-col>
           </el-row>
           <el-row>
+            <el-col :span="12">
+              <el-form-item label="手机编码2">
+                <el-input v-model="accountForm.imeiSecond"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="12">
               <el-form-item label="身份证号码" prop="idNo">
                 <el-input v-model="accountForm.idNo" :disabled="isEditAccount"></el-input>
@@ -253,7 +258,7 @@ export default {
         role: [
           { required: true, message: '请选择权限角色', trigger: 'change' }
         ],
-        imei: [
+        imeiFirst: [
           { required: true, message: '请输入手机编码', trigger: 'blur' }
         ],
         gmtExpire: [
@@ -300,7 +305,8 @@ export default {
         depId: '',
         depName: '',
         role: '',
-        imei: '',
+        imeiFirst: '',
+        imeiSecond: '',
         type: 0,
         idNo: '',
         gmtExpire: ''
@@ -313,7 +319,7 @@ export default {
         { prop: 'depName', label: '部门' },
         { prop: 'role', label: '权限角色', slotName: 'roleTmp' },
         { prop: 'mobile', label: '手机号码' },
-        { prop: 'imei', label: '手机编码' },
+        { prop: 'imeiFirst', label: '手机编码' },
         { prop: 'gmtExpire', label: '失效时间' },
         { label: '操作', slotName: 'handle', width: 200 },
         { prop: 'createName', label: '创建人' },
