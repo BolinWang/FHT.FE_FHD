@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 23:52:39 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 15:24:47
+ * @Last Modified time: 2018-10-30 15:43:33
  */
 <template>
   <div class="container-box">
@@ -70,7 +70,7 @@
 
 <script>
   import axios from 'axios'
-  import AMap from 'AMap'
+  // import AMap from 'AMap'
   import { fmtDate } from '@/utils'
   import {
     customerLookRecordApi
@@ -141,11 +141,20 @@ export default {
         })
       },
       init: function() {
-        map = new AMap.Map('map', {
-          resizeEnable: true,
-          zoom: 17
-        })
+        /* global AMap */
         const lat = this.lineList[0].location.split(',')
+        if (this.lineList.length > 0) {
+          map = new AMap.Map('map', {
+            resizeEnable: true,
+            zoom: 12,
+            center: [lat[0], lat[1]]
+          })
+        } else {
+          map = new AMap.Map('map', {
+            resizeEnable: true,
+            zoom: 12
+          })
+        }
         this.lookRecordList[this.chooseActive].allocationInfoDTOs.map(item => {
           const markerDia = new AMap.Marker({ // 添加聚合点
             map: map,
@@ -229,6 +238,7 @@ export default {
         map.setFitView()
       },
       getLineArr() {
+        console.log(this.lookRecordList)
         const params = {
           starttime: this.lookRecordList[this.chooseActive].startTime,
           endtime: this.lookRecordList[this.chooseActive].endTime,
@@ -239,9 +249,13 @@ export default {
           sid: 11117,
           trid: this.lookRecordList[this.chooseActive].trid }
         const self = this
-        axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
-          if (res.data.data.tracks) {
+        axios.get(`https://tsapi.amap.com/v1/track/terminal/trsearch?key=${process.env.AMAP_KEY}`, { params }).then(res => {
+          if (res.data.errcode === 10000) {
             self.lineList = res.data.data.tracks[0].points
+          } else {
+            this.$message({
+              message: res.data.errdetail
+            })
           }
           this.init()
           self.drawLine()

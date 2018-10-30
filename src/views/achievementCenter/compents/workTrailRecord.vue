@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-25 18:23:19
+ * @Last Modified time: 2018-10-30 15:33:33
  */
 <template>
   <div class="container">
@@ -111,7 +111,8 @@ import {
 import GridUnit from '@/components/GridUnit/grid'
 import ScrollLoad from './scrollLoad'
 import { parseTime } from '@/utils'
-import AMap from 'AMap'
+// import AMap from 'AMap'
+// const AMap = window.AMap
 import { fmtDate } from '@/utils'
 import axios from 'axios'
 let map
@@ -215,9 +216,9 @@ export default {
       this.pageNumber = 0
       this.searchFrom.managerId = ''
       this.getisDeleteList()
-      this.searchParam()
     },
     init: function() {
+      /* global AMap */
       if (this.lineList.length > 0) {
         const lat = this.lineList[0].location.split(',')
         map = new AMap.Map('map', {
@@ -310,9 +311,13 @@ export default {
         sid: 11117,
         trid: this.searchList[this.chooseCountIndex].trid }
       const self = this
-      axios.get('https://tsapi.amap.com/v1/track/terminal/trsearch?key=7bf2aa112f46d78281004b9f678e03f2', { params }).then(res => {
-        if (res.data.data.tracks) {
+      axios.get(`https://tsapi.amap.com/v1/track/terminal/trsearch?key=${process.env.AMAP_KEY}`, { params }).then(res => {
+        if (res.data.errcode === 10000) {
           self.lineList = res.data.data.tracks[0].points
+        } else {
+          this.$message({
+            message: res.data.errdetail
+          })
         }
         self.init()
         self.drawLine()

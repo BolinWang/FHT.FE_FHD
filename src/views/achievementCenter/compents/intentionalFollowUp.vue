@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-25 17:35:29 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-25 17:40:53
+ * @Last Modified time: 2018-10-30 16:23:03
  */
 <template>
   <el-dialog
@@ -13,7 +13,10 @@
            <div class="table-container" v-if="gridData.length">
              <div class="box" v-for="Item in gridData" :key="Item.id">
                <div class="name-box">{{Item.followTime}} {{Item.gmtCreateName}}</div>
-                <div class="name-box">{{Item.followType | filterCreat}} {{Item.remark}}</div>
+                <div class="name-box">
+                  <span class="colorType">{{Item.followType | filterCreat}}</span>
+                  <div v-if="Item.remark" class="boxRemark">备注： {{Item.remark}}</div> 
+                </div>
              </div>
            </div>
            <div class="table-container" v-else>
@@ -41,13 +44,13 @@ export default {
   filters: {
     filterCreat(val) {
       const followTypeList = {
-        '1': '新增',
+        '1': '创建',
         '2': '接待',
-        '3': '电话联系',
+        '3': '电话跟进',
         '4': '网络联系',
         '5': '接单',
-        '6': '放单',
-        '7': '签约',
+        '6': '已放弃，转为公客',
+        '7': '已签约',
         '8': '关闭',
         '9': '配房',
         '10': '开始带看',
@@ -83,5 +86,8 @@ export default {
       line-height: 60px;
       text-align: center;
       border-top: 1px solid #e0e0e0;
+  }
+  .colorType{
+    color: #5BACFB;
   }
 </style>

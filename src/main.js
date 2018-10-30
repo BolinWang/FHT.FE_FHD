@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:24:18
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 18:04:30
+ * @Last Modified time: 2018-10-30 14:40:25
  */
 
 import Vue from 'vue'
@@ -30,11 +30,31 @@ Vue.use(VueLazyload, {
   loading: lazyLoadPic
 })
 Vue.component('icon-svg', IconSvg)
+const createMap = () => {
+  const promise = new Promise(function(resolve, reject) {
+    const script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = `//webapi.amap.com/maps?v=1.4.8&key=${process.env.AMAP_KEY}` // 高德地图
+    document.body.appendChild(script)
+    if (script.nodeName === 'SCRIPT') {
+      resolve()
+    } else {
+      reject(new Error('Could not script image at ' + script.src))
+    }
+  })
+  return promise
+}
+createMap().then(function() {
+  console.log('读取高德地图成功')
+  // 加載當前的ip定位
+}).catch(function(error) {
+  // 处理 getJSON 和 前一个回调函数运行时发生的错误
+  console.log('发生错误！', error)
+})
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
-
 const whiteList = ['/login']
 router.beforeEach((to, from, next) => {
   NProgress.start()

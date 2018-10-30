@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:07:11
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-17 15:59:34
+ * @Last Modified time: 2018-10-30 10:37:57
 
  */
 
@@ -80,11 +80,7 @@ export const asyncRouterMap = [{
   component: Layout,
   name: '业绩中心',
   icon: 'el-icon-tickets',
-  children: [{
-    path: 'amapText',
-    component: _import('achievementCenter/amapText'),
-    name: '地图测试'
-  }, {
+  children: [ {
     path: 'dealLease',
     component: _import('achievementCenter/dealLease'),
     name: '成交租约'

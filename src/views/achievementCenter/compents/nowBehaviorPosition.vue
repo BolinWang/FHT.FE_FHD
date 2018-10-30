@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-09 23:40:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 11:24:46
+ * @Last Modified time: 2018-10-30 14:55:33
  */
 <template>
   <div class="container" v-loading="loading">
@@ -56,7 +56,6 @@
 let map
 import { queryDepartmentByLogin } from '@/api/organization'
 import { managerRTPApi, workCountApi } from '@/api/achievementCenter'
-import AMap from 'AMap'
 import ScrollLoad from './scrollLoad'
 export default {
   components: {
@@ -124,6 +123,7 @@ export default {
   },
   methods: {
     nowManagerId(item, index) {
+      /* global AMap */
       this.searchFrom.managerId = item.id
       this.chooseIndex = index
       if (item.data.location !== '') {
