@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-30 15:33:33
+ * @Last Modified time: 2018-10-31 15:35:44
  */
 <template>
   <div class="container">
@@ -219,8 +219,9 @@ export default {
     },
     init: function() {
       /* global AMap */
+      let lat = []
       if (this.lineList.length > 0) {
-        const lat = this.lineList[0].location.split(',')
+        lat = this.lineList[0].location.split(',')
         map = new AMap.Map('map', {
           resizeEnable: true,
           zoom: 12,
@@ -233,9 +234,7 @@ export default {
         })
       }
 
-      let lat = []
       if (this.lineList.length > 0) {
-        lat = this.lineList[0].location.split(',')
         marker = new AMap.Marker({
           map: map,
           icon: 'https://webapi.amap.com/images/car.png',
@@ -404,7 +403,7 @@ export default {
     display: flex;
     display: -webkit-flex;
     width:400px;
-    right: 40px;
+    right: 60px;
     border-radius: 10px;
     padding:0 20px;
     background: #fff;
@@ -424,6 +423,7 @@ export default {
   height:540px;
   padding: 0;
   width: 100%;
+  box-shadow: 2px 4px 4px #9a9a9a;
   background: #FFFFFF;
 }
    .tabItem{

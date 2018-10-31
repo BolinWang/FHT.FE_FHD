@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-25 17:35:29 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-30 16:23:03
+ * @Last Modified time: 2018-10-31 11:40:05
  */
 <template>
   <el-dialog
@@ -10,23 +10,23 @@
     :visible.sync="followUpDialogVisible"
     width="40%">
     <div class="all-text">
-           <div class="table-container" v-if="gridData.length">
-             <div class="box" v-for="Item in gridData" :key="Item.id">
-               <div class="name-box">{{Item.followTime}} {{Item.gmtCreateName}}</div>
-                <div class="name-box">
-                  <span class="colorType">{{Item.followType | filterCreat}}</span>
-                  <div v-if="Item.remark" class="boxRemark">备注： {{Item.remark}}</div> 
-                </div>
-             </div>
-           </div>
-           <div class="table-container" v-else>
-             <div class="box">
-                <div class="text-empty">暂无数据</div>
-             </div>
-           </div>
+      <div class="table-container" v-if="gridData.length">
+        <div class="box" v-for="Item in gridData" :key="Item.id">
+          <div class="name-box">{{Item.followTime}} {{Item.gmtCreateName}}</div>
+            <div class="name-box">
+              <span class="colorType">{{Item.followType | filterCreat}}</span>
+              <div v-if="Item.remark" class="boxRemark">备注： {{Item.remark}}</div> 
+            </div>
+        </div>
+      </div>
+      <div class="table-container" v-else>
+        <div class="box">
+            <div class="text-empty">暂无数据</div>
+        </div>
+      </div>
     </div>
     <span slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="centerDialogVisible = false">关闭</el-button>
+      <el-button type="primary" @click="followUpDialogVisible = false">关闭</el-button>
     </span>
   </el-dialog>
 </template>
@@ -36,7 +36,6 @@ export default {
   data() {
     return {
       followUpDialogVisible: false,
-
       customerId: '',
       gridData: []
     }
@@ -81,6 +80,10 @@ export default {
     padding-top: 10px;
     padding-bottom: 10px;
     border-bottom: 1px solid #e0e0e0;
+  }
+  .all-text{
+    height: 340px;
+    overflow: auto;
   }
   .text-empty{
       line-height: 60px;

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 16:21:30
+ * @Last Modified time: 2018-10-31 16:36:30
  */
 
 
@@ -41,14 +41,14 @@
             </el-form-item>
             <el-form-item>
               <div class="table-box">
-                    <scrollLoad 
-                      :listHeight='listHeight'
-                      :butlerList ="butlerList"
-                      :chooseIndex='chooseIndex'
-                      @getManagerId='nowManagerId'
-                      :getBulter ='getisDeleteList'
-                    ></scrollLoad>
-                  </div>
+                <scrollLoad 
+                  :listHeight='listHeight'
+                  :butlerList ="butlerList"
+                  :chooseIndex='chooseIndex'
+                  @getManagerId='nowManagerId'
+                  :getBulter ='getisDeleteList'
+                ></scrollLoad>
+              </div>
             </el-form-item>
           </el-form>
       </el-aside >
@@ -56,12 +56,12 @@
         <el-row class="topBanner">
           <el-col :span="24">
             <el-date-picker
-              type="datetimerange"
+              type="daterange"
               size="small"
               v-model="searchTime"
               range-separator="至"
-              :default-time="['00:00:00']"
               @change="searchParam"
+              :default-time="['00:00:00', '23:59:59']"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
             </el-date-picker>
@@ -221,7 +221,7 @@ export default {
     const year = date_.getFullYear()
     const month = date_.getMonth() + 1
     const day = new Date(year, month, 0)
-    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()} 00:00:00`]
+    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()} 23:59:59`]
     this.getTree()
   },
   created() {
@@ -239,6 +239,7 @@ export default {
       val = val || []
       this.searchFrom.startTime = val[0] ? parseTime(val[0]) : ''
       this.searchFrom.endTime = val[1] ? parseTime(val[1]) : ''
+      console.log(this.searchFrom.endTime)
     }
   },
   methods: {

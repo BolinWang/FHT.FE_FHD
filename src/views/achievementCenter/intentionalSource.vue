@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-24 14:20:34 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-25 17:54:07
+ * @Last Modified time: 2018-10-31 15:27:11
  */
 
 <template>
@@ -55,12 +55,12 @@
         <el-row class="topBanner">
           <el-col :span="24">
             <el-date-picker
-              type="datetimerange"
+              type="daterange"
               size="small"
               style="width: 350px"
               v-model="searchTime"
               range-separator="至"
-              :default-time="['00:00:00']"
+              :default-time="['00:00:00', '23:59:59']"
               @change="searchParam"
               start-placeholder="开始日期"
               end-placeholder="结束日期">
@@ -218,7 +218,7 @@ export default {
         { prop: 'allocationCount', label: '配房次数', width: 80 },
         { prop: 'lookCount', label: '带看次数' },
         { prop: 'status', label: '状态', slotName: 'leaseType', width: 100 },
-        { prop: '', label: '操作', slotName: 'goDetail', width: 260 }
+        { prop: '', label: '操作', slotName: 'goDetail', width: 260, fixed: 'right' }
       ],
       url: '/customer/backCustomerList',
       method: 'method',
@@ -236,11 +236,11 @@ export default {
     }
   },
   created() {
-    let temp_height = document.body.clientHeight - 290
+    let temp_height = document.body.clientHeight - 280
     this.tableHeight = temp_height > 300 ? temp_height : 300
     window.onresize = () => {
       return (() => {
-        temp_height = document.body.clientHeight - 290
+        temp_height = document.body.clientHeight - 280
         this.tableHeight = temp_height > 300 ? temp_height : 300
       })()
     }
@@ -248,7 +248,7 @@ export default {
     const year = date_.getFullYear()
     const month = date_.getMonth() + 1
     const day = new Date(year, month, 0)
-    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()} 00:00:00`]
+    this.searchTime = [`${year}-${month}-01 00:00:00`, `${year}-${month}-${day.getDate()} 23:59:59`]
   },
   watch: {
     searchTime(val) {

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-18 21:03:43
+ * @Last Modified time: 2018-10-31 15:26:17
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -117,7 +117,8 @@ export default {
   text-overflow: ellipsis;
 }
 .tab-Item{
-  background: rgba(3, 56, 93, 0.4);
+  background: rgb(154, 154, 154);
+  border-radius: 4px;
   margin-bottom: 15px;
   line-height: 30px;
   cursor:pointer;

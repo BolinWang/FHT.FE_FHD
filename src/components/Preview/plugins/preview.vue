@@ -79,9 +79,9 @@
         this.pswpOptions = Object.assign({
           index: index,
           getThumbBoundsFn(index) {
-            let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
-            let rect = document.querySelectorAll('.preview-img')[index].getBoundingClientRect()
-            return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+            const pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+            const rect = document.querySelectorAll('.preview-img')[index].getBoundingClientRect()
+            return { x: rect.left, y: rect.top + pageYScroll, w: rect.width }
           }
         }, params)
         this.photoswipe = new PhotoSwipe(this.$el, UI, list, this.pswpOptions)

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 23:52:39 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-30 15:43:33
+ * @Last Modified time: 2018-10-31 11:21:49
  */
 <template>
   <div class="container-box">
@@ -142,8 +142,9 @@ export default {
       },
       init: function() {
         /* global AMap */
-        const lat = this.lineList[0].location.split(',')
+        let lat = []
         if (this.lineList.length > 0) {
+          lat = this.lineList[0].location.split(',')
           map = new AMap.Map('map', {
             resizeEnable: true,
             zoom: 12,
@@ -181,7 +182,7 @@ export default {
           position: [lat[0], lat[1]],
           autoRotation: true
         })
-  
+        const self = this
         map.plugin(['AMap.ToolBar', 'AMap.MapType'], function() {
           const toolopt = {
             offset: new AMap.Pixel(70, 10), // 相对于地图容器左上角的偏移量，正数代表向右下偏移。默认为AMap.Pixel(10,10)
@@ -191,7 +192,7 @@ export default {
             locate: true, // 是否显示定位按钮，默认为false
             liteStyle: false, // 是否使用精简模式，默认为false
             direction: true, // 方向键盘是否可见，默认为true
-            autoPosition: true, // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
+            autoPosition: !(self.lineList.length > 0), // 是否自动定位，即地图初始化加载完成后，是否自动定位的用户所在地，在支持HTML5的浏览器中有效，默认为false
             locationMarker: AMap.Marker({ map: map }),
             /**
                      *是否使用高德定位sdk用来辅助优化定位效果，默认：false.
