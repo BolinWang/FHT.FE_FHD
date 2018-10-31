@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 16:51:47 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 17:15:52
+ * @Last Modified time: 2018-10-31 17:16:14
  */
 
 <template>
@@ -61,7 +61,6 @@ export default {
         $targetLeft + padding > -this.left &&
         $targetLeft + $targetWidth < -this.left + $containerWidth - padding
       ) {
-        qwerfg
       } else {
         this.left = -($targetLeft - ($containerWidth - $targetWidth) + padding)
       }
