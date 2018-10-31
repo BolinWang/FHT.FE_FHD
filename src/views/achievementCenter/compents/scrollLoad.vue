@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 15:26:17
+ * @Last Modified time: 2018-10-31 18:20:19
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -94,7 +94,6 @@ export default {
     })
   },
   methods: {
-    leu 
     chooseManagerId(item, index) {
       this.$emit('getManagerId', item, index)
     },
