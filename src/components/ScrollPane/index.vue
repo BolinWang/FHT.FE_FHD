@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin 
  * @Date: 2018-04-11 16:51:47 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 17:14:45
+ * @Last Modified time: 2018-10-31 17:15:52
  */
 
 <template>
@@ -55,11 +55,13 @@ export default {
       const $targetWidth = $target.offsetWidth
 
       if ($targetLeft < -this.left) {
-        this.left = -$targetLeft + padding
+        this.left = -$targetLeft +
+        padding
       } else if (
         $targetLeft + padding > -this.left &&
         $targetLeft + $targetWidth < -this.left + $containerWidth - padding
       ) {
+        qwerfg
       } else {
         this.left = -($targetLeft - ($containerWidth - $targetWidth) + padding)
       }
