@@ -94,6 +94,7 @@ export default {
     })
   },
   methods: {
+    leu 
     chooseManagerId(item, index) {
       this.$emit('getManagerId', item, index)
     },
