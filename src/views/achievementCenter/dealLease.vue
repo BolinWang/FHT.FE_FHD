@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 17:16:50
+ * @Last Modified time: 2018-10-31 17:17:49
  */
 
 
@@ -225,8 +225,6 @@ export default {
     this.getTree()
   },
   created() {
-    const b = 0
-    b = 9
     let temp_height = document.body.clientHeight - 290
     this.tableHeight = temp_height > 300 ? temp_height : 300
     window.onresize = () => {
