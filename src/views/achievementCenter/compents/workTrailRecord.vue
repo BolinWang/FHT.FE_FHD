@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 15:35:44
+ * @Last Modified time: 2018-11-01 10:34:54
  */
 <template>
   <div class="container">
@@ -329,6 +329,7 @@ export default {
     },
     chooseManagerId(item, index) {
       this.chooseCountIndex = index
+      this.lineValue = 0
       this.getLineArr()
     },
     getworkTrailRecord() {
@@ -337,6 +338,7 @@ export default {
         workTrailRecordApi(this.searchFrom).then(res => {
           if (res.data.length > 0) {
             this.searchList = res.data
+            this.lineValue = 0
             this.getLineArr()
           }
         })
