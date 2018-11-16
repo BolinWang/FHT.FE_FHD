@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-09-30 02:26:00 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 17:28:37
+ * @Last Modified time: 2018-11-01 17:14:52
  */
 
 
@@ -35,8 +35,7 @@
                  :key='index'
                  :name="IncumbencyListItem.value"
                  v-for='(IncumbencyListItem,index) in IncumbencyList'>
-                  
-                 </el-tab-pane>
+                </el-tab-pane>
               </el-tabs>
             </el-form-item>
             <el-form-item>
@@ -128,7 +127,7 @@ export default {
   computed: {
     listHeight() {
       return {
-        height: this.tableHeight + 30 + 'px'
+        height: this.tableHeight + 10 + 'px'
       }
     }
   },
@@ -205,7 +204,7 @@ export default {
         { prop: 'splitMoney', label: '出房收入' },
         { prop: 'gmtCreateName', label: '出单人' },
         { prop: 'adminName', label: '目前管理' },
-        { label: '其他', slotName: 'goDetail' }
+        { label: '其他', slotName: 'goDetail', fixed: 'right' }
       ],
       url: '/order/backOrderList',
       method: 'method',
@@ -239,11 +238,9 @@ export default {
       val = val || []
       this.searchFrom.startTime = val[0] ? parseTime(val[0]) : ''
       this.searchFrom.endTime = val[1] ? parseTime(val[1]) : ''
-      console.log(this.searchFrom.endTime)
     }
   },
   methods: {
-
     searchParam() {
       this.$refs.refGridUnit.searchHandler()
     },

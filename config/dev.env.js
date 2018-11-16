@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 16:29:26
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 17:30:19
+ * @Last Modified time: 2018-11-16 15:33:22
  */
 
 module.exports = {
@@ -14,6 +14,6 @@ module.exports = {
    AMAP_KEY: '"9bff4d717994dafc8f613efc64221c21"',
   /* 本地请求时配置api代理 */
   //  BASE_API: '"http://localhost:9528/back"'
-  //  BASE_API: '"https://test-flying-api.mdguanjia.com/back"'
-   BASE_API: '"https://flying-api.mdguanjia.com/back"'
+    BASE_API: '"https://test-flying-api.mdguanjia.com/back"'
+  //  BASE_API: '"https://flying-api.mdguanjia.com/back"'
 }

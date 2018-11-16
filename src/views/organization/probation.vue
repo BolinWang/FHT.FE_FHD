@@ -133,7 +133,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="手机编码1" prop="imeiFirst">
-                <el-input v-model="accountForm.imeiFirst"></el-input>
+                <el-input v-model.trim="accountForm.imeiFirst"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -153,11 +153,11 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="手机编码2">
-                <el-input v-model="accountForm.imeiSecond"></el-input>
+                <el-input v-model.trim="accountForm.imeiSecond"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="身份证号码" prop="idNo">
+              <el-form-item label.trim="身份证号码" prop="idNo">
                 <el-input v-model="accountForm.idNo" :disabled="isEditAccount"></el-input>
               </el-form-item>
             </el-col>

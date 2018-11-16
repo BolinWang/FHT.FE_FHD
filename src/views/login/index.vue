@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:22:52
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 17:55:38
+ * @Last Modified time: 2018-11-16 15:35:13
  */
 
 <template>
@@ -143,7 +143,7 @@ export default {
     submitLogin() {
       const params = {
         mobile: this.loginForm.mobile,
-        oldPassword: SHA1(123456),
+        oldPassword: SHA1('123456'),
         newPassword: SHA1(this.formDate.newPassword)
       }
       this.$refs.formDate.validate(valid => {

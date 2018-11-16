@@ -2,7 +2,7 @@
  * @Author: FT.FE.Bolin
  * @Date: 2018-04-11 17:09:27
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-19 14:37:13
+ * @Last Modified time: 2018-11-01 14:40:20
  */
 import { roleMenusListApi } from '@/api/organization'
 import { login, logout, getInfo } from '@/api/login'
@@ -10,6 +10,7 @@ import Storage from '@/utils/local-plugin'
 import SHA1 from 'js-sha1'
 import { getSessionId, setSessionId, removeSessionId } from '@/utils/auth'
 import defaultAvatar from '@/assets/defaultAvatar.png'
+import store from '../index'
 
 const user = {
   state: {
@@ -37,6 +38,10 @@ const user = {
     SET_ROUTER: (state, routes) => {
       Storage.set('permission_routers', routes)
       state.permission_routers = routes
+    },
+    SET_VISITEDVIEWS: (state, visitedViews) => {
+      Storage.remove('visitedViews')
+      store.state.tagsView.visitedViews = visitedViews
     }
   },
 
@@ -45,6 +50,7 @@ const user = {
     Login({ commit, dispatch }, userInfo) {
       const mobile = userInfo.mobile.trim()
       const password = SHA1(userInfo.password)
+      commit('SET_VISITEDVIEWS', '')
       return new Promise((resolve, reject) => {
         login(mobile, password).then(response => {
           const data = response.data
@@ -113,10 +119,11 @@ const user = {
     },
 
     // 前端 登出
-    FedLogOut({ commit }) {
+    FedLogOut({ commit, state }) {
       return new Promise(resolve => {
         removeSessionId()
         commit('SET_SESSIONID', '')
+        commit('SET_VISITEDVIEWS', '')
         Storage.remove('permission_routers')
         resolve()
       })

@@ -2,7 +2,7 @@
  * @Author: ghost 
  * @Date: 2018-10-08 15:07:24 
  * @Last Modified by: ghost
- * @Last Modified time: 2018-10-31 18:20:19
+ * @Last Modified time: 2018-11-01 17:14:43
  */
 <template>
    <div class="tablebox" ref="viewBox" :style="listHeight" v-loading='loading'>
@@ -119,7 +119,7 @@ export default {
 .tab-Item{
   background: rgb(154, 154, 154);
   border-radius: 4px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   line-height: 30px;
   cursor:pointer;
   color: #fff;
